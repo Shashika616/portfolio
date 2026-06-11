@@ -32,7 +32,6 @@ function ContentCardComponent({
   const { activeTheme } = useGlobalTheme();
   const isCurrent = idx === currentIndex;
   
-  // Cleaned: Extraneous local modal state & portal flags removed to prevent layering conflicts
   const [showScrollTop, setShowScrollTop] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
@@ -60,33 +59,35 @@ function ContentCardComponent({
 
   return (
     <div
-      className="absolute inset-0 w-full h-full min-h-[680px] bg-white rounded-2xl border-2 shadow-[0_25px_60px_rgba(148,163,184,0.06)] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+      className="absolute inset-0 w-full h-full bg-white rounded-2xl border border-slate-200 lg:border-2 shadow-[0_10px_30px_rgba(148,163,184,0.04)] lg:shadow-[0_25px_60px_rgba(148,163,184,0.06)] flex flex-col overflow-hidden transition-all duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
       style={{
         opacity: isCurrent ? 1 : 0,
-        transform: isCurrent ? 'scale(1) translate3d(0, 0, 0)' : 'scale(0.97) translate3d(0, 20px, 0)',
+        transform: isCurrent 
+          ? 'scale(1) translate3d(0, 0, 0)' 
+          : 'scale(0.97) translate3d(0, 15px, 0)',
         pointerEvents: isCurrent ? 'auto' : 'none',
         zIndex: isCurrent ? 10 : 0,
         borderColor: isCurrent ? activeTheme.fillColor + '40' : '#e2e8f0' 
       }}
     >
-      {/* CARD TOP BAR BOUNDS */}
-      <div className="px-10 py-5 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
+      {/* CARD TOP BAR BOUNDS - Fluid spacing for mobile viewports */}
+      <div className="px-5 sm:px-10 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between bg-white flex-shrink-0">
         <div className="flex items-center gap-3">
           <span className={`w-2 h-2 rounded-full transition-colors duration-300 ${activeTheme.accentColor}`} />
-          <span className="font-mono text-xs tracking-widest text-slate-400 font-bold uppercase">
+          <span className="font-mono text-[10px] sm:text-xs tracking-widest text-slate-400 font-bold uppercase">
             {sec.title.toUpperCase()}
           </span>
         </div>
       </div>
 
-      {/* CONTENT INNER WRAPPER */}
+      {/* CONTENT INNER WRAPPER - Padding steps down fluidly on smaller screens */}
       <div 
         ref={(el) => {
           scrollContainerRef.current = el;
           setRef(el); 
         }}
         onScroll={handleScroll}
-        className="relative flex-1 overflow-y-auto px-12 py-12 space-y-8 scroll-smooth select-text will-change-scroll"
+        className="relative flex-1 overflow-y-auto px-5 py-6 sm:px-10 sm:py-10 lg:px-12 lg:py-12 space-y-8 scroll-smooth select-text will-change-scroll"
         style={{ scrollbarWidth: 'thin' }}
       >
         {sec.id === 'welcome' && <WelcomeSection />}
@@ -96,11 +97,11 @@ function ContentCardComponent({
         {sec.id === 'experience' && <ExperienceSection sec={sec} />}
         {sec.id === 'contact' && <ContactSection sec={sec} />}
 
-        {/* COMPONENT-ADAPTIVE SCROLL-TO-TOP BUTTON */}
+        {/* COMPONENT-ADAPTIVE SCROLL-TO-TOP BUTTON - Adjusted safe positions for mobile thumbs */}
         <button
           onClick={scrollToTop}
           style={{ backgroundImage: activeTheme.gradient }}
-          className={`fixed bottom-8 right-8 p-3 text-white rounded-full shadow-lg border-none hover:brightness-110 transition-all duration-300 ease-out z-40 flex items-center justify-center pointer-events-auto ${
+          className={`fixed bottom-6 right-6 sm:bottom-8 sm:right-8 p-2.5 sm:p-3 text-white rounded-full shadow-lg border-none hover:brightness-110 transition-all duration-300 ease-out z-40 flex items-center justify-center pointer-events-auto ${
             showScrollTop && isCurrent
               ? 'opacity-100 translate-y-0 scale-100' 
               : 'opacity-0 translate-y-4 scale-75 pointer-events-none'

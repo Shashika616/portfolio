@@ -1,65 +1,143 @@
-import Image from "next/image";
+"use client";
 
-export default function Home() {
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { useMotionValue, useSpring, useTransform } from 'framer-motion';
+
+import { SECTIONS } from './sectionsData';
+import ProfileHeader from './components/ProfileHeader';
+import WatchDial from './components/WatchDial';
+import ContentCard from './components/ContentCard';
+import ThemeSelector from './components/ThemeSelector';
+
+export default function LuxuryInstrumentWatchPortfolio() {
+  const [currentIndex, setCurrentIndex] = useState(0);      
+  const [cardScrollProgress, setCardScrollProgress] = useState(0); 
+  
+  const cardRefs = useRef<(HTMLDivElement | null)[]>([]);     
+  const lastScrollTime = useRef(0);                          
+  const boundaryIntentAccumulator = useRef(0); 
+
+  const rawRotation = useMotionValue(0); 
+  const smoothRotation = useSpring(rawRotation, { stiffness: 90, damping: 24, mass: 0.4 });
+
+  const watchHandTransform = useTransform(smoothRotation, (value) => `rotate(${value}deg) translateZ(0)`);
+  const structuralGearRotation = useTransform(smoothRotation, (value) => `rotate(${value * 0.4}deg)`);
+
+  useEffect(() => {
+    const targetDegree = -55 + (currentIndex * 22) + (cardScrollProgress * 22);
+    rawRotation.set(targetDegree);
+  }, [currentIndex, cardScrollProgress, rawRotation]);
+
+  const handleCardScroll = useCallback((index: number) => {
+    if (index !== currentIndex) return; 
+    const el = cardRefs.current[index];
+    if (!el) return;
+
+    const totalScrollable = el.scrollHeight - el.clientHeight;
+    if (totalScrollable <= 0) {
+      setCardScrollProgress(0);
+      return;
+    }
+    setCardScrollProgress(el.scrollTop / totalScrollable);
+  }, [currentIndex]);
+
+  const jumpToSection = useCallback((index: number) => {
+    lastScrollTime.current = performance.now();
+    boundaryIntentAccumulator.current = 0;
+    setCurrentIndex(index);
+    setCardScrollProgress(0);
+  }, []);
+
+  useEffect(() => {
+    const handleGlobalWheel = (e: WheelEvent) => {
+      // 1. THE FOOLPROOF PORTAL INTERCEPTOR
+      // Check for either the scroll pane class OR any portal element containing "CLOSE"
+      const isModalPresent = document.querySelector('.modal-scroll-pane') || document.body.innerText.includes('ESC // CLOSE');
+      
+      if (isModalPresent) {
+        // Stop the wheel event from propagating or causing browser shifting
+        e.stopPropagation();
+        return;
+      }
+
+      // 2. BACKGROUND TRACKING LOGIC
+      const el = cardRefs.current[currentIndex];
+      if (!el) return;
+
+      const now = performance.now();
+      if (now - lastScrollTime.current < 800) return; 
+
+      const isScrollingDown = e.deltaY > 0;
+      const isAtBottom = Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight - 1;
+      const isAtTop = el.scrollTop <= 0;
+
+      if (isScrollingDown && isAtBottom) {
+        if (currentIndex < SECTIONS.length - 1) {
+          boundaryIntentAccumulator.current += Math.abs(e.deltaY);
+          if (boundaryIntentAccumulator.current > 180) { 
+            jumpToSection(currentIndex + 1);
+          }
+        }
+        return;
+      }
+
+      if (!isScrollingDown && isAtTop) {
+        if (currentIndex > 0) {
+          boundaryIntentAccumulator.current += Math.abs(e.deltaY);
+          if (boundaryIntentAccumulator.current > 180) {
+            jumpToSection(currentIndex - 1);
+          }
+        }
+        return;
+      }
+
+      boundaryIntentAccumulator.current = 0;
+    };
+
+    // CRITICAL FIX: set passive to false so the browser allows intercepting/stopping events
+    window.addEventListener('wheel', handleGlobalWheel, { passive: false });
+    return () => window.removeEventListener('wheel', handleGlobalWheel);
+  }, [currentIndex, jumpToSection]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <div className="relative w-screen h-screen bg-[#f8fafc] text-slate-800 font-sans overflow-hidden select-none">
+      
+      {/* SIDEBAR CHASSIS */}
+      <div className="fixed top-0 left-0 w-[24vw] h-screen border-r border-slate-200/80 bg-gradient-to-b from-slate-50 to-white flex flex-col justify-between py-12 z-40 pointer-events-none shadow-[6px_0_30px_rgba(148,163,184,0.05)] will-change-transform">
+        
+        <div className="px-8 pointer-events-auto">
+          <ProfileHeader />
+        </div>
+        
+        <WatchDial 
+          sections={SECTIONS}
+          currentIndex={currentIndex}
+          watchHandTransform={watchHandTransform}
+          structuralGearRotation={structuralGearRotation}
+          jumpToSection={jumpToSection}
         />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+
+        <div className="h-4 w-full flex-shrink-0" />
+      </div>
+
+      {/* FEED VIEWPORT */}
+      <div className="absolute top-0 left-[24vw] w-[76vw] h-screen bg-[#f8fafc] flex items-center justify-start pl-12 pr-16 lg:pl-16 lg:pr-24 overflow-hidden">
+        <div className="relative w-full max-w-5xl h-[84vh]">
+          {SECTIONS.map((sec, idx) => (
+            <ContentCard 
+              key={sec.id}
+              sec={sec}
+              idx={idx}
+              currentIndex={currentIndex}
+              cardScrollProgress={cardScrollProgress}
+              handleCardScroll={handleCardScroll}
+              setRef={(el) => { cardRefs.current[idx] = el; }}
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+          ))}
         </div>
-      </main>
+      </div>
+
+      <ThemeSelector />
     </div>
   );
 }

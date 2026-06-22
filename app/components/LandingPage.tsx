@@ -174,10 +174,10 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
 
           {/* FAUX-TECHNICAL OVERLAY STAMPS */}
           <div className="hidden md:block fixed top-8 left-8 font-mono text-[10px] text-slate-400/80 tracking-widest z-40">
-            SYS // CALIBRATION_MODE // {activeTheme.name.toUpperCase()}
+            SYSTEM THEME: {activeTheme.name.toUpperCase()}
           </div>
           <div className="hidden md:block fixed top-8 right-8 font-mono text-[10px] text-slate-400/80 tracking-widest z-40">
-            LAT // 6.9271° N // LNK
+            WELCOME!
           </div>
 
           {/* ================= LOADING SCREEN TYPING LAYER INTERCEPTOR ================= */}
@@ -231,7 +231,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                 <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200/80 bg-white/70 backdrop-blur-md shadow-xs">
                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                   <span className="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                    System Active // Available for Opportunities
+                     Available for Opportunities
                   </span>
                 </div>
 
@@ -300,7 +300,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
             <footer className="w-full py-8 px-4 border-t border-slate-100 bg-slate-50">
               <div className="max-w-7xl mx-auto text-center">
                 <p className="text-[11px] font-mono text-slate-400 uppercase tracking-widest">
-                  © {new Date().getFullYear()} Shashika Fernando // HOROLOGICAL_UI_EDITION // ALL RIGHTS RESERVED
+                  © {new Date().getFullYear()} Shashika Fernando | ALL RIGHTS RESERVED
                 </p>
               </div>
             </footer>

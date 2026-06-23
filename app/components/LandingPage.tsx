@@ -14,14 +14,11 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const globeCanvasRef = useRef<HTMLCanvasElement | null>(null);
   
-  // High-performance pointer tracking references
-  const pointerInteracting = useRef<number | null>(null);
-  const pointerInteractionStart = useRef<number>(0);
+  // Globe references
   const phi = useRef<number>(0);
   const width = useRef<number>(0);
   const globeInstance = useRef<any>(null);
 
-  const [isDragging, setIsDragging] = useState(false);
   const [textRotation, setTextRotation] = useState(0);
 
   // Memoize static data
@@ -38,7 +35,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
     if (!isCalibrating) return;
 
     const fullString = `WELCOME TO MY DIGITAL WORKSHOP`;
-    let currentIndex = -1;
+    let currentIndex = 0;
     setTerminalText(""); 
 
     const typingInterval = setInterval(() => {
@@ -61,13 +58,9 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
   useEffect(() => {
     if (!mounted || !globeCanvasRef.current) return;
 
-    let currentPhi = phi.current;
-    let animationFrameId: number;
-
     const onResize = () => {
       if (globeCanvasRef.current) {
         width.current = globeCanvasRef.current.offsetWidth;
-        // Update globe size on resize
         if (globeInstance.current) {
           globeInstance.current.width = width.current * 2;
           globeInstance.current.height = width.current * 2;
@@ -78,7 +71,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
     window.addEventListener('resize', onResize);
     onResize();
 
-    // Clean up previous instance if exists
     if (globeInstance.current) {
       globeInstance.current.destroy();
       globeInstance.current = null;
@@ -86,24 +78,11 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
 
     const canvas = globeCanvasRef.current;
     
-    // Optimize: Use requestAnimationFrame for smoother updates
-    const renderLoop = () => {
-      if (!globeInstance.current) return;
-      
-      if (!pointerInteracting.current) {
-        currentPhi += 0.003; // Slightly reduced for performance
-        phi.current = currentPhi;
-        setTextRotation(-currentPhi * (180 / Math.PI));
-      }
-      
-      animationFrameId = requestAnimationFrame(renderLoop);
-    };
-
     globeInstance.current = createGlobe(canvas, {
-      devicePixelRatio: Math.min(window.devicePixelRatio || 2, 2), // Cap at 2x for performance
+      devicePixelRatio: Math.min(window.devicePixelRatio || 2, 2),
       width: width.current * 2,
       height: width.current * 2,
-      phi: currentPhi,
+      phi: phi.current,
       theta: 0.25,
       dark: 0,
       diffuse: 0,
@@ -114,15 +93,16 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
       glowColor: [0, 0, 0, 0],
       markers: [],
       onRender: (state: Record<string, any>) => {
+        // Auto-rotate the globe
+        phi.current += 0.003;
         state.phi = phi.current;
+        
+        // Update text rotation to match globe
+        setTextRotation(-phi.current * (180 / Math.PI));
       },
     } as any);
 
-    // Start render loop
-    renderLoop();
-
     return () => {
-      cancelAnimationFrame(animationFrameId);
       if (globeInstance.current) {
         globeInstance.current.destroy();
         globeInstance.current = null;
@@ -141,7 +121,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
 
     let animationFrameId: number;
     let lastFrameTime = performance.now();
-    const frameInterval = 1000 / 30; // Increased to 30fps for better performance
+    const frameInterval = 1000 / 30;
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -150,7 +130,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
     resizeCanvas();
     window.addEventListener('resize', resizeCanvas);
 
-    // Optimized dictionary with fewer characters
     const dictionary = [
       "A","B","C","X","Y","Z","0","1","2","5","7","9",
       "/","\\","*","-","+","=","%","$","#","@","!","?"
@@ -169,7 +148,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
       if (deltaTime < frameInterval) return;
       lastFrameTime = currentTime - (deltaTime % frameInterval);
 
-      // Optimize: Batch fill operations
       ctx.fillStyle = 'rgba(248, 250, 252, 0.06)';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -184,7 +162,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
         const xPosition = i * fontSize;
         const yPosition = rainDrops[i] * fontSize;
 
-        // Optimize: Reduce random calls
         if (Math.random() > 0.985) {
           ctx.fillStyle = fillColor + '65';
         } else {
@@ -209,43 +186,16 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
     };
   }, [mounted, activeTheme.fillColor, isCalibrating]);
 
-  // Optimized event handlers with useCallback
+  // Optimized event handlers
   const handleExploreClick = useCallback(() => {
     setIsCalibrating(true);
   }, []);
 
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    setIsDragging(true);
-    pointerInteracting.current = e.clientX - pointerInteractionStart.current;
-    if (globeCanvasRef.current) globeCanvasRef.current.style.cursor = 'grabbing';
-  }, []);
-
-  const handlePointerUp = useCallback(() => {
-    setIsDragging(false);
-    pointerInteracting.current = null;
-    if (globeCanvasRef.current) globeCanvasRef.current.style.cursor = 'grab';
-  }, []);
-
-  const handlePointerOut = useCallback(() => {
-    setIsDragging(false);
-    pointerInteracting.current = null;
-    if (globeCanvasRef.current) globeCanvasRef.current.style.cursor = 'grab';
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (pointerInteracting.current !== null) {
-      const delta = e.clientX - pointerInteracting.current;
-      pointerInteractionStart.current = delta;
-      phi.current = delta / 200;
-    }
-  }, []);
-
-  // FIXED: Memoize motion variants with proper typing
   const fadeInUp = useMemo(() => ({
     initial: { opacity: 0, y: 15 },
     whileInView: { opacity: 1, y: 0 },
     viewport: { once: true },
-    transition: { duration: 0.5, ease: "easeOut" as const } // Added 'as const' for proper type
+    transition: { duration: 0.5, ease: "easeOut" as const }
   }), []);
 
   if (!mounted) return null;
@@ -260,7 +210,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
         .animate-idle-spin {
           animation: customIdleSpin 24s linear infinite;
         }
-        /* Optimize: Add will-change for smoother animations */
         .will-change-transform {
           will-change: transform;
         }
@@ -331,7 +280,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
             transition={{ duration: 0.6, ease: "easeInOut" }}
             className="w-full min-h-screen relative flex flex-col justify-between z-20 will-change-opacity"
           >
-            {/* Background elements with will-change optimization */}
+            {/* Background elements */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none flex items-center justify-center z-0">
               <motion.div 
                 animate={{ rotate: 360 }}
@@ -360,7 +309,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
               />
             </div>
 
-            {/* Stamps with conditional rendering */}
+            {/* Stamps */}
             <div className="hidden md:block absolute top-8 left-8 font-mono text-[10px] text-slate-400/80 tracking-widest z-40">
               SYSTEM THEME: {activeTheme.name.toUpperCase()}
             </div>
@@ -385,7 +334,6 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                     </span>
                   </div>
 
-                  {/* FIXED: Spread the motion props correctly */}
                   <motion.div 
                     initial={fadeInUp.initial}
                     whileInView={fadeInUp.whileInView}
@@ -455,20 +403,18 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                     initial={{ opacity: 0, scale: 0.95, filter: "blur(4px)" }}
                     animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
                     transition={{ duration: 0.6, ease: "easeInOut", delay: 0.1 }}
-                    className="relative w-[280px] sm:w-[360px] md:w-[400px] aspect-square flex items-center justify-center select-none pointer-events-auto"
+                    className="relative w-[280px] sm:w-[360px] md:w-[400px] aspect-square flex items-center justify-center select-none pointer-events-none"
                   >
-                    {/* Perspective Halo Ring */}
+                    {/* Perspective Halo Ring - Always spinning */}
                     <div 
-                      className={`absolute inset-0 z-0 pointer-events-none flex items-center justify-center origin-center scale-[1.05] ${!isDragging ? 'animate-idle-spin' : ''} will-change-transform`}
+                      className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center origin-center scale-[1.05] animate-idle-spin will-change-transform"
                       style={{ 
-                        transform: isDragging ? `rotateX(65deg) rotateY(-12deg) rotateZ(${textRotation}deg)` : undefined,
                         transformStyle: 'preserve-3d'
                       }}
                     >
                       {characters.map((char, i) => {
                         const angleStep = -360 / characters.length;
                         const rotationAngle = i * angleStep;
-                        // Check if character is a letter (A-Z or a-z) to apply horizontal flip
                         const isLetter = /[A-Za-z]/.test(char);
                         return (
                           <span
@@ -488,15 +434,11 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                       })}
                     </div>
 
-                    {/* Canvas tracking overlay */}
+                    {/* Canvas - No interaction, just visual */}
                     <canvas
                       key="persistent-invisible-globe-core"
                       ref={globeCanvasRef}
-                      onPointerDown={handlePointerDown}
-                      onPointerUp={handlePointerUp}
-                      onPointerOut={handlePointerOut}
-                      onMouseMove={handleMouseMove}
-                      className="w-full h-full cursor-grab opacity-0 z-30 pointer-events-auto"
+                      className="w-full h-full opacity-0 z-30 pointer-events-none"
                     />
                   </motion.div>
                 </div>

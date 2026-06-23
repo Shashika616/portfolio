@@ -14,6 +14,12 @@ interface ProjectsSectionProps {
 type TabType = 'researches' | 'projects' | 'games';
 type SubCategoryType = 'ALL' | 'AI & ML' | 'Distributed Systems' | 'Monolithic';
 
+interface ProjectMedia {
+  url: string;
+  label: string;       // e.g., "System Metrics", "Architecture Map", "Loss Curves"
+  buttonText: string;  // e.g., "View Metrics", "View Schematic", "View Plot"
+}
+
 interface ProjectItem {
   name: string;
   category: 'AI & ML' | 'Distributed Systems' | 'Monolithic' | 'Research' | 'Simulation';
@@ -23,17 +29,23 @@ interface ProjectItem {
   requirements: string[];
   solution: string;
   architecture: string;
+  imageUrl?: string;
   githubLink: string;
+  media?: ProjectMedia[];
 }
 
 export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const { activeTheme } = useGlobalTheme();
-  const [activeTab, setActiveTab] = useState<TabType>('projects');
+  const [activeTab, setActiveTab] = useState<TabType>('researches');
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType>('ALL');
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
   const [mounted, setMounted] = useState(false);
+  // Tracks which media index has its dropdown menu actively toggled open
+  const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
+  // Tracks which asset image is currently expanded in the inner popup modal
+  const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
   
   const itemsPerPage = 4;
 
@@ -73,34 +85,82 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const catalogData: Record<TabType, ProjectItem[]> = {
     researches: [
       { 
-        name: "cryptography-hash-model", 
+        name: "Plot Based Chaotic Hashing Pipeline", 
         category: "Research",
-        tech: ["Argon2", "Python", "LaTeX"],
-        introduction: "An academic investigation into expanding side-channel resistance parameters within memory-hard hashing operations.",
-        problemStatement: "Traditional password storage arrays fall short against high-throughput parallelized ASIC optimization, rendering standard SHA variants vulnerable to brute-force saturation.",
+        tech: ["HMAC-SHA256", "Argon2id", "Python", "Chaotic Maps", "LaTeX"],
+        imageUrl: "",
+        introduction: "An academic investigation into expanding low-entropy password strings into high-dimensional, chaotic manifolds to increase computational complexity against attacks, giving the users to free themseleves of memorizing complex passwords.",
+        problemStatement: "Users naturally choose simple, memorable, low-entropy passwords and frequently reuse them, making compromised credentials the leading vector for data breaches. Traditional memory-hard hashing functions (like Argon2, bcrypt, scrypt) increase computational costs for attackers but do not alter the underlying weak structure or low entropy of the password itself.",
         requirements: [
-          "Enforce strictly configurable multi-threading memory lane requirements.",
-          "Prevent time-differential memory indexing leakage arrays.",
-          "Maintain deterministic cryptographic verification bounds under 200ms."
+          "Dynamically expand low-entropy source strings without increasing user cognitive load or memorization bounds.",
+          "Achieve a measurable increase in computational complexity against highly parallelized GPU/ASIC brute-force clusters.",
+          "Ensure strict deterministic stability across variable dimensions (D = 3-8) and chaotic map iterations (I = 1-10).",
+          "Preserve absolute Shannon entropy characteristics without introducing predictable bits or mathematical bias arrays.",
+          "Maintain transactional authentication throughput execution bounds strictly within < 200ms limits."
         ],
-        solution: "Engineered a layered mathematical framework utilizing variable-time Argon2 instances coupled with random noise padding parameters.",
-        architecture: "Implements custom sequence matrices processed natively within lower-level memory pipes to intercept pre-computed cache maps before execution blocks.",
-        githubLink: "https://github.com/your-username/cryptography-hash-model"
+        solution: "Engineered a deterministic, multi-dimensional pre-hashing transformation layer that maps character inputs into continuous space using custom chaotic functions (Logistic/Henon maps) before traditional salting pipelines.",
+        architecture: "Ingests inputs via an initial HMAC-SHA256 token array to dynamically derive spatial dimensions and iterative mapping indices. Values are swept through chaotic manifold matrices, normalized, amplified using a cascading XOR avalanche accumulator, and passed downstream into hard memory-lane Argon2id execution blocks.",
+        githubLink: "https://github.com/Shashika616/Research_Hashing_Pipeline.git",
+        media: [
+        { 
+          url: "/hash-pipeline/graph-hash.png", 
+          label: "Solution Architecture", 
+          buttonText: "View Architectural Diagram" 
+        },
+        { 
+          url: "/hash-pipeline/time-comparison.png", 
+          label: "Time Complexity Comparison", 
+          buttonText: "View Comparison Table" 
+        },
+        { 
+          url: "/hash-pipeline/stat-comparison.png", 
+          label: "Statistical Comparison", 
+          buttonText: "View Comparison Table" 
+        },
+        { 
+          url: "/hash-pipeline/prac-dep.png", 
+          label: "Practical Dependency Analysis", 
+          buttonText: "View Comparison Table" 
+        }
+      ]
       },
       { 
-        name: "cnn-neural-analysis", 
+        name: "Medical Image Processing", 
         category: "AI & ML",
-        tech: ["TensorFlow", "PyTorch", "OpenCV"],
-        introduction: "A deep learning automation platform tailored for fast real-world feature extraction and item metric analysis.",
-        problemStatement: "Legacy item verification workflows rely heavily on manual verification rules that fail to handle real-time spatial deformation or changing illumination profiles.",
+        tech: ["PyTorch", "3D U-Net", "TorchIO", "PyTorch Lightning", "Medical Imaging"],
+        introduction: "Saving Time, Saving Lives: Automated 3D Liver Tumor Segmentation: A deep learning medical imaging study focused on building high-precision convolutional networks for volumetric pixel segmentation of liver structures and tumor masses from CT imagery.",
+        problemStatement: "Manual segmentation of liver and tumor volumes from CT scans by radiologists is highly time-intensive, slow, and prone to inter-observer variability. Furthermore, tumors vary widely in size, shape, and location, rendering classical rule-based image processing ineffective.",
         requirements: [
-          "Achieve a mean average precision score (mAP) > 94% on messy edge assets.",
-          "Deliver inference pipeline execution latency bounded strictly within 35ms.",
-          "Expose dynamic model adjustment endpoints via local processing sockets."
+          "Automate volumetric, voxel-wise identification of unpredictable tumor geometry, bounds, and arbitrary edge masses.",
+          "Process high-density 3D medical arrays natively without experiencing devastating spatial data drops or downsampling artifacts.",
+          "Implement adaptive patch-focused sampling paradigms to counteract severe physical memory allocations on local hardware.",
+          "Bypass structural overfitting trends and optimize semantic segmentation accuracy metrics across low-contrast scans."
         ],
-        solution: "Deployed a customized, trimmed Convolutional Neural Network utilizing residual layers to bypass spatial breakdown trends across continuous video streams.",
-        architecture: "Built on an image pipeline that leverages hardware-accelerated processing matrices, sending frames through convolutional arrays before returning categorized metrics.",
-        githubLink: "https://github.com/your-username/cnn-neural-analysis"
+        solution: "Developed a robust volumetric 3D U-Net pipeline capable of computing dense continuous slice extractions through deep encoder-decoder paths driven by dynamic multi-phase learning configurations.",
+        architecture: "Processes raw multi-slice CT inputs using TorchIO intensity rescaling, random spatial crops, and structural augmentations. Data is routed down a deep 3D convolutional encoder path, downsampled via deep max-pooling bottleneck layers, upscaled using trainable ConvTranspose3D channels, and converged via residual skip connections under a joint Dice-CrossEntropy loss function optimization loop.",
+        githubLink: "https://colab.research.google.com/drive/12NcQTbb8J7l2kdB7Rxb_Q9PuANjlIzpo?usp=sharing#scrollTo=LUDdiSL4ROOu",
+        media: [
+        { 
+          url: "/medical-image/tumor1.jpg", 
+          label: "3D-CT Scan Sample", 
+          buttonText: "View Sample Scan" 
+        },
+        { 
+          url: "/medical-image/tumor2.jpg", 
+          label: "3D-CT Scan Slice Sample", 
+          buttonText: "View Sample Scan" 
+        },
+        { 
+          url: "/medical-image/tumor3.mp4", 
+          label: "Scan Capture of the CNN", 
+          buttonText: "View Capture" 
+        },
+        { 
+          url: "/medical-image/confusion-matrix1.jpg", 
+          label: "Confusion Matrix", 
+          buttonText: "View Matrix Result" 
+        }
+      ]
       }
     ],
     projects: [
@@ -133,36 +193,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         solution: "Built a handwritten, recursive-descent lexer and LL(1) parser engine that cleanly breaks down input streams into highly structured data trees.",
         architecture: "Processes text through a single-pass tokenization stream, validating structure against strict context-free grammars before mapping nodes directly onto the output tree.",
         githubLink: "https://github.com/your-username/lexer-parser-v1"
-      },
-      { 
-        name: "nexus-auth-harden", 
-        category: "Distributed Systems",
-        tech: ["Go", "Kubernetes", "eBPF"],
-        introduction: "A Zero-Trust microservice proxy designed to intercept and validate identities right at the cluster network boundary.",
-        problemStatement: "Traditional perimeter security allows internal lateral movement if a single edge server is compromised, leaving private databases vulnerable.",
-        requirements: [
-          "Enforce strict mutual TLS (mTLS) handshakes across all service channels.",
-          "Intercept network packets at the kernel layer to bypass application overhead.",
-          "Keep proxy processing delays below 2 milliseconds per network jump."
-        ],
-        solution: "Developed an eBPF-powered network controller that enforces secure identity handshakes directly within kernel-level execution pipes.",
-        architecture: "Integrates lightweight Go control planes with embedded kernel programs to continuously validate cryptographic signatures without touching user-space network code.",
-        githubLink: "https://github.com/your-username/nexus-auth-harden"
-      },
-      { 
-        name: "predictive-matrix-api", 
-        category: "AI & ML",
-        tech: ["Python", "FastAPI", "Scikit-Learn"],
-        introduction: "A real-time predictive service built to evaluate streaming logs and identify feature regression flags on the fly.",
-        problemStatement: "Batch processing models take hours to flag system anomalies, causing a massive delay between an incident occurring and triggering automated alerts.",
-        requirements: [
-          "Ingest and score active system log data concurrently across multiple streams.",
-          "Expose clear, low-latency prediction metrics through standardized JSON APIs.",
-          "Incorporate online learning components to handle system behavior drift."
-        ],
-        solution: "Built a streaming data engine with FastAPI that routes incoming logs straight through optimized matrix prediction pipelines.",
-        architecture: "Utilizes non-blocking async event loops to feed incoming telemetry into pre-loaded model instances, updating internal anomaly states immediately.",
-        githubLink: "https://github.com/your-username/predictive-matrix-api"
       }
     ],
     games: [
@@ -296,67 +326,90 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 </div>
               ) : (
                 <span className="font-mono text-xs uppercase font-extrabold tracking-widest text-slate-400">
-                  Registry // {activeTab}
+                   {activeTab}
                 </span>
               )}
 
               <span className="font-mono text-[11px] text-slate-400 font-extrabold uppercase tracking-wider self-end sm:self-center">
-                Total Indexes: {filteredItems.length}
+                Total : {filteredItems.length}
               </span>
             </div>
 
             {/* COMPACT CARD GRID */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
-              {paginatedItems.length === 0 ? (
-                <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
-                  <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
-                </div>
-              ) : (
-                paginatedItems.map((item, idx) => (
-                  <div 
-                    key={idx}
-                    className="group relative h-32 p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-col justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)]"
-                    style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
-                      e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
-                      e.currentTarget.style.transform = 'translateY(-1.5px)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
-                      e.currentTarget.style.borderColor = '#e2e8f0';
-                      e.currentTarget.style.transform = 'translateY(0)';
-                    }}
-                  >
-                    <div>
-                      <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 truncate`}>
-                        {item.name}
-                      </h5>
-                      <div className="flex flex-wrap gap-1.5 mt-2.5 max-h-[44px] overflow-hidden">
-                        {item.tech.map((t, tIdx) => (
-                          <span 
-                            key={tIdx} 
-                            className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex justify-end pt-1">
-                      <button 
-                        onClick={() => setSelectedProject(item)}
-                        className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
-                      >
-                        See More 
-                        <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
-                      </button>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
+          {paginatedItems.length === 0 ? (
+            <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
+              <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
+            </div>
+          ) : (
+            paginatedItems.map((item, idx) => (
+              <div 
+                key={idx}
+                className="group relative min-h-[160px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
+                style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
+                  e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
+                  e.currentTarget.style.transform = 'translateY(-1.5px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
+                  e.currentTarget.style.borderColor = '#e2e8f0';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                {/* Left Content Side */}
+                <div className="flex-1 flex flex-col justify-between min-w-0">
+                  <div>
+                    <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 truncate`}>
+                      {item.name}
+                    </h5>
+                    <div className="flex flex-wrap gap-1.5 mt-2.5 max-h-[44px] overflow-hidden">
+                      {item.tech.map((t, tIdx) => (
+                        <span 
+                          key={tIdx} 
+                          className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide"
+                        >
+                          {t}
+                        </span>
+                      ))}
                     </div>
                   </div>
-                ))
-              )}
-            </div>
+
+                  <div className="flex justify-start pt-2">
+                    <button 
+                      onClick={() => setSelectedProject(item)}
+                      className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                    >
+                      See More 
+                      <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Thumbnail Side */}
+                {item.imageUrl && (
+                  <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={`${item.name} preview`} 
+                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                      onError={(e) => {
+                        // Optional: Fallback if image fails to load
+                        (e.currentTarget as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                    {/* Soft overlay matching the theme hue */}
+                    <div 
+                      className="absolute inset-0 opacity-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" 
+                      style={{ backgroundColor: activeTheme.fillColor }}
+                    />
+                  </div>
+                )}
+              </div>
+            ))
+          )}
+        </div>
 
             {/* PAGINATION TOOLBAR */}
             <div className="flex items-center justify-between border-t border-slate-200/60 pt-4 bg-transparent">
@@ -389,6 +442,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
             return (
               <button
                 key={tab.id}
+                box-id={tab.id}
                 onClick={() => handleTabChange(tab.id)}
                 style={{ 
                   backgroundColor: isActive ? activeTheme.fillColor : '#f8fafc',
@@ -447,6 +501,64 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   </button>
                 </div>
 
+                {/* SECONDARY LAYER: LIGHTBOX POPUP PREVIEW OVERLAY (WITH VIDEO INTEGRATION) */}
+                <AnimatePresence>
+                  {previewImage && (
+                    <div className="fixed inset-0 z-[11000] flex items-center justify-center p-6 isolate">
+                      {/* Dimming Backdrop */}
+                      <motion.div 
+                        initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                        animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
+                        exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                        transition={{ duration: 0.2 }}
+                        onClick={() => setPreviewImage(null)}
+                        className="absolute inset-0 bg-slate-950/60 cursor-zoom-out"
+                      />
+
+                      {/* Frame Chassis */}
+                      <motion.div 
+                        initial={{ opacity: 0, scale: 0.95, y: 8 }}
+                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        exit={{ opacity: 0, scale: 0.95, y: 6 }}
+                        transition={{ type: "spring", damping: 28, stiffness: 380 }}
+                        className="relative max-w-5xl max-h-[80vh] bg-white rounded-2xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-10"
+                      >
+                        {/* Dynamic Image/Video Canvas Box */}
+                        <div className="overflow-auto p-2 bg-slate-900/5 flex justify-center items-center">
+                          {/\.(mp4|webm|ogg|mov)$/i.test(previewImage.url) ? (
+                            <video 
+                              src={previewImage.url} 
+                              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm"
+                              controls
+                              autoPlay
+                              playsInline
+                            />
+                          ) : (
+                            <img 
+                              src={previewImage.url} 
+                              alt={previewImage.label}
+                              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm"
+                            />
+                          )}
+                        </div>
+
+                        {/* Footer Subtext Bar */}
+                        <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-4 font-mono select-none">
+                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide truncate">
+                            🔍 Viewing: {previewImage.label}
+                          </span>
+                          <button 
+                            onClick={() => setPreviewImage(null)}
+                            className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </motion.div>
+                    </div>
+                  )}
+                </AnimatePresence>
+
                 {/* Document Technical Content View */}
                 <div className="modal-scroll-pane flex-1 overflow-y-auto p-8 md:p-10 space-y-8 select-text scroll-smooth">
                   
@@ -467,7 +579,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   {/* Problem Statement Section */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">01 / Problem Statement</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">01.  Problem Statement</h4>
                     <div className="p-4 rounded-xl bg-rose-50/50 border border-rose-100 text-slate-700 text-sm leading-relaxed">
                       {selectedProject.problemStatement}
                     </div>
@@ -475,7 +587,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   {/* Requirements Specifications Checklist */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">02 / Engineering Requirements</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">02.  Engineering Requirements</h4>
                     <ul className="space-y-2">
                       {selectedProject.requirements.map((req, idx) => (
                         <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
@@ -488,28 +600,129 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   {/* The Core Implementation Solution */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">03 / Applied Solution</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">03.  Applied Solution</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.solution}</p>
                   </div>
 
                   {/* Architectural Layout Engine */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04 / Architecture & Design Mapping</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04.  Architecture & Design Mapping</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.architecture}</p>
                   </div>
 
-                  {/* Live Media Showcase Layout Grid */}
-                  <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">05 / System Metrics & Interface Preview</h4>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="aspect-video bg-slate-100 border border-slate-200 rounded-xl flex items-center justify-center text-center p-4">
-                        <span className="font-mono text-[11px] text-slate-400 font-bold uppercase tracking-wider">[ Video Demo Frame Placeholder ]</span>
-                      </div>
-                      <div className="aspect-video bg-slate-100 border border-slate-200 rounded-xl flex items-center justify-center text-center p-4">
-                        <span className="font-mono text-[11px] text-slate-400 font-bold uppercase tracking-wider">[ Architecture Diagram Panel ]</span>
+                  {/* Live Media Showcase Layout Grid (Dynamic Matrix Engine with Image/Video Intercept) */}
+                  {selectedProject.media && selectedProject.media.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">
+                        05 / System Metrics & Interface Preview
+                      </h4>
+                      
+                      <div className={`grid gap-4 w-full ${
+                        selectedProject.media.length === 1 
+                          ? 'grid-cols-1' 
+                          : 'grid-cols-1 sm:grid-cols-2'
+                      }`}>
+                        {selectedProject.media.map((asset, index) => {
+                          const isMenuOpen = activeMenuIndex === index;
+                          
+                          // Simple regex checker to see if the file is a video format
+                          const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(asset.url);
+
+                          return (
+                            <div 
+                              key={index}
+                              className="aspect-video bg-slate-50 border border-slate-200/80 rounded-xl overflow-hidden flex items-center justify-center text-center relative group/media select-none"
+                            >
+                              {/* DYNAMIC MEDIA INTERCEPT DISPATCHER */}
+                              {isVideo ? (
+                                <video 
+                                  src={asset.url} 
+                                  className="w-full h-full object-cover transition-all duration-300 ease-out group-hover/media:blur-sm group-hover/media:scale-[1.01]"
+                                  muted
+                                  loop
+                                  autoPlay
+                                  playsInline
+                                />
+                              ) : (
+                                <img 
+                                  src={asset.url} 
+                                  alt={`${selectedProject.name} asset - ${asset.label}`} 
+                                  className="w-full h-full object-cover transition-all duration-300 ease-out group-hover/media:blur-sm group-hover/media:scale-[1.01]"
+                                  loading="lazy"
+                                />
+                              )}
+                              
+                              {/* Top Edge Label */}
+                              <div className="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-mono font-bold text-slate-200 tracking-wider uppercase border border-white/10 opacity-100 group-hover/media:opacity-0 transition-opacity duration-200 z-10">
+                                {asset.label}
+                              </div>
+                              
+                              {/* Hover Backdrop Chassis */}
+                              <div className={`absolute inset-0 bg-slate-900/10 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent z-10
+                                ${isMenuOpen ? 'opacity-100' : 'opacity-0 group-hover/media:opacity-100'}
+                              `}>
+                                
+                                {/* Menu Container Box */}
+                                <div className="relative">
+                                  <button 
+                                    onClick={() => setActiveMenuIndex(isMenuOpen ? null : index)}
+                                    className="px-3 py-1.5 bg-white/95 hover:bg-white text-slate-950 font-mono text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-md flex items-center gap-1.5 transition-all cursor-pointer hover:scale-105"
+                                  >
+                                    <svg className="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                    </svg>
+                                    <span>Options</span>
+                                    <span className={`text-[8px] transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`}>▼</span>
+                                  </button>
+
+                                  {/* Dropdown Action Card */}
+                                  <AnimatePresence>
+                                    {isMenuOpen && (
+                                      <>
+                                        <div className="fixed inset-0 z-40" onClick={() => setActiveMenuIndex(null)} />
+                                        
+                                        <motion.div 
+                                          initial={{ opacity: 0, y: 6, scale: 0.95 }}
+                                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                                          exit={{ opacity: 0, y: 4, scale: 0.95 }}
+                                          transition={{ duration: 0.15, ease: "easeOut" }}
+                                          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-40 bg-white rounded-xl border border-slate-200 shadow-xl overflow-hidden z-50 p-1"
+                                        >
+                                          <button
+                                            onClick={() => {
+                                              setPreviewImage({ url: asset.url, label: asset.label });
+                                              setActiveMenuIndex(null);
+                                            }}
+                                            className="w-full text-left px-3 py-2 font-mono text-[10px] font-bold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
+                                          >
+                                            <span>Preview Here</span>
+                                            <span className="text-slate-400 font-sans text-xs">⛶</span>
+                                          </button>
+                                          
+                                          <button
+                                            onClick={() => {
+                                              window.open(asset.url, '_blank');
+                                              setActiveMenuIndex(null);
+                                            }}
+                                            className="w-full text-left px-3 py-2 font-mono text-[10px] font-bold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-lg flex items-center justify-between transition-colors border-t border-slate-100 cursor-pointer"
+                                          >
+                                            <span>New Tab</span>
+                                            <span className="text-slate-400 font-sans text-xs">↗</span>
+                                          </button>
+                                        </motion.div>
+                                      </>
+                                    )}
+                                  </AnimatePresence>
+                                </div>
+
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
-                  </div>
+                  )}
 
                   <hr className="border-slate-100" />
 

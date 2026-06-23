@@ -29,8 +29,11 @@ interface ProjectItem {
   requirements: string[];
   solution: string;
   architecture: string;
+  coreFeatures?: string[];
+  technicalHighlights?: string[];
   imageUrl?: string;
   githubLink: string;
+   playLink?: string;
   media?: ProjectMedia[];
 }
 
@@ -180,19 +183,39 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         githubLink: "https://github.com/your-username/sri-care-core"
       },
       { 
-        name: "lexer-parser-v1", 
+        name: "compiler-arena", 
         category: "Monolithic",
-        tech: ["TypeScript", "Compilers", "CS Theory"],
-        introduction: "A lightweight, deterministic compiler frontend engineered to tokenize and parse custom structured grammar configurations.",
-        problemStatement: "Standard evaluation engines rely on heavy regular expressions, leading to exponential catastrophic backtracking when parsing nested code schemas.",
+        tech: ["JavaScript", "Compilers", "Game Development", "CS Theory"],
+        introduction: "A full-stack tactical puzzle game engine powered by a deterministic 4-stage compiler pipeline. Players write custom domain-specific language commands to navigate enemies with mathematically-defined hitbox patterns, transforming abstract compiler theory into interactive gameplay.",
+        problemStatement: "Game AI damage systems typically use hardcoded spatial logic instead of composable algorithms, while compiler education remains disconnected from practical applications. Standard approaches lack real-time feedback mechanisms that visualize the complete compilation process from tokenization through execution.",
         requirements: [
-          "Construct a true Abstract Syntax Tree (AST) without external parsing libraries.",
-          "Deliver clear, error-pointing feedback detailing exact character offsets.",
-          "Maintain predictable linear time complexity $O(n)$ relative to input length."
+          "Construct a true Abstract Syntax Tree (AST) via handwritten lexer and recursive-descent parser without external parsing libraries.",
+          "Engineer 5 distinct enemy archetypes with unique damage zone geometries computed dynamically based on spatial distance metrics and type-specific algorithms.",
+          "Deliver precise error feedback with character-level offsets and maintain O(n) linear time complexity across tokenization, parsing, and semantic analysis phases."
         ],
-        solution: "Built a handwritten, recursive-descent lexer and LL(1) parser engine that cleanly breaks down input streams into highly structured data trees.",
-        architecture: "Processes text through a single-pass tokenization stream, validating structure against strict context-free grammars before mapping nodes directly onto the output tree.",
-        githubLink: "https://github.com/your-username/lexer-parser-v1"
+        solution: "Built a single-pass, deterministic compiler frontend coupled with a state-driven game engine. The lexer tokenizes input into keywords/directions/identifiers; the LL(1) recursive-descent parser generates structured AST nodes; the semantic analyzer validates sequences against game rules; the executor mutates state and computes hitbox intersections per enemy type with cumulative damage stacking.",
+        coreFeatures: [
+          "Handwritten recursive-descent lexer and parser producing clean AST without regex or external dependencies.",
+          "5 enemy types with distinct spatial models: Goblin (X±1), Orc (3×3), Troll (X±2), Drake (ortho±1/diag±2), Demon (5×5).",
+          "Real-time CSS Grid visualization with dynamic hitbox overlays updating after each compiled command.",
+          "Grid bounds validation enforcing 0–15 coordinate limits; cumulative damage from overlapping enemy hitboxes.",
+          "4 progressive difficulty levels scaling from 2 enemies (pedagogical) to 6 enemies (expert multi-threat navigation)."
+        ],
+        technicalHighlights: [
+          "O(n) single-pass tokenization and O(n) recursive-descent parsing with explicit error messages containing exact character offsets.",
+          "Type-based enemy damage zone dispatch using functional pattern matching; hitbox calculations leverage Euclidean distance metrics.",
+          "Immutable-pattern state updates: each command triggers full grid re-evaluation and re-render without mutable intermediate objects."
+        ],
+        architecture: "Processes source code through a single-pass tokenization stream, validating structure against a strict context-free grammar before mapping nodes into a traversable AST. The executor interprets this tree sequentially, computing enemy hitboxes dynamically based on type and position, applying damage via set intersection, and enforcing grid boundaries before each state mutation. CSS Grid rendering layer visualizes danger zones as real-time background overlays.",
+        githubLink: "https://github.com/Shashika616/compiler-game.git",
+        playLink: "https://compiler-game.vercel.app/",
+        media: [
+        { 
+          url: "/Compiler/arch.png", 
+          label: "3D-CT Scan Sample", 
+          buttonText: "View Sample Scan" 
+        },
+      ]
       }
     ],
     games: [
@@ -604,6 +627,36 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.solution}</p>
                   </div>
 
+                   {/* Core Features Section - NEW */}
+                  {selectedProject.coreFeatures && selectedProject.coreFeatures.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Core Features</h4>
+                      <ul className="space-y-2">
+                        {selectedProject.coreFeatures.map((feature, idx) => (
+                          <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
+                            <span className="font-mono text-xs font-bold text-blue-500 mt-0.5">◆</span>
+                            <span className="leading-relaxed">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {/* Technical Highlights Section - NEW */}
+                  {selectedProject.technicalHighlights && selectedProject.technicalHighlights.length > 0 && (
+                    <div className="space-y-3">
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Technical Highlights</h4>
+                      <ul className="space-y-2">
+                        {selectedProject.technicalHighlights.map((highlight, idx) => (
+                          <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
+                            <span className="font-mono text-xs font-bold text-purple-500 mt-0.5">★</span>
+                            <span className="leading-relaxed">{highlight}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
                   {/* Architectural Layout Engine */}
                   <div className="space-y-3">
                     <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04.  Architecture & Design Mapping</h4>
@@ -742,6 +795,25 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                       Inspect Source ↗
                     </a>
                   </div>
+
+                   {/* Play Game Section - NEW */}
+                    {selectedProject.playLink && (
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/60">
+                        <div>
+                          <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Interactive Playground</h5>
+                          <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch the live game in your browser</p>
+                        </div>
+                        <a 
+                          href={selectedProject.playLink}
+                          target="_blank"
+                          rel="noreferrer"
+                           style={{ backgroundImage: activeTheme.gradient }}
+                          className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap"
+                        >
+                          Play Game ▶
+                        </a>
+                      </div>
+                    )}
 
                 </div>
               </motion.div>

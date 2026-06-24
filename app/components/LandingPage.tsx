@@ -328,10 +328,8 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                 {/* Left Typography Column */}
                 <div className="w-full lg:w-3/5 text-center lg:text-left space-y-8 md:space-y-10 order-2 lg:order-1">
                   <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200/80 bg-white/70 backdrop-blur-md shadow-xs">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-mono text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                      Available for Opportunities
-                    </span>
+            
+                  
                   </div>
 
                   <motion.div 

@@ -20,6 +20,11 @@ interface ProjectMedia {
   buttonText: string;  // e.g., "View Metrics", "View Schematic", "View Plot"
 }
 
+interface MediaGroup {
+  groupTitle: string;
+  items: ProjectMedia[];
+}
+
 interface ProjectItem {
   name: string;
   category: 'AI & ML' | 'Distributed Systems' | 'Monolithic' | 'Research' | 'Simulation';
@@ -33,7 +38,8 @@ interface ProjectItem {
   technicalHighlights?: string[];
   imageUrl?: string;
   githubLink: string;
-   playLink?: string;
+  playLink?: string;
+  mediaGroups?: MediaGroup[];
   media?: ProjectMedia[];
 }
 
@@ -49,6 +55,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
   // Tracks which asset image is currently expanded in the inner popup modal
   const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
+  const [mediaGroupIndices, setMediaGroupIndices] = useState<{ [key: number]: number }>({});
   
   const itemsPerPage = 4;
 
@@ -104,26 +111,41 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         solution: "Engineered a deterministic, multi-dimensional pre-hashing transformation layer that maps character inputs into continuous space using custom chaotic functions (Logistic/Henon maps) before traditional salting pipelines.",
         architecture: "Ingests inputs via an initial HMAC-SHA256 token array to dynamically derive spatial dimensions and iterative mapping indices. Values are swept through chaotic manifold matrices, normalized, amplified using a cascading XOR avalanche accumulator, and passed downstream into hard memory-lane Argon2id execution blocks.",
         githubLink: "https://github.com/Shashika616/Research_Hashing_Pipeline.git",
-        media: [
-        { 
-          url: "/hash-pipeline/graph-hash.png", 
-          label: "Solution Architecture", 
-          buttonText: "View Architectural Diagram" 
+         mediaGroups: [
+        {
+          groupTitle: "System Architecture",
+          items: [
+            { 
+              url: "/hash-pipeline/graph-hash.png", 
+              label: "Solution Architecture", 
+              buttonText: "View Architectural Diagram" 
+            }
+          ]
         },
-        { 
-          url: "/hash-pipeline/time-comparison.png", 
-          label: "Time Complexity Comparison", 
-          buttonText: "View Comparison Table" 
+        {
+          groupTitle: "Performance Analysis",
+          items: [
+            { 
+              url: "/hash-pipeline/time-comparison.png", 
+              label: "Time Complexity Comparison", 
+              buttonText: "View Comparison Table" 
+            },
+            { 
+              url: "/hash-pipeline/stat-comparison.png", 
+              label: "Statistical Comparison", 
+              buttonText: "View Comparison Table" 
+            }
+          ]
         },
-        { 
-          url: "/hash-pipeline/stat-comparison.png", 
-          label: "Statistical Comparison", 
-          buttonText: "View Comparison Table" 
-        },
-        { 
-          url: "/hash-pipeline/prac-dep.png", 
-          label: "Practical Dependency Analysis", 
-          buttonText: "View Comparison Table" 
+        {
+          groupTitle: "Practical Analysis",
+          items: [
+            { 
+              url: "/hash-pipeline/prac-dep.png", 
+              label: "Practical Dependency Analysis", 
+              buttonText: "View Comparison Table" 
+            }
+          ]
         }
       ]
       },
@@ -142,48 +164,115 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         solution: "Developed a robust volumetric 3D U-Net pipeline capable of computing dense continuous slice extractions through deep encoder-decoder paths driven by dynamic multi-phase learning configurations.",
         architecture: "Processes raw multi-slice CT inputs using TorchIO intensity rescaling, random spatial crops, and structural augmentations. Data is routed down a deep 3D convolutional encoder path, downsampled via deep max-pooling bottleneck layers, upscaled using trainable ConvTranspose3D channels, and converged via residual skip connections under a joint Dice-CrossEntropy loss function optimization loop.",
         githubLink: "https://colab.research.google.com/drive/12NcQTbb8J7l2kdB7Rxb_Q9PuANjlIzpo?usp=sharing#scrollTo=LUDdiSL4ROOu",
-        media: [
-        { 
-          url: "/medical-image/tumor1.jpg", 
-          label: "3D-CT Scan Sample", 
-          buttonText: "View Sample Scan" 
+        mediaGroups: [
+        {
+          groupTitle: "CT Scan Samples",
+          items: [
+            { 
+              url: "/medical-image/tumor1.jpg", 
+              label: "3D-CT Scan Sample", 
+              buttonText: "View Sample Scan" 
+            },
+            { 
+              url: "/medical-image/tumor2.jpg", 
+              label: "3D-CT Scan Slice Sample", 
+              buttonText: "View Sample Scan" 
+            }
+          ]
         },
-        { 
-          url: "/medical-image/tumor2.jpg", 
-          label: "3D-CT Scan Slice Sample", 
-          buttonText: "View Sample Scan" 
-        },
-        { 
-          url: "/medical-image/tumor3.mp4", 
-          label: "Scan Capture of the CNN", 
-          buttonText: "View Capture" 
-        },
-        { 
-          url: "/medical-image/confusion-matrix1.jpg", 
-          label: "Confusion Matrix", 
-          buttonText: "View Matrix Result" 
+        {
+          groupTitle: "Model Results",
+          items: [
+            { 
+              url: "/medical-image/tumor3.mp4", 
+              label: "Scan Capture of the CNN", 
+              buttonText: "View Capture" 
+            },
+            { 
+              url: "/medical-image/confusion-matrix1.jpg", 
+              label: "Confusion Matrix", 
+              buttonText: "View Matrix Result" 
+            }
+          ]
         }
       ]
       }
     ],
     projects: [
-      { 
-        name: "sri-care-core", 
+      {
+        name: "TELCOM App for a Distributed Environment",
         category: "Distributed Systems",
-        tech: ["Node.js", "Redis", "Docker", "gRPC"],
-        introduction: "A high-performance backend messaging engine designed to process real-time communication across decoupled server components.",
-        problemStatement: "High-volume data streams often cause severe message drops and thread starvation when relational databases face simultaneous write operations.",
-        requirements: [
-          "Process asynchronous message streams with latency under 15 milliseconds.",
-          "Prevent thread blockage during unexpected spikes in write traffic.",
-          "Maintain transactional atomicity across all active nodes."
+
+        tech: [
+          "Node.js",
+          "Express.js",
+          "Flutter",
+          "MongoDB",
+          "Redis",
+          "RabbitMQ",
+          "Microservices",
+          "REST APIs",
+          "WebSockets",
+          "Docker"
         ],
-        solution: "Decoupled the write path using asynchronous messaging queues backed by Redis transactional memory caching layers.",
-        architecture: "Utilizes a producer-consumer topology where high-frequency streams are ingested into Redis buffers before being systematically drained into durable storage tables.",
-        githubLink: "https://github.com/your-username/sri-care-core"
+
+        introduction:
+          "A cloud-native telecommunications self-care platform built on a distributed microservices architecture. The system provides customers with a unified digital experience for account management, billing, payments, service activation, notifications, and real-time support while demonstrating scalable backend engineering patterns used in modern telecom platforms.",
+
+        problemStatement:
+          "Traditional telecom applications often rely on tightly coupled backend systems where high-volume operations such as billing generation, notifications, and customer requests compete for the same resources. This creates scalability limitations, service dependency failures, and performance degradation during peak usage periods. The challenge was to design a fault-tolerant distributed platform where individual business capabilities could scale independently while maintaining fast communication between services.",
+
+        requirements: [
+          "Design an independently scalable microservices architecture replacing a tightly coupled monolithic backend.",
+          "Implement asynchronous event-driven communication between services to prevent blocking operations during high traffic workloads.",
+          "Provide a unified API access layer for multiple client applications including Flutter mobile applications and web clients.",
+          "Maintain low-latency data access using distributed caching mechanisms.",
+          "Support real-time customer communication through persistent WebSocket connections.",
+          "Ensure secure authentication, request routing, and centralized service management."
+        ],
+
+        solution:
+          "Built a distributed telecommunications platform using a microservices architecture with a Node.js/Express API Gateway acting as the central communication layer. Business capabilities were separated into independent services including User Management, Billing, Payment Processing, Service Provisioning, Notification Handling, and Customer Chat. RabbitMQ was integrated as an asynchronous message broker to enable event-driven workflows, while Redis provided distributed caching and session management. MongoDB was used for scalable document-based persistence across services.",
+
+        coreFeatures: [
+          "API Gateway architecture providing centralized authentication, request routing, and service communication management.",
+          "Independent microservices for user lifecycle management, billing operations, payments, service activation, notifications, and customer support.",
+          "RabbitMQ-powered event-driven communication allowing services to react asynchronously to billing, payment, and provisioning events.",
+          "Redis distributed caching layer for optimized session handling, queue management, and high-speed temporary data access.",
+          "Real-time customer support chat system using WebSocket communication with Redis-backed session management.",
+          "MongoDB persistence layer optimized for high-volume telecom data such as customer records, billing history, transactions, and conversations.",
+          "Flutter-based customer application providing access to telecom self-service operations."
+        ],
+
+        technicalHighlights: [
+          "Designed a stateless microservices backend allowing individual services to scale independently without affecting other business modules.",
+          "Implemented asynchronous publish-subscribe messaging patterns to prevent notification workloads from blocking critical payment and billing operations.",
+          "Applied distributed caching strategies using Redis to reduce database load and improve response times.",
+          "Created REST-based service communication standards with clearly separated business responsibilities.",
+          "Implemented event-driven workflows where payment success events trigger downstream service activation and customer notifications.",
+          "Used WebSocket-based bidirectional communication for low-latency customer support interactions."
+        ],
+
+        architecture:
+          "Follows a layered distributed architecture consisting of Flutter/Web clients, API Gateway, core microservices, message broker, caching layer, and persistent storage. Client requests are routed through the Node.js/Express API Gateway, which communicates with independent backend services. Synchronous operations use REST APIs, while asynchronous business events flow through RabbitMQ queues using producer-consumer patterns. Redis manages distributed cache states and active sessions, while MongoDB stores persistent business data. The architecture enables fault isolation, horizontal scalability, and independent service deployment.",
+
+        githubLink:
+          "https://github.com/Shashika616/sri-care-backend",
+         mediaGroups: [
+        {
+          groupTitle: "System Architecture",
+          items: [
+            { 
+              url: "/sricare/sricare-arc.png", 
+              label: "High Level System Architecture", 
+              buttonText: "View Architecture" 
+            }
+          ]
+        }
+      ]
       },
       { 
-        name: "compiler-arena", 
+        name: "Compiler Arena - Tactical web game running on an underlying compiler   engine", 
         category: "Monolithic",
         tech: ["JavaScript", "Compilers", "Game Development", "CS Theory"],
         introduction: "A full-stack tactical puzzle game engine powered by a deterministic 4-stage compiler pipeline. Players write custom domain-specific language commands to navigate enemies with mathematically-defined hitbox patterns, transforming abstract compiler theory into interactive gameplay.",
@@ -209,12 +298,144 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         architecture: "Processes source code through a single-pass tokenization stream, validating structure against a strict context-free grammar before mapping nodes into a traversable AST. The executor interprets this tree sequentially, computing enemy hitboxes dynamically based on type and position, applying damage via set intersection, and enforcing grid boundaries before each state mutation. CSS Grid rendering layer visualizes danger zones as real-time background overlays.",
         githubLink: "https://github.com/Shashika616/compiler-game.git",
         playLink: "https://compiler-game.vercel.app/",
-        media: [
-        { 
-          url: "/Compiler/arch.png", 
-          label: "3D-CT Scan Sample", 
-          buttonText: "View Sample Scan" 
+        mediaGroups: [
+        {
+          groupTitle: "Architecture & Design",
+          items: [
+            { 
+              url: "/Compiler/arch.png", 
+              label: "High Level System Architecture", 
+              buttonText: "View Architectural Diagram" 
+            }
+          ]
+        }
+      ]
+      },
+      {
+        name: "Digital Gate Pass and Visitor Management System",
+        category: "Monolithic",
+
+        tech: [
+          "Node.js",
+          "Express.js",
+          "React",
+          "MongoDB",
+          "REST APIs",
+          "Postman",
+          "Figma",
+          "GitHub"
+        ],
+
+        introduction:
+          "A digital gate pass and visitor management solution designed for the Sri Lanka Rupavahini Corporation. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
+
+        problemStatement:
+          "The primary challenge lies in the absence of a digital tracking system, resulting in a heavy reliance on manual processes accompanied by extensive paperwork. This approach consumes a significant amount of time, demands substantial human effort, and causes operational inefficiencies. Specific pain points include limited external access to visitation details, a lack of automated entry/exit tracking mechanisms, constraints in managing guest reservations, and the physical storage space required for manual record management.",
+
+        requirements: [
+          "Handle secure user registration and multi-role authentication for various system actors.",
+          "Develop independent interface modules for users/staff, security gate personnel, and system administrators.",
+          "Automate the submission, evaluation, and management of guest visitation and appointment requests.",
+          "Implement real-time entry and exit tracking for tracking users, staff, and associated vehicles at the security gate.",
+          "Enable self-service profile management allowing authorized users to securely modify their information.",
+          "Provide analytical reporting tools for administrators and staff to generate and download date-based or monthly activity reports."
+        ],
+
+        solution:
+          "Developed a centralized digital gate pass management system featuring a decoupled full-stack architecture. The frontend web portals were constructed using React to deliver dedicated, responsive dashboards for administrators, security guards, and corporate staff. The backend API layer was engineered using Node.js and Express.js to orchestrate request routing, authentication workflows, and gate check-in/out logic, while MongoDB served as the scalable document persistence layer for real-time visitor records, historical logs, and user credentials.",
+
+        coreFeatures: [
+          "Role-based dashboards providing customized access environments for Guest Users, Staff, Gate Security, and Administrators.",
+          "Digital appointment workflow supporting online submission and automated approval tracking for corporate visit requests.",
+          "Real-time gate module enabling security personnel to instantly record, verify, and monitor vehicle and individual check-ins and check-outs.",
+          "Asynchronous password recovery mechanism issuing secure password reset links directly to user emails.",
+          "Dynamic reporting engine supporting date-specific activity searches, calendar views, and downloadable monthly staff activity reports.",
+          "Interactive UI layouts designed comprehensively in Figma to ensure optimal workflow UX for non-technical gate staff."
+        ],
+
+        technicalHighlights: [
+          "Transitioned physical logistical operations into a structured multi-tier web application, eliminating paper reliance and local storage bottlenecks.",
+          "Designed a secure role-based access control (RBAC) middleware architecture to protect administrative and internal operational fields.",
+          "Engineered robust document schemas in MongoDB capable of handling varying structural requirements of external individuals, educational groups, and staff vehicles.",
+          "Conducted rigorous backend verification and endpoint validation utilizing Postman to secure consistent API delivery.",
+          "Created date-based and search-indexed database queries to optimize report generation performance and calendar views."
+        ],
+
+        architecture:
+          "Follows a classic client-server architecture model structured over an internal network or cloud layout. The presentation tier is built using React to provide real-time updates and seamless interactions across separate staff, admin, and gate panels. Client requests are dispatched via HTTPS REST APIs to a stateless Node.js/Express backend server. This logic tier handles core session validation, workflow automation, and reporting processing before executing transactions against a persistent MongoDB instance. The architecture effectively separates business capabilities, ensuring fault isolation and clean service boundaries.",
+
+        githubLink:"https://github.com/Shashika616/Rupavahini-gatepass-and-visitormgt-system-backend.git",
+        mediaGroups: [
+        {
+          groupTitle: "System Architecture",
+          items: [
+            { 
+              url: "/rup/rup-arc.png", 
+              label: "High Level System Architecture", 
+              buttonText: "View Architectural Diagram" 
+            }
+          ]
         },
+        {
+          groupTitle: "WireFrames",
+          items: [
+            { 
+              url: "/rup/wire1.png", 
+              label: "WireFrame", 
+              buttonText: "View WireFrame" 
+            },
+            { 
+              url: "/rup/wire2.png", 
+              label: "WireFrame",  
+              buttonText: "View WireFrame" 
+            },
+            { 
+              url: "/rup/wire3.png", 
+              label: "WireFrame",  
+              buttonText: "View WireFrame"
+            },
+            { 
+              url: "/rup/wire4.png", 
+              label: "WireFrame",  
+              buttonText: "View WireFrame"
+            },
+            { 
+              url: "/rup/wire5.png", 
+              label: "WireFrame",  
+              buttonText: "View WireFrame"
+            }
+          ]
+        },
+        {
+          groupTitle: "Application Overview",
+          items: [
+            { 
+              url: "/rup/main1.png", 
+              label: "Overview", 
+              buttonText: "View Image" 
+            },
+            { 
+              url: "/rup/main2.png", 
+              label: "Overview", 
+              buttonText: "View Image"  
+            },
+            { 
+              url: "/rup/main3.png", 
+              label: "Overview", 
+              buttonText: "View Image" 
+            },
+            { 
+              url: "/rup/main4.png", 
+              label: "Overview", 
+              buttonText: "View Image" 
+            },
+            { 
+              url: "/rup/main5.png", 
+              label: "Overview", 
+              buttonText: "View Image" 
+            }
+          ]
+        }
       ]
       }
     ],
@@ -358,57 +579,59 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
               </span>
             </div>
 
-            {/* COMPACT CARD GRID */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
-          {paginatedItems.length === 0 ? (
-            <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
-              <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
-            </div>
-          ) : (
-            paginatedItems.map((item, idx) => (
-              <div 
-                key={idx}
-                className="group relative min-h-[160px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
-                style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
-                  e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
-                  e.currentTarget.style.transform = 'translateY(-1.5px)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
-                  e.currentTarget.style.borderColor = '#e2e8f0';
-                  e.currentTarget.style.transform = 'translateY(0)';
-                }}
-              >
-                {/* Left Content Side */}
-                <div className="flex-1 flex flex-col justify-between min-w-0">
-                  <div>
-                    <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 truncate`}>
-                      {item.name}
-                    </h5>
-                    <div className="flex flex-wrap gap-1.5 mt-2.5 max-h-[44px] overflow-hidden">
-                      {item.tech.map((t, tIdx) => (
-                        <span 
-                          key={tIdx} 
-                          className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide"
-                        >
-                          {t}
-                        </span>
-                      ))}
+           {/* COMPACT CARD GRID */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
+            {paginatedItems.length === 0 ? (
+              <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
+                <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
+              </div>
+            ) : (
+              paginatedItems.map((item, idx) => (
+                <div 
+                  key={idx}
+                  className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
+                  style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
+                    e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
+                    e.currentTarget.style.transform = 'translateY(-1.5px)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
+                    e.currentTarget.style.borderColor = '#e2e8f0';
+                    e.currentTarget.style.transform = 'translateY(0)';
+                  }}
+                >
+                  {/* Left Content Side */}
+                  <div className="flex-1 flex flex-col justify-between min-w-0">
+                    <div>
+                      {/* REMOVED truncate and added break-words */}
+                      <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
+                        {item.name}
+                      </h5>
+                      {/* REMOVED max-h-[44px] overflow-hidden so all tech tags show */}
+                      <div className="flex flex-wrap gap-1.5 mt-2.5">
+                        {item.tech.map((t, tIdx) => (
+                          <span 
+                            key={tIdx} 
+                            className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                          >
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="flex justify-start pt-2">
+                      <button 
+                        onClick={() => setSelectedProject(item)}
+                        className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                      >
+                        See More 
+                        <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                      </button>
                     </div>
                   </div>
-
-                  <div className="flex justify-start pt-2">
-                    <button 
-                      onClick={() => setSelectedProject(item)}
-                      className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
-                    >
-                      See More 
-                      <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
-                    </button>
-                  </div>
-                </div>
 
                 {/* Right Thumbnail Side */}
                 {item.imageUrl && (
@@ -663,112 +886,153 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.architecture}</p>
                   </div>
 
-                  {/* Live Media Showcase Layout Grid (Dynamic Matrix Engine with Image/Video Intercept) */}
-                  {selectedProject.media && selectedProject.media.length > 0 && (
-                    <div className="space-y-3">
+                  {/* Live Media Showcase Layout Grid - MULTIPLE CAROUSELS */}
+                  {selectedProject.mediaGroups && selectedProject.mediaGroups.length > 0 && (
+                    <div className="space-y-6">
                       <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">
                         05 / System Metrics & Interface Preview
                       </h4>
                       
-                      <div className={`grid gap-4 w-full ${
-                        selectedProject.media.length === 1 
-                          ? 'grid-cols-1' 
-                          : 'grid-cols-1 sm:grid-cols-2'
-                      }`}>
-                        {selectedProject.media.map((asset, index) => {
-                          const isMenuOpen = activeMenuIndex === index;
+                      <div className="space-y-4">
+                        {selectedProject.mediaGroups.map((group, groupIndex) => {
+                          // Get current index for this group, default to 0
+                          const currentIndex = mediaGroupIndices[groupIndex] || 0;
                           
-                          // Simple regex checker to see if the file is a video format
-                          const isVideo = /\.(mp4|webm|ogg|mov)$/i.test(asset.url);
-
                           return (
-                            <div 
-                              key={index}
-                              className="aspect-video bg-slate-50 border border-slate-200/80 rounded-xl overflow-hidden flex items-center justify-center text-center relative group/media select-none"
-                            >
-                              {/* DYNAMIC MEDIA INTERCEPT DISPATCHER */}
-                              {isVideo ? (
-                                <video 
-                                  src={asset.url} 
-                                  className="w-full h-full object-cover transition-all duration-300 ease-out group-hover/media:blur-sm group-hover/media:scale-[1.01]"
-                                  muted
-                                  loop
-                                  autoPlay
-                                  playsInline
-                                />
-                              ) : (
-                                <img 
-                                  src={asset.url} 
-                                  alt={`${selectedProject.name} asset - ${asset.label}`} 
-                                  className="w-full h-full object-cover transition-all duration-300 ease-out group-hover/media:blur-sm group-hover/media:scale-[1.01]"
-                                  loading="lazy"
-                                />
-                              )}
+                            <div key={groupIndex} className="space-y-2">
+                              {/* Group Title */}
+                              <h5 className="font-mono text-sm font-bold text-slate-700 tracking-wide">
+                                {group.groupTitle}
+                              </h5>
                               
-                              {/* Top Edge Label */}
-                              <div className="absolute top-3 left-3 bg-slate-900/70 backdrop-blur-md px-2 py-0.5 rounded text-[9px] font-mono font-bold text-slate-200 tracking-wider uppercase border border-white/10 opacity-100 group-hover/media:opacity-0 transition-opacity duration-200 z-10">
-                                {asset.label}
-                              </div>
-                              
-                              {/* Hover Backdrop Chassis */}
-                              <div className={`absolute inset-0 bg-slate-900/10 transition-opacity duration-300 flex flex-col items-center justify-center gap-2 bg-gradient-to-t from-slate-950/40 via-transparent to-transparent z-10
-                                ${isMenuOpen ? 'opacity-100' : 'opacity-0 group-hover/media:opacity-100'}
-                              `}>
-                                
-                                {/* Menu Container Box */}
-                                <div className="relative">
-                                  <button 
-                                    onClick={() => setActiveMenuIndex(isMenuOpen ? null : index)}
-                                    className="px-3 py-1.5 bg-white/95 hover:bg-white text-slate-950 font-mono text-[10px] font-bold uppercase tracking-wider rounded-lg shadow-md flex items-center gap-1.5 transition-all cursor-pointer hover:scale-105"
-                                  >
-                                    <svg className="w-3.5 h-3.5 text-slate-700" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                      <path strokeLinecap="round" strokeLinejoin="round" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                                    </svg>
-                                    <span>Options</span>
-                                    <span className={`text-[8px] transition-transform duration-200 ${isMenuOpen ? 'rotate-180' : ''}`}>▼</span>
-                                  </button>
-
-                                  {/* Dropdown Action Card */}
-                                  <AnimatePresence>
-                                    {isMenuOpen && (
-                                      <>
-                                        <div className="fixed inset-0 z-40" onClick={() => setActiveMenuIndex(null)} />
-                                        
-                                        <motion.div 
-                                          initial={{ opacity: 0, y: 6, scale: 0.95 }}
-                                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                                          exit={{ opacity: 0, y: 4, scale: 0.95 }}
-                                          transition={{ duration: 0.15, ease: "easeOut" }}
-                                          className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-40 bg-white rounded-xl border border-slate-200 shadow-xl overflow-hidden z-50 p-1"
-                                        >
-                                          <button
-                                            onClick={() => {
-                                              setPreviewImage({ url: asset.url, label: asset.label });
-                                              setActiveMenuIndex(null);
-                                            }}
-                                            className="w-full text-left px-3 py-2 font-mono text-[10px] font-bold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-lg flex items-center justify-between transition-colors cursor-pointer"
-                                          >
-                                            <span>Preview Here</span>
-                                            <span className="text-slate-400 font-sans text-xs">⛶</span>
-                                          </button>
-                                          
-                                          <button
-                                            onClick={() => {
-                                              window.open(asset.url, '_blank');
-                                              setActiveMenuIndex(null);
-                                            }}
-                                            className="w-full text-left px-3 py-2 font-mono text-[10px] font-bold text-slate-700 hover:text-slate-950 hover:bg-slate-50 rounded-lg flex items-center justify-between transition-colors border-t border-slate-100 cursor-pointer"
-                                          >
-                                            <span>New Tab</span>
-                                            <span className="text-slate-400 font-sans text-xs">↗</span>
-                                          </button>
-                                        </motion.div>
-                                      </>
-                                    )}
+                              <div className="relative bg-slate-50 border border-slate-200/80 rounded-xl overflow-hidden">
+                                {/* Main Carousel Container */}
+                                <div className="relative aspect-video overflow-hidden">
+                                  <AnimatePresence mode="wait">
+                                    <motion.div
+                                      key={`${groupIndex}-${currentIndex}`}
+                                      initial={{ opacity: 0, x: 100 }}
+                                      animate={{ opacity: 1, x: 0 }}
+                                      exit={{ opacity: 0, x: -100 }}
+                                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                                      className="w-full h-full"
+                                    >
+                                      {/\.(mp4|webm|ogg|mov)$/i.test(group.items[currentIndex].url) ? (
+                                        <video 
+                                          src={group.items[currentIndex].url} 
+                                          className="w-full h-full object-contain bg-slate-900/5"
+                                          controls
+                                          autoPlay
+                                          playsInline
+                                          key={`${groupIndex}-${currentIndex}`}
+                                        />
+                                      ) : (
+                                        <img 
+                                          src={group.items[currentIndex].url} 
+                                          alt={`${selectedProject.name} - ${group.items[currentIndex].label}`} 
+                                          className="w-full h-full object-contain bg-slate-900/5 cursor-pointer hover:opacity-90 transition-opacity"
+                                          loading="lazy"
+                                          onClick={() => setPreviewImage({ 
+                                            url: group.items[currentIndex].url, 
+                                            label: group.items[currentIndex].label 
+                                          })}
+                                        />
+                                      )}
+                                    </motion.div>
                                   </AnimatePresence>
+
+                                  {/* Navigation Arrows */}
+                                  {group.items.length > 1 && (
+                                    <>
+                                      <button
+                                        onClick={() => {
+                                          setMediaGroupIndices(prev => ({
+                                            ...prev,
+                                            [groupIndex]: currentIndex === 0 
+                                              ? group.items.length - 1 
+                                              : currentIndex - 1
+                                          }));
+                                        }}
+                                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 z-10 cursor-pointer"
+                                      >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                                        </svg>
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          setMediaGroupIndices(prev => ({
+                                            ...prev,
+                                            [groupIndex]: currentIndex === group.items.length - 1 
+                                              ? 0 
+                                              : currentIndex + 1
+                                          }));
+                                        }}
+                                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 z-10 cursor-pointer"
+                                      >
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                                        </svg>
+                                      </button>
+                                    </>
+                                  )}
                                 </div>
 
+                                {/* Bottom Controls Bar */}
+                                <div className="px-4 py-3 bg-white border-t border-slate-200 flex items-center justify-between gap-4">
+                                  {/* Left: Label and Counter */}
+                                  <div className="flex items-center gap-3 min-w-0">
+                                    <span className="text-xs font-bold text-slate-600 truncate">
+                                      {group.items[currentIndex].label}
+                                    </span>
+                                    {group.items.length > 1 && (
+                                      <span className="font-mono text-[10px] font-bold text-slate-400 whitespace-nowrap">
+                                        {currentIndex + 1} / {group.items.length}
+                                      </span>
+                                    )}
+                                  </div>
+
+                                  {/* Right: Action Buttons */}
+                                  <div className="flex items-center gap-2 flex-shrink-0">
+                                    {/* Dot Indicators */}
+                                    {group.items.length > 1 && (
+                                      <div className="flex gap-1.5 mr-2">
+                                        {group.items.map((_, idx) => (
+                                          <button
+                                            key={idx}
+                                            onClick={() => {
+                                              setMediaGroupIndices(prev => ({
+                                                ...prev,
+                                                [groupIndex]: idx
+                                              }));
+                                            }}
+                                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
+                                              idx === currentIndex 
+                                                ? 'bg-slate-800 w-4' 
+                                                : 'bg-slate-300 hover:bg-slate-400'
+                                            }`}
+                                          />
+                                        ))}
+                                      </div>
+                                    )}
+                                    
+                                    <button
+                                      onClick={() => {
+                                        const asset = group.items[currentIndex];
+                                        if (/\.(mp4|webm|ogg|mov)$/i.test(asset.url)) {
+                                          window.open(asset.url, '_blank');
+                                        } else {
+                                          setPreviewImage({ url: asset.url, label: asset.label });
+                                        }
+                                      }}
+                                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono text-[10px] font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                                    >
+                                      {/\.(mp4|webm|ogg|mov)$/i.test(group.items[currentIndex].url) 
+                                        ? 'Open Video' 
+                                        : 'Expand View'}
+                                    </button>
+                                  </div>
+                                </div>
                               </div>
                             </div>
                           );

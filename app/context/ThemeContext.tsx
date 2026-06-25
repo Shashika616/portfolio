@@ -50,6 +50,15 @@ export const THEMES: ThemeProfile[] = [
     accentColor: "bg-orange-500",
     textColor: "text-orange-500",
     fillColor: "#f97316"
+  },
+  {
+    id: "mono",
+    name: "Mono Chrome",
+    icon: "⬛",
+    gradient: "conic-gradient(from 0deg, #000000, #333333, #666666, #999999, #000000)",
+    accentColor: "bg-black",
+    textColor: "text-black",
+    fillColor: "#000000"
   }
 ];
 

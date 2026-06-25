@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../../types";
 import { useGlobalTheme } from "../../context/ThemeContext";
 
+
 interface ProjectsSectionProps {
   sec: Section;
 }

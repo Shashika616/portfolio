@@ -79,7 +79,7 @@ export function AboutSection() {
               
               {/* GitHub Button - Theme Adapted */}
               <a 
-                href="https://github.com/yourhandle" 
+                href="https://github.com/Shashika616" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg transition-all duration-300 flex items-center justify-center shadow-sm border"
@@ -103,7 +103,7 @@ export function AboutSection() {
               
               {/* LinkedIn Button - Theme Adapted */}
               <a 
-                href="https://linkedin.com/in/yourhandle" 
+                href="https://www.linkedin.com/in/shashika-fernando-5399062b5/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-2.5 rounded-lg transition-all duration-300 flex items-center justify-center shadow-sm border"

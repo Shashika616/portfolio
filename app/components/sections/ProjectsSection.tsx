@@ -438,6 +438,46 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           ]
         }
       ]
+      },
+      {
+        name: "AlgoTrack - Self-Paced DSA and System Design Diary", 
+        category: "Monolithic",
+        tech: ["Next.js (App Router)", "TypeScript", "Supabase", "PostgreSQL", "Drizzle ORM", "Tailwind CSS"],
+        introduction: "A centralized platform for developers to master Data Structures, Algorithms, and System Design concepts at their own pace. AlgoTrack combines problem-solving tools with integrated personal journaling, allowing users to save solutions and document key learning insights for long-term knowledge retention.",
+        problemStatement: "Popular coding platforms often focus solely on immediate problem resolution and speed, lacking robust features for personal reflection and progressive learning documentation. Developers frequently struggle to track their unique learning curve, revise difficult concepts, and consolidate diverse educational notes alongside their direct code solutions.",
+        requirements: [
+          "Implement seamless, secure user authentication managing private access to personal dashboards and sensitive problem data.",
+          "Develop a responsive, data-driven interface using Next.js Server Components and Edge Middleware for optimized page delivery and auth state management.",
+          "Design and optimize a relational database schema (Postgres) to store structured problem details, user code submissions, and associated personal learning notes efficiently."
+        ],
+        solution: "Leveraged Next.js (App Router) for an SEO-friendly frontend and API layer, strictly managed by dynamic middleware to enforce page protection based on active Supabase authentication sessions. The data layer utilizes Drizzle ORM to interface with Supabase (PostgreSQL), storing categorized problems. User submissions map code solutions and associated Markdown-formatted learning diary entries to unique user IDs, ensuring complete data privacy and personalized progress tracking.",
+        coreFeatures: [
+          "Authentication (Supabase Auth) with protected dashboard routes access restricted via Next.js Edge Middleware.",
+          "Categorized Problem Library (DSA and System Design) with search/filter capabilities and difficulty ratings.",
+          "Personalized Solution Notebook: Save code solutions (with language syntax highlighting) directly linked to specific problems.",
+          "Integrated Learning Diary: Rich text editor (Markdown support) for adding personal notes, reflections, and key takeaways for each solved problem.",
+          "Progress Dashboard visualizing completion metrics, difficulty breakdown, and recent study activity."
+        ],
+        technicalHighlights: [
+          "Next.js App Router utilization with Server Components for direct DB fetching and dynamic middleware for instant, uncircumventable auth redirection (Dashboard/Problems paths).",
+          "Drizzle ORM for type-safe database interactions and structured querying of the Supabase-hosted PostgreSQL instance.",
+          "Optimized API route structure utilizing server-side validation and dynamic SQL queries to handle complex relationship mapping between users, solutions, and problems."
+        ],
+        architecture: "Processes client requests through Next.js Edge Middleware, instantly validating session integrity via Supabase Auth before allowing access to protected dashboard paths or dynamic API routes. Page rendering is optimized using Server Components where possible, minimizing client bundle size. When modifying data, API endpoints interface with the backend PostgreSQL database using Drizzle ORM, ensuring type-safe operations for CRUD actions on user solutions and personal learning diary entries. The unified storage (Supabase/Postgres) ensures ACID compliance for consistent data handling across the entire user lifecycle.",
+        githubLink: "https://github.com/YourUsername/algotrack.git", 
+        playLink: "https://algotrack-seven.vercel.app/",
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/algotrack/algotrack-arc.png", 
+                label: "System Architecture", 
+                buttonText: "View Architecture" 
+              }
+            ]
+          }
+        ]
       }
     ],
     games: [
@@ -1065,8 +1105,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     {selectedProject.playLink && (
                       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/60">
                         <div>
-                          <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Interactive Playground</h5>
-                          <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch the live game in your browser</p>
+                          <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Wanna tryout?</h5>
+                          <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch live and experience the application...</p>
                         </div>
                         <a 
                           href={selectedProject.playLink}
@@ -1075,7 +1115,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                            style={{ backgroundImage: activeTheme.gradient }}
                           className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap"
                         >
-                          Play Game ▶
+                          Launch ▶
                         </a>
                       </div>
                     )}

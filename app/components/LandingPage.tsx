@@ -376,7 +376,7 @@ export default function LandingPage({ onEnter }: { onEnter: () => void }) {
                     </button>
                     
                     <a
-                      href="/cv.pdf"
+                      href="/cv1.pdf"
                       download
                       className="w-full sm:w-auto px-8 py-4 font-bold rounded-xl border-2 transition-all duration-300 hover:scale-[1.02] text-base min-h-[48px] flex items-center justify-center cursor-pointer font-mono uppercase tracking-wider"
                       style={{

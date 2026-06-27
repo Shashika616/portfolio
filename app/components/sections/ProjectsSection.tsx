@@ -12,13 +12,13 @@ interface ProjectsSectionProps {
   sec: Section;
 }
 
-type TabType = 'researches' | 'projects' | 'games';
-type SubCategoryType = 'ALL' | 'AI & ML' | 'Distributed Systems' | 'Monolithic';
+type TabType = 'researches' | 'projects' | 'games' | 'certificates';
+type SubCategoryType = 'ALL' | 'AI & ML' | 'Distributed Systems' | 'Monolithic' | 'Cloud' | 'Security' | 'Web Development';
 
 interface ProjectMedia {
   url: string;
-  label: string;       // e.g., "System Metrics", "Architecture Map", "Loss Curves"
-  buttonText: string;  // e.g., "View Metrics", "View Schematic", "View Plot"
+  label: string;
+  buttonText: string;
 }
 
 interface MediaGroup {
@@ -28,7 +28,7 @@ interface MediaGroup {
 
 interface ProjectItem {
   name: string;
-  category: 'AI & ML' | 'Distributed Systems' | 'Monolithic' | 'Research' | 'Simulation';
+  category: 'AI & ML' | 'Distributed Systems' | 'Monolithic' | 'Research' | 'Simulation' | 'Cloud' | 'Security' | 'Web Development';
   tech: string[];
   introduction: string;
   problemStatement: string;
@@ -44,6 +44,17 @@ interface ProjectItem {
   media?: ProjectMedia[];
 }
 
+interface CertificateItem {
+  name: string;
+  issuer: string;
+  date: string;
+  credentialId?: string;
+  description: string;
+  skills: string[];
+  imageUrl: string;
+  verifyLink: string;
+}
+
 export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const { activeTheme } = useGlobalTheme();
   const [activeTab, setActiveTab] = useState<TabType>('researches');
@@ -51,10 +62,9 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [selectedCertificate, setSelectedCertificate] = useState<CertificateItem | null>(null);
   const [mounted, setMounted] = useState(false);
-  // Tracks which media index has its dropdown menu actively toggled open
   const [activeMenuIndex, setActiveMenuIndex] = useState<number | null>(null);
-  // Tracks which asset image is currently expanded in the inner popup modal
   const [previewImage, setPreviewImage] = useState<{ url: string; label: string } | null>(null);
   const [mediaGroupIndices, setMediaGroupIndices] = useState<{ [key: number]: number }>({});
   
@@ -64,36 +74,31 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
     setMounted(true);
   }, []);
 
-  // BULLETPROOF CSS PORTAL STATE ROOT LOCK ENGINE
   useEffect(() => {
-    if (!selectedProject) return;
+    if (!selectedProject && !selectedCertificate) return;
 
-    // Capture exact structural elements to ensure we lock both framework roots
     const htmlElement = document.documentElement;
     const bodyElement = document.body;
 
-    // Store original runtime styles
     const originalHtmlOverflow = htmlElement.style.overflow;
     const originalHtmlHeight = htmlElement.style.height;
     const originalBodyOverflow = bodyElement.style.overflow;
     const originalBodyHeight = bodyElement.style.height;
 
-    // Force absolute structural limits on the DOM viewport tree
     htmlElement.style.overflow = "hidden";
     htmlElement.style.height = "100vh";
     bodyElement.style.overflow = "hidden";
     bodyElement.style.height = "100vh";
 
     return () => {
-      // Revert styles instantly on unmount/close
       htmlElement.style.overflow = originalHtmlOverflow;
       htmlElement.style.height = originalHtmlHeight;
       bodyElement.style.overflow = originalBodyOverflow;
       bodyElement.style.height = originalBodyHeight;
     };
-  }, [selectedProject]);
+  }, [selectedProject, selectedCertificate]);
 
-  const catalogData: Record<TabType, ProjectItem[]> = {
+  const catalogData: Record<TabType, any[]> = {
     researches: [
       { 
         name: "Plot Based Chaotic Hashing Pipeline", 
@@ -112,43 +117,43 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         solution: "Engineered a deterministic, multi-dimensional pre-hashing transformation layer that maps character inputs into continuous space using custom chaotic functions (Logistic/Henon maps) before traditional salting pipelines.",
         architecture: "Ingests inputs via an initial HMAC-SHA256 token array to dynamically derive spatial dimensions and iterative mapping indices. Values are swept through chaotic manifold matrices, normalized, amplified using a cascading XOR avalanche accumulator, and passed downstream into hard memory-lane Argon2id execution blocks.",
         githubLink: "https://github.com/Shashika616/Research_Hashing_Pipeline.git",
-         mediaGroups: [
-        {
-          groupTitle: "System Architecture",
-          items: [
-            { 
-              url: "/hash-pipeline/graph-hash.png", 
-              label: "Solution Architecture", 
-              buttonText: "View Architectural Diagram" 
-            }
-          ]
-        },
-        {
-          groupTitle: "Performance Analysis",
-          items: [
-            { 
-              url: "/hash-pipeline/time-comparison.png", 
-              label: "Time Complexity Comparison", 
-              buttonText: "View Comparison Table" 
-            },
-            { 
-              url: "/hash-pipeline/stat-comparison.png", 
-              label: "Statistical Comparison", 
-              buttonText: "View Comparison Table" 
-            }
-          ]
-        },
-        {
-          groupTitle: "Practical Analysis",
-          items: [
-            { 
-              url: "/hash-pipeline/prac-dep.png", 
-              label: "Practical Dependency Analysis", 
-              buttonText: "View Comparison Table" 
-            }
-          ]
-        }
-      ]
+        mediaGroups: [
+          {
+            groupTitle: "System Architecture",
+            items: [
+              { 
+                url: "/hash-pipeline/graph-hash.png", 
+                label: "Solution Architecture", 
+                buttonText: "View Architectural Diagram" 
+              }
+            ]
+          },
+          {
+            groupTitle: "Performance Analysis",
+            items: [
+              { 
+                url: "/hash-pipeline/time-comparison.png", 
+                label: "Time Complexity Comparison", 
+                buttonText: "View Comparison Table" 
+              },
+              { 
+                url: "/hash-pipeline/stat-comparison.png", 
+                label: "Statistical Comparison", 
+                buttonText: "View Comparison Table" 
+              }
+            ]
+          },
+          {
+            groupTitle: "Practical Analysis",
+            items: [
+              { 
+                url: "/hash-pipeline/prac-dep.png", 
+                label: "Practical Dependency Analysis", 
+                buttonText: "View Comparison Table" 
+              }
+            ]
+          }
+        ]
       },
       { 
         name: "Medical Image Processing", 
@@ -166,44 +171,43 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         architecture: "Processes raw multi-slice CT inputs using TorchIO intensity rescaling, random spatial crops, and structural augmentations. Data is routed down a deep 3D convolutional encoder path, downsampled via deep max-pooling bottleneck layers, upscaled using trainable ConvTranspose3D channels, and converged via residual skip connections under a joint Dice-CrossEntropy loss function optimization loop.",
         githubLink: "https://colab.research.google.com/drive/12NcQTbb8J7l2kdB7Rxb_Q9PuANjlIzpo?usp=sharing#scrollTo=LUDdiSL4ROOu",
         mediaGroups: [
-        {
-          groupTitle: "CT Scan Samples",
-          items: [
-            { 
-              url: "/medical-image/tumor1.jpg", 
-              label: "3D-CT Scan Sample", 
-              buttonText: "View Sample Scan" 
-            },
-            { 
-              url: "/medical-image/tumor2.jpg", 
-              label: "3D-CT Scan Slice Sample", 
-              buttonText: "View Sample Scan" 
-            }
-          ]
-        },
-        {
-          groupTitle: "Model Results",
-          items: [
-            { 
-              url: "/medical-image/tumor3.mp4", 
-              label: "Scan Capture of the CNN", 
-              buttonText: "View Capture" 
-            },
-            { 
-              url: "/medical-image/confusion-matrix1.jpg", 
-              label: "Confusion Matrix", 
-              buttonText: "View Matrix Result" 
-            }
-          ]
-        }
-      ]
+          {
+            groupTitle: "CT Scan Samples",
+            items: [
+              { 
+                url: "/medical-image/tumor1.jpg", 
+                label: "3D-CT Scan Sample", 
+                buttonText: "View Sample Scan" 
+              },
+              { 
+                url: "/medical-image/tumor2.jpg", 
+                label: "3D-CT Scan Slice Sample", 
+                buttonText: "View Sample Scan" 
+              }
+            ]
+          },
+          {
+            groupTitle: "Model Results",
+            items: [
+              { 
+                url: "/medical-image/tumor3.mp4", 
+                label: "Scan Capture of the CNN", 
+                buttonText: "View Capture" 
+              },
+              { 
+                url: "/medical-image/confusion-matrix1.jpg", 
+                label: "Confusion Matrix", 
+                buttonText: "View Matrix Result" 
+              }
+            ]
+          }
+        ]
       }
     ],
     projects: [
       {
         name: "TELCOM App for a Distributed Environment",
         category: "Distributed Systems",
-
         tech: [
           "Node.js",
           "Express.js",
@@ -216,13 +220,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "WebSockets",
           "Docker"
         ],
-
-        introduction:
-          "A cloud-native telecommunications self-care platform built on a distributed microservices architecture. The system provides customers with a unified digital experience for account management, billing, payments, service activation, notifications, and real-time support while demonstrating scalable backend engineering patterns used in modern telecom platforms.",
-
-        problemStatement:
-          "Traditional telecom applications often rely on tightly coupled backend systems where high-volume operations such as billing generation, notifications, and customer requests compete for the same resources. This creates scalability limitations, service dependency failures, and performance degradation during peak usage periods. The challenge was to design a fault-tolerant distributed platform where individual business capabilities could scale independently while maintaining fast communication between services.",
-
+        introduction: "A cloud-native telecommunications self-care platform built on a distributed microservices architecture. The system provides customers with a unified digital experience for account management, billing, payments, service activation, notifications, and real-time support while demonstrating scalable backend engineering patterns used in modern telecom platforms.",
+        problemStatement: "Traditional telecom applications often rely on tightly coupled backend systems where high-volume operations such as billing generation, notifications, and customer requests compete for the same resources. This creates scalability limitations, service dependency failures, and performance degradation during peak usage periods. The challenge was to design a fault-tolerant distributed platform where individual business capabilities could scale independently while maintaining fast communication between services.",
         requirements: [
           "Design an independently scalable microservices architecture replacing a tightly coupled monolithic backend.",
           "Implement asynchronous event-driven communication between services to prevent blocking operations during high traffic workloads.",
@@ -231,10 +230,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Support real-time customer communication through persistent WebSocket connections.",
           "Ensure secure authentication, request routing, and centralized service management."
         ],
-
-        solution:
-          "Built a distributed telecommunications platform using a microservices architecture with a Node.js/Express API Gateway acting as the central communication layer. Business capabilities were separated into independent services including User Management, Billing, Payment Processing, Service Provisioning, Notification Handling, and Customer Chat. RabbitMQ was integrated as an asynchronous message broker to enable event-driven workflows, while Redis provided distributed caching and session management. MongoDB was used for scalable document-based persistence across services.",
-
+        solution: "Built a distributed telecommunications platform using a microservices architecture with a Node.js/Express API Gateway acting as the central communication layer. Business capabilities were separated into independent services including User Management, Billing, Payment Processing, Service Provisioning, Notification Handling, and Customer Chat. RabbitMQ was integrated as an asynchronous message broker to enable event-driven workflows, while Redis provided distributed caching and session management. MongoDB was used for scalable document-based persistence across services.",
         coreFeatures: [
           "API Gateway architecture providing centralized authentication, request routing, and service communication management.",
           "Independent microservices for user lifecycle management, billing operations, payments, service activation, notifications, and customer support.",
@@ -244,7 +240,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "MongoDB persistence layer optimized for high-volume telecom data such as customer records, billing history, transactions, and conversations.",
           "Flutter-based customer application providing access to telecom self-service operations."
         ],
-
         technicalHighlights: [
           "Designed a stateless microservices backend allowing individual services to scale independently without affecting other business modules.",
           "Implemented asynchronous publish-subscribe messaging patterns to prevent notification workloads from blocking critical payment and billing operations.",
@@ -253,27 +248,23 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Implemented event-driven workflows where payment success events trigger downstream service activation and customer notifications.",
           "Used WebSocket-based bidirectional communication for low-latency customer support interactions."
         ],
-
-        architecture:
-          "Follows a layered distributed architecture consisting of Flutter/Web clients, API Gateway, core microservices, message broker, caching layer, and persistent storage. Client requests are routed through the Node.js/Express API Gateway, which communicates with independent backend services. Synchronous operations use REST APIs, while asynchronous business events flow through RabbitMQ queues using producer-consumer patterns. Redis manages distributed cache states and active sessions, while MongoDB stores persistent business data. The architecture enables fault isolation, horizontal scalability, and independent service deployment.",
-
-        githubLink:
-          "https://github.com/Shashika616/sri-care-backend",
-         mediaGroups: [
-        {
-          groupTitle: "System Architecture",
-          items: [
-            { 
-              url: "/sricare/sricare-arc.png", 
-              label: "High Level System Architecture", 
-              buttonText: "View Architecture" 
-            }
-          ]
-        }
-      ]
+        architecture: "Follows a layered distributed architecture consisting of Flutter/Web clients, API Gateway, core microservices, message broker, caching layer, and persistent storage. Client requests are routed through the Node.js/Express API Gateway, which communicates with independent backend services. Synchronous operations use REST APIs, while asynchronous business events flow through RabbitMQ queues using producer-consumer patterns. Redis manages distributed cache states and active sessions, while MongoDB stores persistent business data. The architecture enables fault isolation, horizontal scalability, and independent service deployment.",
+        githubLink: "https://github.com/Shashika616/sri-care-backend",
+        mediaGroups: [
+          {
+            groupTitle: "System Architecture",
+            items: [
+              { 
+                url: "/sricare/sricare-arc.png", 
+                label: "High Level System Architecture", 
+                buttonText: "View Architecture" 
+              }
+            ]
+          }
+        ]
       },
       { 
-        name: "Compiler Arena - Tactical web game running on an underlying compiler   engine", 
+        name: "Compiler Arena - Tactical web game running on an underlying compiler engine", 
         category: "Monolithic",
         tech: ["JavaScript", "Compilers", "Game Development", "CS Theory"],
         introduction: "A full-stack tactical puzzle game engine powered by a deterministic 4-stage compiler pipeline. Players write custom domain-specific language commands to navigate enemies with mathematically-defined hitbox patterns, transforming abstract compiler theory into interactive gameplay.",
@@ -300,22 +291,21 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         githubLink: "https://github.com/Shashika616/compiler-game.git",
         playLink: "https://compiler-game.vercel.app/",
         mediaGroups: [
-        {
-          groupTitle: "Architecture & Design",
-          items: [
-            { 
-              url: "/Compiler/arch.png", 
-              label: "High Level System Architecture", 
-              buttonText: "View Architectural Diagram" 
-            }
-          ]
-        }
-      ]
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/Compiler/arch.png", 
+                label: "High Level System Architecture", 
+                buttonText: "View Architectural Diagram" 
+              }
+            ]
+          }
+        ]
       },
       {
         name: "Digital Gate Pass and Visitor Management System",
         category: "Monolithic",
-
         tech: [
           "Node.js",
           "Express.js",
@@ -326,13 +316,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Figma",
           "GitHub"
         ],
-
-        introduction:
-          "A digital gate pass and visitor management solution designed for the Sri Lanka Rupavahini Corporation. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
-
-        problemStatement:
-          "The primary challenge lies in the absence of a digital tracking system, resulting in a heavy reliance on manual processes accompanied by extensive paperwork. This approach consumes a significant amount of time, demands substantial human effort, and causes operational inefficiencies. Specific pain points include limited external access to visitation details, a lack of automated entry/exit tracking mechanisms, constraints in managing guest reservations, and the physical storage space required for manual record management.",
-
+        introduction: "A digital gate pass and visitor management solution designed for the Sri Lanka Rupavahini Corporation. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
+        problemStatement: "The primary challenge lies in the absence of a digital tracking system, resulting in a heavy reliance on manual processes accompanied by extensive paperwork. This approach consumes a significant amount of time, demands substantial human effort, and causes operational inefficiencies. Specific pain points include limited external access to visitation details, a lack of automated entry/exit tracking mechanisms, constraints in managing guest reservations, and the physical storage space required for manual record management.",
         requirements: [
           "Handle secure user registration and multi-role authentication for various system actors.",
           "Develop independent interface modules for users/staff, security gate personnel, and system administrators.",
@@ -341,10 +326,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Enable self-service profile management allowing authorized users to securely modify their information.",
           "Provide analytical reporting tools for administrators and staff to generate and download date-based or monthly activity reports."
         ],
-
-        solution:
-          "Developed a centralized digital gate pass management system featuring a decoupled full-stack architecture. The frontend web portals were constructed using React to deliver dedicated, responsive dashboards for administrators, security guards, and corporate staff. The backend API layer was engineered using Node.js and Express.js to orchestrate request routing, authentication workflows, and gate check-in/out logic, while MongoDB served as the scalable document persistence layer for real-time visitor records, historical logs, and user credentials.",
-
+        solution: "Developed a centralized digital gate pass management system featuring a decoupled full-stack architecture. The frontend web portals were constructed using React to deliver dedicated, responsive dashboards for administrators, security guards, and corporate staff. The backend API layer was engineered using Node.js and Express.js to orchestrate request routing, authentication workflows, and gate check-in/out logic, while MongoDB served as the scalable document persistence layer for real-time visitor records, historical logs, and user credentials.",
         coreFeatures: [
           "Role-based dashboards providing customized access environments for Guest Users, Staff, Gate Security, and Administrators.",
           "Digital appointment workflow supporting online submission and automated approval tracking for corporate visit requests.",
@@ -353,7 +335,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Dynamic reporting engine supporting date-specific activity searches, calendar views, and downloadable monthly staff activity reports.",
           "Interactive UI layouts designed comprehensively in Figma to ensure optimal workflow UX for non-technical gate staff."
         ],
-
         technicalHighlights: [
           "Transitioned physical logistical operations into a structured multi-tier web application, eliminating paper reliance and local storage bottlenecks.",
           "Designed a secure role-based access control (RBAC) middleware architecture to protect administrative and internal operational fields.",
@@ -361,83 +342,80 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Conducted rigorous backend verification and endpoint validation utilizing Postman to secure consistent API delivery.",
           "Created date-based and search-indexed database queries to optimize report generation performance and calendar views."
         ],
-
-        architecture:
-          "Follows a classic client-server architecture model structured over an internal network or cloud layout. The presentation tier is built using React to provide real-time updates and seamless interactions across separate staff, admin, and gate panels. Client requests are dispatched via HTTPS REST APIs to a stateless Node.js/Express backend server. This logic tier handles core session validation, workflow automation, and reporting processing before executing transactions against a persistent MongoDB instance. The architecture effectively separates business capabilities, ensuring fault isolation and clean service boundaries.",
-
-        githubLink:"https://github.com/Shashika616/Rupavahini-gatepass-and-visitormgt-system-backend.git",
+        architecture: "Follows a classic client-server architecture model structured over an internal network or cloud layout. The presentation tier is built using React to provide real-time updates and seamless interactions across separate staff, admin, and gate panels. Client requests are dispatched via HTTPS REST APIs to a stateless Node.js/Express backend server. This logic tier handles core session validation, workflow automation, and reporting processing before executing transactions against a persistent MongoDB instance. The architecture effectively separates business capabilities, ensuring fault isolation and clean service boundaries.",
+        githubLink: "https://github.com/Shashika616/Rupavahini-gatepass-and-visitormgt-system-backend.git",
         mediaGroups: [
-        {
-          groupTitle: "System Architecture",
-          items: [
-            { 
-              url: "/rup/rup-arc.png", 
-              label: "High Level System Architecture", 
-              buttonText: "View Architectural Diagram" 
-            }
-          ]
-        },
-        {
-          groupTitle: "WireFrames",
-          items: [
-            { 
-              url: "/rup/wire1.png", 
-              label: "WireFrame", 
-              buttonText: "View WireFrame" 
-            },
-            { 
-              url: "/rup/wire2.png", 
-              label: "WireFrame",  
-              buttonText: "View WireFrame" 
-            },
-            { 
-              url: "/rup/wire3.png", 
-              label: "WireFrame",  
-              buttonText: "View WireFrame"
-            },
-            { 
-              url: "/rup/wire4.png", 
-              label: "WireFrame",  
-              buttonText: "View WireFrame"
-            },
-            { 
-              url: "/rup/wire5.png", 
-              label: "WireFrame",  
-              buttonText: "View WireFrame"
-            }
-          ]
-        },
-        {
-          groupTitle: "Application Overview",
-          items: [
-            { 
-              url: "/rup/main1.png", 
-              label: "Overview", 
-              buttonText: "View Image" 
-            },
-            { 
-              url: "/rup/main2.png", 
-              label: "Overview", 
-              buttonText: "View Image"  
-            },
-            { 
-              url: "/rup/main3.png", 
-              label: "Overview", 
-              buttonText: "View Image" 
-            },
-            { 
-              url: "/rup/main4.png", 
-              label: "Overview", 
-              buttonText: "View Image" 
-            },
-            { 
-              url: "/rup/main5.png", 
-              label: "Overview", 
-              buttonText: "View Image" 
-            }
-          ]
-        }
-      ]
+          {
+            groupTitle: "System Architecture",
+            items: [
+              { 
+                url: "/rup/rup-arc.png", 
+                label: "High Level System Architecture", 
+                buttonText: "View Architectural Diagram" 
+              }
+            ]
+          },
+          {
+            groupTitle: "WireFrames",
+            items: [
+              { 
+                url: "/rup/wire1.png", 
+                label: "WireFrame", 
+                buttonText: "View WireFrame" 
+              },
+              { 
+                url: "/rup/wire2.png", 
+                label: "WireFrame",  
+                buttonText: "View WireFrame" 
+              },
+              { 
+                url: "/rup/wire3.png", 
+                label: "WireFrame",  
+                buttonText: "View WireFrame"
+              },
+              { 
+                url: "/rup/wire4.png", 
+                label: "WireFrame",  
+                buttonText: "View WireFrame"
+              },
+              { 
+                url: "/rup/wire5.png", 
+                label: "WireFrame",  
+                buttonText: "View WireFrame"
+              }
+            ]
+          },
+          {
+            groupTitle: "Application Overview",
+            items: [
+              { 
+                url: "/rup/main1.png", 
+                label: "Overview", 
+                buttonText: "View Image" 
+              },
+              { 
+                url: "/rup/main2.png", 
+                label: "Overview", 
+                buttonText: "View Image"  
+              },
+              { 
+                url: "/rup/main3.png", 
+                label: "Overview", 
+                buttonText: "View Image" 
+              },
+              { 
+                url: "/rup/main4.png", 
+                label: "Overview", 
+                buttonText: "View Image" 
+              },
+              { 
+                url: "/rup/main5.png", 
+                label: "Overview", 
+                buttonText: "View Image" 
+              }
+            ]
+          }
+        ]
       },
       {
         name: "AlgoTrack - Self-Paced DSA and System Design Diary", 
@@ -482,112 +460,178 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
     ],
     games: [
       {
-      name: "Survive Cyber - Cyberpunk Urban FPS Simulator",
-      category: "Monolithic",
-      tech: ["Three.js", "WebGL 2.0", "JavaScript ES6", "Procedural Generation", "AI State Machines", "Web Audio API"],
-      introduction: "A cyberpunk-themed 3D first-person shooter that combines procedural city generation with wave-based combat mechanics. Players navigate a neon-drenched urban landscape, engaging enemy AI through an immersive combat loop featuring real-time hit detection, particle effects, and dynamic difficulty scaling.",
-      problemStatement: "Traditional browser-based 3D shooters either rely on heavy game engines (Unity/Unreal) or sacrifice performance for visual fidelity. Web-native implementations often suffer from poor optimization, lack of procedural content, and simplistic AI behavior. The challenge is building a responsive, high-performance FPS experience entirely in vanilla JavaScript with Three.js that maintains 60 FPS while delivering engaging combat mechanics and dynamic environments.",
-      requirements: [
-        "Implement a full 3D rendering pipeline using Three.js with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled) to maintain 60 FPS performance.",
-        "Engineer a procedural city generation system with 4 distinct building types (skyscrapers, residential, cyber towers, warehouses) and weighted random distribution.",
-        "Design 2 enemy archetypes (CHASER and RANGED) with unique AI behavior, attack patterns, and difficulty scaling across progressive waves.",
-        "Build a complete HUD system with health segments, ammo display, radar, crosshair, and wave tracking using pure CSS/HTML overlays.",
-        "Implement a pool-based particle system for explosions and hit effects with zero garbage collection pressure."
-      ],
-      solution: "Built a monolithic Three.js-based game engine with integrated ECS-lite architecture. The system features procedural city generation with collision-optimized AABB structures, a state-machine driven AI system with 3 behavioral states (CHASE/HURT/ATTACK), and a wave-based difficulty scaler. Performance is optimized through geometry pooling, material reuse, and fixed pixel ratio rendering. The game loop uses delta-clamping to prevent physics explosions while maintaining deterministic behavior.",
-      coreFeatures: [
-        "Procedural city generation with 4 building types (Skyscraper 40%, Residential 30%, Cyber Tower 20%, Warehouse 10%) and collision-optimized AABB structures.",
-        "2 enemy archetypes with distinct AI: CHASER (8.5 speed, 65 HP, melee) and RANGED (5.2 speed, 50 HP, projectile attacks with 30 unit range).",
-        "Wave-based difficulty scaling: kill requirement = 5 + (wave × 3), enemy speed increases by 0.35 per wave, spawn interval decreases from 2.5s to 0.6s.",
-        "Dynamic HUD with 20-segment health bar, ammo display (30 rounds mag + 90 reserve), 160px radar with enemy tracking, and real-time score/kill tracking.",
-        "Pool-based particle system (70 particles) for explosions and impacts with zero garbage collection and deterministic performance.",
-        "CRT post-processing effects (scanlines, vignette, chromatic aberration) implemented in pure CSS for zero GPU overhead."
-      ],
-      technicalHighlights: [
-        "ECS-lite architecture with shared geometry/material pools reducing draw calls by 90% and memory usage by 65%.",
-        "AI state machine with 3 behavioral states: CHASE (default), HURT (0.08s stun animation), ATTACK (cooldown-based with 1.2s melee / 1.8s ranged intervals).",
-        "Pool-based particle system with 70 pre-allocated instances enabling explosion effects without garbage collection pressure.",
-        "Delta-clamped game loop preventing physics explosions (max delta 0.05s) with interpolated movement for smooth 60 FPS gameplay.",
-        "Radar system with conic gradient sweep and enemy tracking within 110 unit radius, color-coded by enemy type.",
-        "Custom Web Audio synthesizer generating laser, explosion, hurt, and pickup sounds without external audio files."
-      ],
-      architecture: "The game follows a monolithic architecture with integrated subsystems: Three.js handles the 3D rendering pipeline with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled). The ECS-lite entity manager tracks all game objects with pooled resources for performance. The AI system uses a state machine pattern with 3 behavioral states. The procedural city generator builds a 600×600 unit environment with 4 building types and pre-calculated collision structures. The game loop processes physics (gravity, velocity, collision detection), AI behavior, particle systems, and HUD updates in a single update cycle. UI overlays are rendered via CSS/HTML with real-time DOM updates for the HUD, while the radar uses a 2D canvas overlay. The system employs delta-clamping to maintain deterministic physics and prevent frame-rate dependent behavior.",
-      githubLink: "https://github.com/Shashika616/survive-cyber.git",
-      playLink: "https://survive-cyber.vercel.app/",
-      mediaGroups: [
-        {
-          groupTitle: "Architecture & Design",
-          items: [
-            { 
-              url: "/neon-overdrive/3d-shooter-arc.png", 
-              label: "Game Architecture Diagram", 
-              buttonText: "View System Architecture" 
-            }
-          ]
-        },
-        {
-          groupTitle: "Gameplay Optimization Architecture",
-          items: [
-            { 
-              url: "/neon-overdrive/3d-shooter-df.png", 
-              label: "Data Flow", 
-              buttonText: "View Data Flow Diagram" 
-            },
-            { 
-              url: "/neon-overdrive/3d-shooter-mem.png", 
-              label: "Memory Allocation", 
-              buttonText: "View Memory Flow" 
-            }
-          ]
-        },
-        {
-          groupTitle: "Gameplay ",
-          items: [
-            { 
-              url: "/neon-overdrive/3d-shooter-1.png", 
-              label: "Gameplay Captures", 
-              buttonText: "View Gameplay" 
-            },
-            { 
-              url: "/neon-overdrive/3d-shooter-2.png", 
-              label: "Gameplay Captures", 
-              buttonText: "View Gameplay" 
-            },
-                        { 
-              url: "/neon-overdrive/3d-shooter-3.png", 
-              label: "Gameplay Captures", 
-              buttonText: "View Gameplay" 
-            },
-                        { 
-              url: "/neon-overdrive/3d-shooter-4.png", 
-              label: "Gameplay Capturesm", 
-              buttonText: "View Gameplay" 
-            }
-          ]
-        }
-      ]
-    }
+        name: "Survive Cyber - Cyberpunk Urban FPS Simulator",
+        category: "Monolithic",
+        tech: ["Three.js", "WebGL 2.0", "JavaScript ES6", "Procedural Generation", "AI State Machines", "Web Audio API"],
+        introduction: "A cyberpunk-themed 3D first-person shooter that combines procedural city generation with wave-based combat mechanics. Players navigate a neon-drenched urban landscape, engaging enemy AI through an immersive combat loop featuring real-time hit detection, particle effects, and dynamic difficulty scaling.",
+        problemStatement: "Traditional browser-based 3D shooters either rely on heavy game engines (Unity/Unreal) or sacrifice performance for visual fidelity. Web-native implementations often suffer from poor optimization, lack of procedural content, and simplistic AI behavior. The challenge is building a responsive, high-performance FPS experience entirely in vanilla JavaScript with Three.js that maintains 60 FPS while delivering engaging combat mechanics and dynamic environments.",
+        requirements: [
+          "Implement a full 3D rendering pipeline using Three.js with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled) to maintain 60 FPS performance.",
+          "Engineer a procedural city generation system with 4 distinct building types (skyscrapers, residential, cyber towers, warehouses) and weighted random distribution.",
+          "Design 2 enemy archetypes (CHASER and RANGED) with unique AI behavior, attack patterns, and difficulty scaling across progressive waves.",
+          "Build a complete HUD system with health segments, ammo display, radar, crosshair, and wave tracking using pure CSS/HTML overlays.",
+          "Implement a pool-based particle system for explosions and hit effects with zero garbage collection pressure."
+        ],
+        solution: "Built a monolithic Three.js-based game engine with integrated ECS-lite architecture. The system features procedural city generation with collision-optimized AABB structures, a state-machine driven AI system with 3 behavioral states (CHASE/HURT/ATTACK), and a wave-based difficulty scaler. Performance is optimized through geometry pooling, material reuse, and fixed pixel ratio rendering. The game loop uses delta-clamping to prevent physics explosions while maintaining deterministic behavior.",
+        coreFeatures: [
+          "Procedural city generation with 4 building types (Skyscraper 40%, Residential 30%, Cyber Tower 20%, Warehouse 10%) and collision-optimized AABB structures.",
+          "2 enemy archetypes with distinct AI: CHASER (8.5 speed, 65 HP, melee) and RANGED (5.2 speed, 50 HP, projectile attacks with 30 unit range).",
+          "Wave-based difficulty scaling: kill requirement = 5 + (wave × 3), enemy speed increases by 0.35 per wave, spawn interval decreases from 2.5s to 0.6s.",
+          "Dynamic HUD with 20-segment health bar, ammo display (30 rounds mag + 90 reserve), 160px radar with enemy tracking, and real-time score/kill tracking.",
+          "Pool-based particle system (70 particles) for explosions and impacts with zero garbage collection and deterministic performance.",
+          "CRT post-processing effects (scanlines, vignette, chromatic aberration) implemented in pure CSS for zero GPU overhead."
+        ],
+        technicalHighlights: [
+          "ECS-lite architecture with shared geometry/material pools reducing draw calls by 90% and memory usage by 65%.",
+          "AI state machine with 3 behavioral states: CHASE (default), HURT (0.08s stun animation), ATTACK (cooldown-based with 1.2s melee / 1.8s ranged intervals).",
+          "Pool-based particle system with 70 pre-allocated instances enabling explosion effects without garbage collection pressure.",
+          "Delta-clamped game loop preventing physics explosions (max delta 0.05s) with interpolated movement for smooth 60 FPS gameplay.",
+          "Radar system with conic gradient sweep and enemy tracking within 110 unit radius, color-coded by enemy type.",
+          "Custom Web Audio synthesizer generating laser, explosion, hurt, and pickup sounds without external audio files."
+        ],
+        architecture: "The game follows a monolithic architecture with integrated subsystems: Three.js handles the 3D rendering pipeline with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled). The ECS-lite entity manager tracks all game objects with pooled resources for performance. The AI system uses a state machine pattern with 3 behavioral states. The procedural city generator builds a 600×600 unit environment with 4 building types and pre-calculated collision structures. The game loop processes physics (gravity, velocity, collision detection), AI behavior, particle systems, and HUD updates in a single update cycle. UI overlays are rendered via CSS/HTML with real-time DOM updates for the HUD, while the radar uses a 2D canvas overlay. The system employs delta-clamping to maintain deterministic physics and prevent frame-rate dependent behavior.",
+        githubLink: "https://github.com/Shashika616/survive-cyber.git",
+        playLink: "https://survive-cyber.vercel.app/",
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/neon-overdrive/3d-shooter-arc.png", 
+                label: "Game Architecture Diagram", 
+                buttonText: "View System Architecture" 
+              }
+            ]
+          },
+          {
+            groupTitle: "Gameplay Optimization Architecture",
+            items: [
+              { 
+                url: "/neon-overdrive/3d-shooter-df.png", 
+                label: "Data Flow", 
+                buttonText: "View Data Flow Diagram" 
+              },
+              { 
+                url: "/neon-overdrive/3d-shooter-mem.png", 
+                label: "Memory Allocation", 
+                buttonText: "View Memory Flow" 
+              }
+            ]
+          },
+          {
+            groupTitle: "Gameplay",
+            items: [
+              { 
+                url: "/neon-overdrive/3d-shooter-1.png", 
+                label: "Gameplay Captures", 
+                buttonText: "View Gameplay" 
+              },
+              { 
+                url: "/neon-overdrive/3d-shooter-2.png", 
+                label: "Gameplay Captures", 
+                buttonText: "View Gameplay" 
+              },
+              { 
+                url: "/neon-overdrive/3d-shooter-3.png", 
+                label: "Gameplay Captures", 
+                buttonText: "View Gameplay" 
+              },
+              { 
+                url: "/neon-overdrive/3d-shooter-4.png", 
+                label: "Gameplay Captures", 
+                buttonText: "View Gameplay" 
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    certificates: [
+      {
+        name: "WSO2 Certified Associate – Identity & Access Management",
+        issuer: "WSO2",
+        date: "2024",
+        credentialId: "CID-04598722",
+        description: "Foundational understanding of AWS cloud services, cloud concepts, security, architecture, pricing, and support. Validates ability to identify AWS services and articulate their use cases.",
+        skills: ["Identity and Access Management", "B2B CIAM", "Identity Federation", "Passwordless Authentication"],
+        imageUrl: "/certificates/wso2-cert.png",
+        verifyLink: "https://certification.wso2.com/certificate/CID-04598722"
+      },
+      {
+        name: "UI/UX For Beginners",
+        issuer: "Great Learning Academy",
+        date: "2024",
+        credentialId: "CID-EFRFFYBX",
+        description: "Validates understanding of Google Cloud products and services, digital transformation strategies, and cloud economics. Demonstrates ability to articulate cloud solutions for business challenges.",
+        skills: ["UI/UX", "State Management", "UI Design", "Best Practices", "User Interaction", "Color Combinations", "Layouts"],
+        imageUrl: "/certificates/ui-cert.png",
+        verifyLink: "https://www.mygreatlearning.com/certificate/EFRFFYBX"
+      },
+      {
+        name: "Cloud Computing Basics",
+        issuer: "Mind Luster",
+        date: "2024",
+        credentialId: "CID-16720390740",
+        description: "Demonstrates foundational knowledge of cloud services and how those services are provided with Cloud Providers. Validates understanding of core Azure services, security, privacy, compliance, and trust.",
+        skills: ["Cloud Technologies", "Cloud Concepts", "Cloud Services", "Security", "Compliance"],
+        imageUrl: "/certificates/cloud-cert.jpg",
+        verifyLink: "https://www.mindluster.com/student/certificate/16720390740"
+      },
+      {
+        name: "React JS Tutorial",
+        issuer: "Great Learning",
+        date: "2024",
+        credentialId: "CID-NOBYYSZB",
+        description: "Validates skills in network fundamentals, IP connectivity, security fundamentals, automation, and programmability. Demonstrates ability to install, configure, operate, and troubleshoot medium-sized routed and switched networks.",
+        skills: ["JSX", "Core React Concepts", "Component Management", "JavaScript Essentials", "Modern JavaScript Features"],
+        imageUrl: "/certificates/react-cert.png",
+        verifyLink: "https://www.mygreatlearning.com/certificate/NOBYYSZB"
+      },
+      {
+        name: "JavaScript Development Techniques",
+        issuer: "Mind Luster",
+        date: "2024",
+        credentialId: "CID-16720393707",
+        description: "Validates baseline skills in cybersecurity, including security concepts, threats, vulnerabilities, network security, identity management, cryptography, and risk management. Essential for IT security professionals.",
+        skills: ["JS Basics", "JS Features", "JSX", "TypeScript"],
+        imageUrl: "/certificates/js-cert.jpg",
+        verifyLink: "https://www.credly.com/badges/security-plus"
+      }
     ]
   };
 
   const tabs: { id: TabType; label: string }[] = [
     { id: 'researches', label: 'Researches' },
     { id: 'projects', label: 'Projects' },
-    { id: 'games', label: 'Games' }
+    { id: 'games', label: 'Games' },
+    { id: 'certificates', label: 'Certificates' }
   ];
 
-  const subCategories: SubCategoryType[] = ['ALL', 'AI & ML', 'Distributed Systems', 'Monolithic'];
+  const subCategories: SubCategoryType[] = ['ALL', 'AI & ML', 'Distributed Systems', 'Monolithic', 'Cloud', 'Security', 'Web Development'];
 
   const filteredItems = useMemo(() => {
     let items = catalogData[activeTab];
+    if (activeTab === 'certificates') {
+      if (searchQuery.trim() !== "") {
+        const query = searchQuery.toLowerCase();
+        items = items.filter((item: CertificateItem) => 
+          item.name.toLowerCase().includes(query) ||
+          item.issuer.toLowerCase().includes(query) ||
+          item.skills.some(s => s.toLowerCase().includes(query)) ||
+          item.description.toLowerCase().includes(query)
+        );
+      }
+      return items;
+    }
+    
     if (selectedSubCategory !== 'ALL') {
-      items = items.filter(item => item.category === selectedSubCategory);
+      items = items.filter((item: ProjectItem) => item.category === selectedSubCategory);
     }
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
-      items = items.filter(item => 
+      items = items.filter((item: ProjectItem) => 
         item.name.toLowerCase().includes(query) ||
-        item.tech.some(t => t.toLowerCase().includes(query))
+        item.tech.some((t: string) => t.toLowerCase().includes(query))
       );
     }
     return items;
@@ -682,7 +726,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 </div>
               ) : (
                 <span className="font-mono text-xs uppercase font-extrabold tracking-widest text-slate-400">
-                   {activeTab}
+                  {activeTab === 'certificates' ? 'Certifications & Credentials' : activeTab}
                 </span>
               )}
 
@@ -691,83 +735,166 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
               </span>
             </div>
 
-           {/* COMPACT CARD GRID */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
-            {paginatedItems.length === 0 ? (
-              <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
-                <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
-              </div>
-            ) : (
-              paginatedItems.map((item, idx) => (
-                <div 
-                  key={idx}
-                  className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
-                  style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
-                    e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
-                    e.currentTarget.style.transform = 'translateY(-1.5px)';
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
-                    e.currentTarget.style.borderColor = '#e2e8f0';
-                    e.currentTarget.style.transform = 'translateY(0)';
-                  }}
-                >
-                  {/* Left Content Side */}
-                  <div className="flex-1 flex flex-col justify-between min-w-0">
-                    <div>
-                      {/* REMOVED truncate and added break-words */}
-                      <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
-                        {item.name}
-                      </h5>
-                      {/* REMOVED max-h-[44px] overflow-hidden so all tech tags show */}
-                      <div className="flex flex-wrap gap-1.5 mt-2.5">
-                        {item.tech.map((t, tIdx) => (
-                          <span 
-                            key={tIdx} 
-                            className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
-                          >
-                            {t}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="flex justify-start pt-2">
-                      <button 
-                        onClick={() => setSelectedProject(item)}
-                        className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+            {/* COMPACT CARD GRID */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
+              {paginatedItems.length === 0 ? (
+                <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
+                  <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
+                </div>
+              ) : (
+                paginatedItems.map((item, idx) => {
+                  // Check if it's a certificate
+                  if (activeTab === 'certificates') {
+                    const cert = item as CertificateItem;
+                    return (
+                      <div 
+                        key={idx}
+                        className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
+                        style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
+                          e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
+                          e.currentTarget.style.transform = 'translateY(-1.5px)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
+                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
                       >
-                        See More 
-                        <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
-                      </button>
-                    </div>
-                  </div>
+                        {/* Left Content Side */}
+                        <div className="flex-1 flex flex-col justify-between min-w-0">
+                          <div>
+                            <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
+                              {cert.name}
+                            </h5>
+                            <div className="flex flex-wrap items-center gap-2 mt-1">
+                              <span className="font-mono text-xs font-bold text-slate-600">
+                                {cert.issuer}
+                              </span>
+                              <span className="text-slate-300">•</span>
+                              <span className="font-mono text-xs text-slate-400">
+                                {cert.date}
+                              </span>
+                            </div>
+                            <div className="flex flex-wrap gap-1.5 mt-2">
+                              {cert.skills.slice(0, 4).map((skill, sIdx) => (
+                                <span 
+                                  key={sIdx} 
+                                  className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                                >
+                                  {skill}
+                                </span>
+                              ))}
+                              {cert.skills.length > 4 && (
+                                <span className="font-mono text-[10px] font-bold text-slate-400 px-2 py-0.5">
+                                  +{cert.skills.length - 4} more
+                                </span>
+                              )}
+                            </div>
+                          </div>
 
-                {/* Right Thumbnail Side */}
-                {item.imageUrl && (
-                  <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
-                    <img 
-                      src={item.imageUrl} 
-                      alt={`${item.name} preview`} 
-                      className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                      onError={(e) => {
-                        // Optional: Fallback if image fails to load
-                        (e.currentTarget as HTMLImageElement).style.display = 'none';
-                      }}
-                    />
-                    {/* Soft overlay matching the theme hue */}
+                          <div className="flex justify-start pt-2">
+                            <button 
+                              onClick={() => setSelectedCertificate(cert)}
+                              className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                            >
+                              View Certificate 
+                              <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                            </button>
+                          </div>
+                        </div>
+
+                        {/* Right Thumbnail Side */}
+                        {cert.imageUrl && (
+                          <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
+                            <img 
+                              src={cert.imageUrl} 
+                              alt={`${cert.name} preview`} 
+                              className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                              onError={(e) => {
+                                (e.currentTarget as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                            <div 
+                              className="absolute inset-0 opacity-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" 
+                              style={{ backgroundColor: activeTheme.fillColor }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    );
+                  }
+
+                  // Regular project/research/game card
+                  const project = item as ProjectItem;
+                  return (
                     <div 
-                      className="absolute inset-0 opacity-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" 
-                      style={{ backgroundColor: activeTheme.fillColor }}
-                    />
-                  </div>
-                )}
-              </div>
-            ))
-          )}
-        </div>
+                      key={idx}
+                      className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
+                      style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
+                        e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
+                        e.currentTarget.style.transform = 'translateY(-1.5px)';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
+                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.transform = 'translateY(0)';
+                      }}
+                    >
+                      {/* Left Content Side */}
+                      <div className="flex-1 flex flex-col justify-between min-w-0">
+                        <div>
+                          <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
+                            {project.name}
+                          </h5>
+                          <div className="flex flex-wrap gap-1.5 mt-2.5">
+                            {project.tech.map((t, tIdx) => (
+                              <span 
+                                key={tIdx} 
+                                className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                              >
+                                {t}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+
+                        <div className="flex justify-start pt-2">
+                          <button 
+                            onClick={() => setSelectedProject(project)}
+                            className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                          >
+                            See More 
+                            <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Right Thumbnail Side */}
+                      {project.imageUrl && (
+                        <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
+                          <img 
+                            src={project.imageUrl} 
+                            alt={`${project.name} preview`} 
+                            className="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                            onError={(e) => {
+                              (e.currentTarget as HTMLImageElement).style.display = 'none';
+                            }}
+                          />
+                          <div 
+                            className="absolute inset-0 opacity-10 group-hover:opacity-0 transition-opacity duration-300 pointer-events-none" 
+                            style={{ backgroundColor: activeTheme.fillColor }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
+            </div>
 
             {/* PAGINATION TOOLBAR */}
             <div className="flex items-center justify-between border-t border-slate-200/60 pt-4 bg-transparent">
@@ -818,13 +945,119 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
       </div>
 
-      {/* INDUSTRIAL CASE STUDY CASE READER OVERLAY (ANIMATED PORTAL) */}
+      {/* CERTIFICATE DETAIL MODAL */}
+      {mounted && ReactDOM.createPortal(
+        <AnimatePresence mode="wait">
+          {selectedCertificate && (
+            <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 isolate">
+              <motion.div 
+                initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
+                exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
+                transition={{ duration: 0.25, ease: "easeInOut" }}
+                onClick={() => setSelectedCertificate(null)}
+                className="absolute inset-0 bg-slate-900/40 cursor-pointer"
+              />
+
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.96, y: 12 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.96, y: 8 }}
+                transition={{ type: "spring", damping: 26, stiffness: 340, mass: 0.5 }}
+                className="relative w-full max-w-4xl h-[85vh] bg-white rounded-2xl shadow-2xl border-2 flex flex-col overflow-hidden z-10"
+                style={{ borderColor: activeTheme.fillColor + '30', overscrollBehavior: 'contain' }}
+              >
+                {/* Header */}
+                <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 flex-shrink-0 select-none">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+                    <span className="font-mono text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                      Certificate • {selectedCertificate.issuer}
+                    </span>
+                  </div>
+                  <button 
+                    onClick={() => setSelectedCertificate(null)}
+                    className="px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-all cursor-pointer"
+                  >
+                    ✕
+                  </button>
+                </div>
+
+                {/* Content */}
+                <div className="modal-scroll-pane flex-1 overflow-y-auto p-8 md:p-10 space-y-8 select-text scroll-smooth">
+                  {/* Certificate Image */}
+                  {selectedCertificate.imageUrl && (
+                    <div className="w-full max-w-md mx-auto rounded-xl overflow-hidden border border-slate-200 shadow-md">
+                      <img 
+                        src={selectedCertificate.imageUrl} 
+                        alt={selectedCertificate.name}
+                        className="w-full h-auto object-cover"
+                      />
+                    </div>
+                  )}
+
+                  {/* Details */}
+                  <div className="space-y-4">
+                    <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{selectedCertificate.name}</h3>
+                    
+                    <div className="flex flex-wrap items-center gap-4 text-sm">
+                      <span className="font-bold text-slate-700">{selectedCertificate.issuer}</span>
+                      <span className="text-slate-300">|</span>
+                      <span className="text-slate-500">{selectedCertificate.date}</span>
+                      {selectedCertificate.credentialId && (
+                        <>
+                          <span className="text-slate-300">|</span>
+                          <span className="font-mono text-xs text-slate-400">ID: {selectedCertificate.credentialId}</span>
+                        </>
+                      )}
+                    </div>
+
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {selectedCertificate.description}
+                    </p>
+
+                    <div className="space-y-2">
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Skills Covered</h4>
+                      <div className="flex flex-wrap gap-2">
+                        {selectedCertificate.skills.map((skill, idx) => (
+                          <span 
+                            key={idx} 
+                            className="font-mono text-[10px] font-bold bg-slate-100 text-slate-600 px-3 py-1 rounded border border-slate-200 uppercase tracking-wide"
+                          >
+                            {skill}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <hr className="border-slate-100" />
+
+                  {/* Verify Button */}
+                  <div className="flex flex-wrap gap-4">
+                    <a 
+                      href={selectedCertificate.verifyLink}
+                      target="_blank"
+                      rel="noreferrer"
+                      style={{ backgroundImage: activeTheme.gradient }}
+                      className="px-6 py-3 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center"
+                    >
+                      Verify Certificate ↗
+                    </a>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          )}
+        </AnimatePresence>,
+        document.body
+      )}
+
+      {/* PROJECT DETAIL MODAL */}
       {mounted && ReactDOM.createPortal(
         <AnimatePresence mode="wait">
           {selectedProject && (
             <div className="fixed inset-0 z-[10000] flex items-center justify-center p-4 isolate">
-              
-              {/* 1. Backdrop Overlay (Fades and Blurs Background smoothly) */}
               <motion.div 
                 initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                 animate={{ opacity: 1, backdropFilter: "blur(8px)" }}
@@ -834,7 +1067,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 className="absolute inset-0 bg-slate-900/40 cursor-pointer"
               />
 
-              {/* 2. Modal Sheet Panel Chassis (Enters with a clean, spring-loaded upscale + lift) */}
               <motion.div 
                 initial={{ opacity: 0, scale: 0.96, y: 12 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -843,27 +1075,24 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 className="relative w-full max-w-4xl h-[85vh] bg-white rounded-2xl shadow-2xl border-2 flex flex-col overflow-hidden z-10"
                 style={{ borderColor: activeTheme.fillColor + '30', overscrollBehavior: 'contain' }}
               >
-                {/* Blueprint Header */}
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 flex-shrink-0 select-none">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span className="font-mono text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-                       {selectedProject.name}
+                      {selectedProject.name}
                     </span>
                   </div>
                   <button 
                     onClick={() => setSelectedProject(null)}
                     className="px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-all cursor-pointer"
                   >
-                     ✕
+                    ✕
                   </button>
                 </div>
 
-                {/* SECONDARY LAYER: LIGHTBOX POPUP PREVIEW OVERLAY (WITH VIDEO INTEGRATION) */}
                 <AnimatePresence>
                   {previewImage && (
                     <div className="fixed inset-0 z-[11000] flex items-center justify-center p-6 isolate">
-                      {/* Dimming Backdrop */}
                       <motion.div 
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
@@ -872,8 +1101,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                         onClick={() => setPreviewImage(null)}
                         className="absolute inset-0 bg-slate-950/60 cursor-zoom-out"
                       />
-
-                      {/* Frame Chassis */}
                       <motion.div 
                         initial={{ opacity: 0, scale: 0.95, y: 8 }}
                         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -881,7 +1108,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                         transition={{ type: "spring", damping: 28, stiffness: 380 }}
                         className="relative max-w-5xl max-h-[80vh] bg-white rounded-2xl border border-slate-200 shadow-2xl flex flex-col overflow-hidden z-10"
                       >
-                        {/* Dynamic Image/Video Canvas Box */}
                         <div className="overflow-auto p-2 bg-slate-900/5 flex justify-center items-center">
                           {/\.(mp4|webm|ogg|mov)$/i.test(previewImage.url) ? (
                             <video 
@@ -899,8 +1125,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                             />
                           )}
                         </div>
-
-                        {/* Footer Subtext Bar */}
                         <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-4 font-mono select-none">
                           <span className="text-xs font-bold text-slate-500 uppercase tracking-wide truncate">
                             🔍 Viewing: {previewImage.label}
@@ -917,10 +1141,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   )}
                 </AnimatePresence>
 
-                {/* Document Technical Content View */}
                 <div className="modal-scroll-pane flex-1 overflow-y-auto p-8 md:p-10 space-y-8 select-text scroll-smooth">
-                  
-                  {/* Introduction Title Block */}
                   <div className="space-y-2">
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tech.map((t, idx) => (
@@ -935,17 +1156,15 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   <hr className="border-slate-100" />
 
-                  {/* Problem Statement Section */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">01.  Problem Statement</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">01. Problem Statement</h4>
                     <div className="p-4 rounded-xl bg-rose-50/50 border border-rose-100 text-slate-700 text-sm leading-relaxed">
                       {selectedProject.problemStatement}
                     </div>
                   </div>
 
-                  {/* Requirements Specifications Checklist */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">02.  Engineering Requirements</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">02. Engineering Requirements</h4>
                     <ul className="space-y-2">
                       {selectedProject.requirements.map((req, idx) => (
                         <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
@@ -956,13 +1175,11 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     </ul>
                   </div>
 
-                  {/* The Core Implementation Solution */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">03.  Applied Solution</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">03. Applied Solution</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.solution}</p>
                   </div>
 
-                   {/* Core Features Section - NEW */}
                   {selectedProject.coreFeatures && selectedProject.coreFeatures.length > 0 && (
                     <div className="space-y-3">
                       <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Core Features</h4>
@@ -977,7 +1194,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     </div>
                   )}
 
-                  {/* Technical Highlights Section - NEW */}
                   {selectedProject.technicalHighlights && selectedProject.technicalHighlights.length > 0 && (
                     <div className="space-y-3">
                       <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Technical Highlights</h4>
@@ -992,13 +1208,11 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     </div>
                   )}
 
-                  {/* Architectural Layout Engine */}
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04.  Architecture & Design Mapping</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04. Architecture & Design Mapping</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.architecture}</p>
                   </div>
 
-                  {/* Live Media Showcase Layout Grid - MULTIPLE CAROUSELS */}
                   {selectedProject.mediaGroups && selectedProject.mediaGroups.length > 0 && (
                     <div className="space-y-6">
                       <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">
@@ -1007,18 +1221,15 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                       
                       <div className="space-y-4">
                         {selectedProject.mediaGroups.map((group, groupIndex) => {
-                          // Get current index for this group, default to 0
                           const currentIndex = mediaGroupIndices[groupIndex] || 0;
                           
                           return (
                             <div key={groupIndex} className="space-y-2">
-                              {/* Group Title */}
                               <h5 className="font-mono text-sm font-bold text-slate-700 tracking-wide">
                                 {group.groupTitle}
                               </h5>
                               
                               <div className="relative bg-slate-50 border border-slate-200/80 rounded-xl overflow-hidden">
-                                {/* Main Carousel Container */}
                                 <div className="relative aspect-video overflow-hidden">
                                   <AnimatePresence mode="wait">
                                     <motion.div
@@ -1053,7 +1264,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                     </motion.div>
                                   </AnimatePresence>
 
-                                  {/* Navigation Arrows */}
                                   {group.items.length > 1 && (
                                     <>
                                       <button
@@ -1090,9 +1300,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                   )}
                                 </div>
 
-                                {/* Bottom Controls Bar */}
                                 <div className="px-4 py-3 bg-white border-t border-slate-200 flex items-center justify-between gap-4">
-                                  {/* Left: Label and Counter */}
                                   <div className="flex items-center gap-3 min-w-0">
                                     <span className="text-xs font-bold text-slate-600 truncate">
                                       {group.items[currentIndex].label}
@@ -1104,9 +1312,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                     )}
                                   </div>
 
-                                  {/* Right: Action Buttons */}
                                   <div className="flex items-center gap-2 flex-shrink-0">
-                                    {/* Dot Indicators */}
                                     {group.items.length > 1 && (
                                       <div className="flex gap-1.5 mr-2">
                                         {group.items.map((_, idx) => (
@@ -1155,7 +1361,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   <hr className="border-slate-100" />
 
-                  {/* Code Repository Actions Sheet */}
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/60">
                     <div>
                       <h5 className="font-mono text-xs font-extrabold uppercase text-slate-700">Open-source Core Repository</h5>
@@ -1172,25 +1377,23 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     </a>
                   </div>
 
-                   {/* Play Game Section - NEW */}
-                    {selectedProject.playLink && (
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/60">
-                        <div>
-                          <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Wanna tryout?</h5>
-                          <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch live and experience the application...</p>
-                        </div>
-                        <a 
-                          href={selectedProject.playLink}
-                          target="_blank"
-                          rel="noreferrer"
-                           style={{ backgroundImage: activeTheme.gradient }}
-                          className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap"
-                        >
-                          Launch ▶
-                        </a>
+                  {selectedProject.playLink && (
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/60">
+                      <div>
+                        <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Wanna tryout?</h5>
+                        <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch live and experience the application...</p>
                       </div>
-                    )}
-
+                      <a 
+                        href={selectedProject.playLink}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{ backgroundImage: activeTheme.gradient }}
+                        className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap"
+                      >
+                        Launch ▶
+                      </a>
+                    </div>
+                  )}
                 </div>
               </motion.div>
             </div>

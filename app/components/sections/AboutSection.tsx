@@ -55,11 +55,27 @@ export function AboutSection() {
         </p>
       </div>
 
-      {/* 4. PERSONAL INFO SECTION */}
+      {/* 4. PERSONAL INFO SECTION - With Themed Border Effect */}
       <div className="mt-12 pt-8 border-t border-slate-200">
         <h4 className="text-sm font-bold text-slate-900 uppercase tracking-widest mb-6">Personal Information</h4>
         
-        <div className="flex flex-col md:flex-row gap-8 items-start bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
+        <div 
+          className="flex flex-col md:flex-row gap-8 items-start bg-white p-6 rounded-2xl border-2 transition-all duration-300 shadow-sm"
+          style={{ 
+            borderColor: activeTheme.fillColor + '30',
+            ['--theme-shadow' as any]: `${activeTheme.fillColor}25`,
+            ['--theme-shadow-hover' as any]: `${activeTheme.fillColor}30`,
+            boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = `0 20px 40px var(--theme-shadow-hover), 0 2px 8px var(--theme-shadow)`;
+            e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)';
+            e.currentTarget.style.borderColor = activeTheme.fillColor + '30';
+          }}
+        >
           <div className="w-32 h-32 flex-shrink-0 rounded-xl overflow-hidden border border-slate-200 shadow-inner">
             <img src="/file.png" alt="Profile" className="w-full h-full object-cover" />
           </div>
@@ -137,7 +153,7 @@ export function AboutSection() {
         </div>
       </div>
 
-      {/* 2. CORE PILLARS WITH HOVER SHADOWS */}
+      {/* 2. CORE PILLARS WITH THEMED HOVER SHADOWS */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
         {[
           { title: "Cybersecurity & Cryptography", desc: "Focused on secure authentication and password storage. I explore advanced transformation techniques, mathematical modeling, and memory-hard hashing algorithms to improve security while maintaining usability." },
@@ -149,9 +165,21 @@ export function AboutSection() {
             key={i}
             className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
                        shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
-                       hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
                        hover:-translate-y-1 
                        transition-all duration-300 ease-out"
+            style={{
+              ['--theme-shadow' as any]: `${activeTheme.fillColor}25`,
+              ['--theme-shadow-hover' as any]: `${activeTheme.fillColor}30`,
+              boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = `0 20px 40px var(--theme-shadow-hover), 0 2px 8px var(--theme-shadow)`;
+              e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)';
+              e.currentTarget.style.borderColor = '#e2e8f0';
+            }}
           >
             <h4 className={`font-bold text-slate-900 mb-3 flex items-center gap-2 group-hover:${activeTheme.textColor} transition-colors duration-300`}>
               <span className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeTheme.accentColor}`} />
@@ -217,7 +245,6 @@ export function AboutSection() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.96, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                /* Type-safe separation of transition properties */
                 exit={{ 
                   opacity: 0, 
                   scale: 0.98, 
@@ -251,7 +278,7 @@ export function AboutSection() {
                 {/* Live PDF Frame Layout */}
                 <div className="flex-1 bg-slate-100 p-4 relative">
                   <iframe 
-                    src="/cv.pdf" 
+                    src="/cv1.pdf" 
                     className="w-full h-full rounded-xl shadow-inner border border-slate-200 bg-white"
                     title="Curriculum Vitae Document Preview"
                   />

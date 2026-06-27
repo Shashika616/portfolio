@@ -12,7 +12,7 @@ export function WelcomeSection() {
       <div className="space-y-4">
         <div 
           className={`inline-flex items-center gap-2 px-3 py-1 rounded-full border font-mono text-[10px] uppercase tracking-[0.2em] font-bold transition-all duration-300 bg-white/50 ${activeTheme.textColor}`}
-          style={{ borderColor: activeTheme.fillColor + '30' }} // Subtle 20% alpha border
+          style={{ borderColor: activeTheme.fillColor + '30' }}
         >
           RESEARCH AND DEVELOPMENT
         </div>
@@ -42,9 +42,21 @@ export function WelcomeSection() {
             key={i}
             className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
                       shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
-                      hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
                       hover:-translate-y-1 
                       transition-all duration-300 ease-out"
+            style={{
+              ['--theme-shadow' as any]: `${activeTheme.fillColor}25`,
+              ['--theme-shadow-hover' as any]: `${activeTheme.fillColor}30`,
+              boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.boxShadow = `0 20px 40px var(--theme-shadow-hover), 0 2px 8px var(--theme-shadow)`;
+              e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)';
+              e.currentTarget.style.borderColor = '#e2e8f0';
+            }}
           >
             <div className={`absolute top-4 right-4 h-1.5 w-1.5 rounded-full bg-slate-100 group-hover:${activeTheme.accentColor} transition-colors duration-300`} />
             <h3 className={`text-lg font-bold text-slate-900 mb-2 group-hover:${activeTheme.textColor} transition-colors duration-300`}>
@@ -88,7 +100,7 @@ export function WelcomeSection() {
       {/* 4. CALL TO ACTION */}
       <div className="flex items-center gap-6 p-4 rounded-xl border border-slate-200 bg-slate-50">
         <p className="text-xs text-slate-500 font-mono italic">
-          NAVIGATION_TIP: Spin the trackpad wheel to traverse the project nodes.
+          NAVIGATION TIP: Scroll freely to traverse the project sections or select from the side navigation menu.
         </p>
       </div>
     </div>

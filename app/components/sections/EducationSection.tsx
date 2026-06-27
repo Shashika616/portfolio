@@ -30,11 +30,25 @@ export function EducationSection({ sec }: { sec: Section }) {
       {/* 2. ACADEMIC TIMELINE CARDS */}
       <div className="space-y-6 pt-2">
         {/* Higher Education Node */}
-        <div className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
-                      shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
-                      hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
-                      hover:-translate-y-0.5 
-                      transition-all duration-300 ease-out flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div 
+          className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
+                    shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
+                    hover:-translate-y-0.5 
+                    transition-all duration-300 ease-out flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+          style={{
+            ['--theme-shadow' as any]: `${activeTheme.fillColor}25`,
+            ['--theme-shadow-hover' as any]: `${activeTheme.fillColor}30`,
+            boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = `0 20px 40px var(--theme-shadow-hover), 0 2px 8px var(--theme-shadow)`;
+            e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)';
+            e.currentTarget.style.borderColor = '#e2e8f0';
+          }}
+        >
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className={`w-1.5 h-1.5 rounded-full transition-colors duration-300 ${activeTheme.accentColor}`} />
@@ -64,11 +78,25 @@ export function EducationSection({ sec }: { sec: Section }) {
         </div>
 
         {/* Secondary Education Node */}
-        <div className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
-                      shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
-                      hover:shadow-[0_20px_40px_rgba(0,0,0,0.08)] 
-                      hover:-translate-y-0.5 
-                      transition-all duration-300 ease-out flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+        <div 
+          className="group relative p-6 rounded-2xl border border-slate-200 bg-white 
+                    shadow-[0_4px_12px_rgba(0,0,0,0.03)] 
+                    hover:-translate-y-0.5 
+                    transition-all duration-300 ease-out flex flex-col sm:flex-row sm:items-start justify-between gap-4"
+          style={{
+            ['--theme-shadow' as any]: `${activeTheme.fillColor}25`,
+            ['--theme-shadow-hover' as any]: `${activeTheme.fillColor}30`,
+            boxShadow: `0 4px 12px rgba(0,0,0,0.03)`
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.boxShadow = `0 20px 40px var(--theme-shadow-hover), 0 2px 8px var(--theme-shadow)`;
+            e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.03)';
+            e.currentTarget.style.borderColor = '#e2e8f0';
+          }}
+        >
           <div className="space-y-2">
             <div className="flex items-center gap-2">
               <span className={`w-1.5 h-1.5 rounded-full bg-slate-400 group-hover:${activeTheme.accentColor} transition-colors duration-300`} />

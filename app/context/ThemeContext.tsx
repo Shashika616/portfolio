@@ -17,7 +17,7 @@ export interface ThemeProfile {
 export const THEMES: ThemeProfile[] = [
   {
     id: "gemini",
-    name: "Gemini Aura",
+    name: "Aurora",
     icon: "✨",
     gradient: "conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #f43f5e, #eab308, #3b82f6)",
     accentColor: "bg-blue-600",
@@ -26,7 +26,7 @@ export const THEMES: ThemeProfile[] = [
   },
   {
     id: "cyberpunk",
-    name: "Cyber Punk",
+    name: "Violet",
     icon: "⚡",
     gradient: "conic-gradient(from 0deg, #ff007f, #7928ca, #ff007f)",
     accentColor: "bg-pink-500",
@@ -35,7 +35,7 @@ export const THEMES: ThemeProfile[] = [
   },
   {
     id: "matrix",
-    name: "Matrix Code",
+    name: "Emerald",
     icon: "🟢",
     gradient: "conic-gradient(from 0deg, #10b981, #059669, #34d399, #10b981)",
     accentColor: "bg-emerald-500",
@@ -44,7 +44,7 @@ export const THEMES: ThemeProfile[] = [
   },
   {
     id: "solar",
-    name: "Solar Flare",
+    name: "Fire Red ",
     icon: "🔥",
     gradient: "conic-gradient(from 0deg, #f97316, #ef4444, #eab308, #f97316)",
     accentColor: "bg-orange-500",
@@ -53,7 +53,7 @@ export const THEMES: ThemeProfile[] = [
   },
   {
     id: "mono",
-    name: "Mono Chrome",
+    name: "Black and White",
     icon: "⬛",
     gradient: "conic-gradient(from 0deg, #000000, #333333, #666666, #999999, #000000)",
     accentColor: "bg-black",

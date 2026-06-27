@@ -548,11 +548,11 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
     ],
     certificates: [
       {
-        name: "WSO2 Certified Associate – Identity & Access Management",
+        name: "WSO2 Certified Associate Identity & Access Management",
         issuer: "WSO2",
         date: "2024",
         credentialId: "CID-04598722",
-        description: "Foundational understanding of AWS cloud services, cloud concepts, security, architecture, pricing, and support. Validates ability to identify AWS services and articulate their use cases.",
+        description: "Validates a foundational understanding of Identity and Access Management (IAM) principles and architectures. Demonstrates knowledge in B2B Customer IAM (CIAM), identity federation, single sign-on, and implementing modern, secure passwordless authentication mechanisms.",
         skills: ["Identity and Access Management", "B2B CIAM", "Identity Federation", "Passwordless Authentication"],
         imageUrl: "/certificates/wso2-cert.png",
         verifyLink: "https://certification.wso2.com/certificate/CID-04598722"
@@ -562,7 +562,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         issuer: "Great Learning Academy",
         date: "2024",
         credentialId: "CID-EFRFFYBX",
-        description: "Validates understanding of Google Cloud products and services, digital transformation strategies, and cloud economics. Demonstrates ability to articulate cloud solutions for business challenges.",
+        description: "Introduces the foundational workflows and methodologies of user interface and user experience design. Covers core principles of layout design, color theory, user interaction, and best practices for creating intuitive, responsive digital layouts.",
         skills: ["UI/UX", "State Management", "UI Design", "Best Practices", "User Interaction", "Color Combinations", "Layouts"],
         imageUrl: "/certificates/ui-cert.png",
         verifyLink: "https://www.mygreatlearning.com/certificate/EFRFFYBX"
@@ -572,7 +572,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         issuer: "Mind Luster",
         date: "2024",
         credentialId: "CID-16720390740",
-        description: "Demonstrates foundational knowledge of cloud services and how those services are provided with Cloud Providers. Validates understanding of core Azure services, security, privacy, compliance, and trust.",
+        description: "Demonstrates a baseline understanding of core cloud architecture, deployment models (Public, Private, Hybrid), and service categories (IaaS, PaaS, SaaS). Covers fundamental concepts of cloud security, infrastructure compliance, and cross-platform capabilities.",
         skills: ["Cloud Technologies", "Cloud Concepts", "Cloud Services", "Security", "Compliance"],
         imageUrl: "/certificates/cloud-cert.jpg",
         verifyLink: "https://www.mindluster.com/student/certificate/16720390740"
@@ -582,7 +582,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         issuer: "Great Learning",
         date: "2024",
         credentialId: "CID-NOBYYSZB",
-        description: "Validates skills in network fundamentals, IP connectivity, security fundamentals, automation, and programmability. Demonstrates ability to install, configure, operate, and troubleshoot medium-sized routed and switched networks.",
+        description: "Validates essential frontend development skills utilizing the React framework. Demonstrates practical knowledge of JSX syntax, component life cycles, state management, and modern ES6+ JavaScript features used to build dynamic web applications.",
         skills: ["JSX", "Core React Concepts", "Component Management", "JavaScript Essentials", "Modern JavaScript Features"],
         imageUrl: "/certificates/react-cert.png",
         verifyLink: "https://www.mygreatlearning.com/certificate/NOBYYSZB"
@@ -592,7 +592,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
         issuer: "Mind Luster",
         date: "2024",
         credentialId: "CID-16720393707",
-        description: "Validates baseline skills in cybersecurity, including security concepts, threats, vulnerabilities, network security, identity management, cryptography, and risk management. Essential for IT security professionals.",
+        description: "Validates proficiency in programming logic and modern scripting techniques using JavaScript. Covers foundational core features, advanced ES6+ development paradigms, and introduces modern typing and syntax extensions like TypeScript and JSX.",
         skills: ["JS Basics", "JS Features", "JSX", "TypeScript"],
         imageUrl: "/certificates/js-cert.jpg",
         verifyLink: "https://www.credly.com/badges/security-plus"

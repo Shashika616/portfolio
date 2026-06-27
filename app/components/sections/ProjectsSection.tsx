@@ -464,7 +464,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Optimized API route structure utilizing server-side validation and dynamic SQL queries to handle complex relationship mapping between users, solutions, and problems."
         ],
         architecture: "Processes client requests through Next.js Edge Middleware, instantly validating session integrity via Supabase Auth before allowing access to protected dashboard paths or dynamic API routes. Page rendering is optimized using Server Components where possible, minimizing client bundle size. When modifying data, API endpoints interface with the backend PostgreSQL database using Drizzle ORM, ensuring type-safe operations for CRUD actions on user solutions and personal learning diary entries. The unified storage (Supabase/Postgres) ensures ACID compliance for consistent data handling across the entire user lifecycle.",
-        githubLink: "https://github.com/YourUsername/algotrack.git", 
+        githubLink: "https://github.com/Shashika616/algotrack", 
         playLink: "https://algotrack-seven.vercel.app/",
         mediaGroups: [
           {
@@ -481,21 +481,92 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       }
     ],
     games: [
-      { 
-        name: "macro-meta-engine", 
-        category: "Simulation",
-        tech: ["React", "HTML5 Canvas", "Algorithms"],
-        introduction: "An analytical strategy playground simulating multi-agent economic balancing equations in real time.",
-        problemStatement: "Simulating hundreds of autonomous agents using heavy DOM elements causes massive UI lag and drops frame rates well below functional limits.",
-        requirements: [
-          "Render more than 500 active tracking units smoothly at a consistent 60 FPS.",
-          "Process real-time price updates based on fluctuating supply-and-demand metrics.",
-          "Expose fine-grained system controls to let users adjust running parameters instantly."
-        ],
-        solution: "Offloaded all complex visual updates to a high-performance HTML5 Canvas matrix, driving calculations through optimized vector arrays.",
-        architecture: "Implements a strict state separation pattern where a lightweight calculation loop manages economic updates before drawing the entire frame layout to the canvas.",
-        githubLink: "https://github.com/your-username/macro-meta-engine"
-      }
+      {
+      name: "Survive Cyber - Cyberpunk Urban FPS Simulator",
+      category: "Monolithic",
+      tech: ["Three.js", "WebGL 2.0", "JavaScript ES6", "Procedural Generation", "AI State Machines", "Web Audio API"],
+      introduction: "A cyberpunk-themed 3D first-person shooter that combines procedural city generation with wave-based combat mechanics. Players navigate a neon-drenched urban landscape, engaging enemy AI through an immersive combat loop featuring real-time hit detection, particle effects, and dynamic difficulty scaling.",
+      problemStatement: "Traditional browser-based 3D shooters either rely on heavy game engines (Unity/Unreal) or sacrifice performance for visual fidelity. Web-native implementations often suffer from poor optimization, lack of procedural content, and simplistic AI behavior. The challenge is building a responsive, high-performance FPS experience entirely in vanilla JavaScript with Three.js that maintains 60 FPS while delivering engaging combat mechanics and dynamic environments.",
+      requirements: [
+        "Implement a full 3D rendering pipeline using Three.js with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled) to maintain 60 FPS performance.",
+        "Engineer a procedural city generation system with 4 distinct building types (skyscrapers, residential, cyber towers, warehouses) and weighted random distribution.",
+        "Design 2 enemy archetypes (CHASER and RANGED) with unique AI behavior, attack patterns, and difficulty scaling across progressive waves.",
+        "Build a complete HUD system with health segments, ammo display, radar, crosshair, and wave tracking using pure CSS/HTML overlays.",
+        "Implement a pool-based particle system for explosions and hit effects with zero garbage collection pressure."
+      ],
+      solution: "Built a monolithic Three.js-based game engine with integrated ECS-lite architecture. The system features procedural city generation with collision-optimized AABB structures, a state-machine driven AI system with 3 behavioral states (CHASE/HURT/ATTACK), and a wave-based difficulty scaler. Performance is optimized through geometry pooling, material reuse, and fixed pixel ratio rendering. The game loop uses delta-clamping to prevent physics explosions while maintaining deterministic behavior.",
+      coreFeatures: [
+        "Procedural city generation with 4 building types (Skyscraper 40%, Residential 30%, Cyber Tower 20%, Warehouse 10%) and collision-optimized AABB structures.",
+        "2 enemy archetypes with distinct AI: CHASER (8.5 speed, 65 HP, melee) and RANGED (5.2 speed, 50 HP, projectile attacks with 30 unit range).",
+        "Wave-based difficulty scaling: kill requirement = 5 + (wave × 3), enemy speed increases by 0.35 per wave, spawn interval decreases from 2.5s to 0.6s.",
+        "Dynamic HUD with 20-segment health bar, ammo display (30 rounds mag + 90 reserve), 160px radar with enemy tracking, and real-time score/kill tracking.",
+        "Pool-based particle system (70 particles) for explosions and impacts with zero garbage collection and deterministic performance.",
+        "CRT post-processing effects (scanlines, vignette, chromatic aberration) implemented in pure CSS for zero GPU overhead."
+      ],
+      technicalHighlights: [
+        "ECS-lite architecture with shared geometry/material pools reducing draw calls by 90% and memory usage by 65%.",
+        "AI state machine with 3 behavioral states: CHASE (default), HURT (0.08s stun animation), ATTACK (cooldown-based with 1.2s melee / 1.8s ranged intervals).",
+        "Pool-based particle system with 70 pre-allocated instances enabling explosion effects without garbage collection pressure.",
+        "Delta-clamped game loop preventing physics explosions (max delta 0.05s) with interpolated movement for smooth 60 FPS gameplay.",
+        "Radar system with conic gradient sweep and enemy tracking within 110 unit radius, color-coded by enemy type.",
+        "Custom Web Audio synthesizer generating laser, explosion, hurt, and pickup sounds without external audio files."
+      ],
+      architecture: "The game follows a monolithic architecture with integrated subsystems: Three.js handles the 3D rendering pipeline with optimized WebGL settings (pixel ratio 1.0, antialiasing disabled). The ECS-lite entity manager tracks all game objects with pooled resources for performance. The AI system uses a state machine pattern with 3 behavioral states. The procedural city generator builds a 600×600 unit environment with 4 building types and pre-calculated collision structures. The game loop processes physics (gravity, velocity, collision detection), AI behavior, particle systems, and HUD updates in a single update cycle. UI overlays are rendered via CSS/HTML with real-time DOM updates for the HUD, while the radar uses a 2D canvas overlay. The system employs delta-clamping to maintain deterministic physics and prevent frame-rate dependent behavior.",
+      githubLink: "https://github.com/Shashika616/survive-cyber.git",
+      playLink: "https://survive-cyber.vercel.app/",
+      mediaGroups: [
+        {
+          groupTitle: "Architecture & Design",
+          items: [
+            { 
+              url: "/neon-overdrive/3d-shooter-arc.png", 
+              label: "Game Architecture Diagram", 
+              buttonText: "View System Architecture" 
+            }
+          ]
+        },
+        {
+          groupTitle: "Gameplay Optimization Architecture",
+          items: [
+            { 
+              url: "/neon-overdrive/3d-shooter-df.png", 
+              label: "Data Flow", 
+              buttonText: "View Data Flow Diagram" 
+            },
+            { 
+              url: "/neon-overdrive/3d-shooter-mem.png", 
+              label: "Memory Allocation", 
+              buttonText: "View Memory Flow" 
+            }
+          ]
+        },
+        {
+          groupTitle: "Gameplay ",
+          items: [
+            { 
+              url: "/neon-overdrive/3d-shooter-1.png", 
+              label: "Gameplay Captures", 
+              buttonText: "View Gameplay" 
+            },
+            { 
+              url: "/neon-overdrive/3d-shooter-2.png", 
+              label: "Gameplay Captures", 
+              buttonText: "View Gameplay" 
+            },
+                        { 
+              url: "/neon-overdrive/3d-shooter-3.png", 
+              label: "Gameplay Captures", 
+              buttonText: "View Gameplay" 
+            },
+                        { 
+              url: "/neon-overdrive/3d-shooter-4.png", 
+              label: "Gameplay Capturesm", 
+              buttonText: "View Gameplay" 
+            }
+          ]
+        }
+      ]
+    }
     ]
   };
 

@@ -205,6 +205,52 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       }
     ],
     projects: [
+            {
+        name: "VoltNexus - Cloud-Native EV Charging Microservices Platform",
+        category: "Microservices (Event-Driven)",
+        tech: ["Java 19", "Spring Boot 4", "Spring Cloud Gateway", "Angular 17+", "PostgreSQL (Supabase)", "Redis (Upstash)", "RabbitMQ (CloudAMQP)", "Resilience4j", "WSO2 Asgardeo"],
+        introduction: "A scalable, secure, and event-driven microservices platform for managing EV charging stations, user bookings, and real-time grid load balancing. It features a modern, SSR-safe Angular frontend and a robust, reactive API Gateway to ensure high availability and seamless user experiences.",
+        problemStatement: "Traditional EV charging management systems often rely on monolithic architectures that create centralized bottlenecks, lack real-time grid load awareness, and struggle with fragmented user experiences. Managing distributed charging infrastructure requires high availability, strict role-based access control (RBAC), and resilient inter-service communication, which traditional setups fail to provide efficiently without risking cascading failures or data inconsistency.",
+        requirements: [
+          "Implement secure, decentralized authentication and fine-grained RBAC (Driver vs. Station Owner) using WSO2 Asgardeo and OAuth 2.0/OIDC protocols.",
+          "Build a resilient, reactive API Gateway to centralize cross-cutting concerns like routing, Redis-backed rate limiting, and circuit breaking to protect downstream microservices.",
+          "Ensure eventual data consistency across distributed, decoupled services (Station, Booking, Grid) without relying on fragile distributed two-phase commits (2PC).",
+          "Develop a modern, responsive Angular frontend with Server-Side Rendering (SSR) safeguards and seamless PKCE authentication flows to prevent hydration errors."
+        ],
+        solution: "Architected a distributed microservices ecosystem using Spring Boot, where a Spring Cloud Gateway centralizes security and resilience patterns. Solved complex IAM integration challenges by building a custom low-level Nimbus JWT decoder to seamlessly enforce WSO2 Asgardeo's strict RFC 9068 (`at+jwt`) token standards within Spring Security. Utilized RabbitMQ and the Transactional Outbox Pattern to guarantee message delivery and data consistency across independent PostgreSQL databases, while an Angular frontend provides a secure, role-aware user experience.",
+        coreFeatures: [
+          "Secure OAuth 2.0/OIDC Authentication with PKCE flow and custom JWT validation pipeline for Asgardeo's `at+jwt` tokens.",
+          "Dynamic Role-Based Access Control (RBAC) rendering distinct, secure dashboards for Drivers (view/book chargers) and Station Owners (manage infrastructure).",
+          "Event-Driven Booking System utilizing RabbitMQ and the Transactional Outbox Pattern for guaranteed eventual consistency and decoupled service communication.",
+          "Resilient API Gateway with token-bucket rate limiting (Redis) and Resilience4j circuit breakers to prevent cascading failures during peak traffic.",
+          "Real-time Grid Load Monitoring service to optimize charger availability and prevent grid overload."
+        ],
+        technicalHighlights: [
+          "Custom Nimbus JWT Decoder: Bypassed Spring Security's default strict validator to seamlessly accept and cryptographically validate WSO2 Asgardeo's RFC 9068 compliant `at+jwt` access tokens without compromising the zero-trust security model.",
+          "Transactional Outbox Pattern: Implemented to decouple the Booking and Station services, ensuring 100% message delivery via RabbitMQ and eliminating the need for fragile distributed database locks.",
+          "Reactive Spring Cloud Gateway: Centralized CORS policies, JWT validation, and Redis-backed rate limiting, significantly reducing downstream service overhead and improving the overall security posture.",
+          "SSR-Safe Angular Frontend: Utilized `isPlatformBrowser` checks to prevent `window is not defined` crashes during OAuth2 token hydration in Angular 17+ Server-Side Rendering environments."
+        ],
+        architecture: "Client requests originate from an SSR-safe Angular application, which handles the OAuth2 PKCE flow with WSO2 Asgardeo. Authenticated requests are routed through a reactive Spring Cloud Gateway, which validates the custom JWT, enforces Redis-backed rate limiting, and applies Resilience4j circuit breakers. The Gateway routes traffic to decoupled Spring Boot microservices (Station, Booking, Grid). These services communicate asynchronously via RabbitMQ using the Transactional Outbox Pattern to guarantee eventual consistency, while persisting domain-specific data to isolated PostgreSQL schemas (via Supabase) with optimized HikariCP connection pooling.",
+        githubLink: "https://github.com/Shashika616/ev-charging-system", 
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/ev/evArch.png", 
+                label: "End-to-End System Architecture", 
+                buttonText: "View Architecture Diagram" 
+              },
+              { 
+                url: "/ev/evFlow.png", 
+                label: "End-to-End System Flow and Highlights", 
+                buttonText: "View Flow and Highlights" 
+              }
+            ]
+          }
+        ]
+      },
       {
         name: "TELCOM App for a Distributed Environment",
         category: "Distributed Systems",
@@ -454,7 +500,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 buttonText: "View Architecture" 
               }
             ]
-          }
+          } 
         ]
       }
     ],

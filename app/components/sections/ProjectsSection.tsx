@@ -285,8 +285,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "Architecture & Design",
             items: [
-              { url: "/AI-COMP/AI-comp-arch.png", label: "End-to-End System Architecture", buttonText: "View Architecture Diagram" },
-              { url: "/AI-COMP/AI-comp-flow.png", label: "End-to-End System Flow and Highlights", buttonText: "View Flow and Highlights" }
+              { url: "/AIComp/AIcomparch.png", label: "End-to-End System Architecture", buttonText: "View Architecture Diagram" },
+              { url: "/AIComp/AIcompflow.png", label: "End-to-End System Flow and Highlights", buttonText: "View Flow and Highlights" }
             ]
           }
         ]

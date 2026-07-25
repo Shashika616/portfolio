@@ -205,9 +205,9 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       }
     ],
     projects: [
-            {
+        {
         name: "VoltNexus - Cloud-Native EV Charging Microservices Platform",
-        category: "Microservices (Event-Driven)",
+        category: "Distributed Systems",
         tech: ["Java 19", "Spring Boot 4", "Spring Cloud Gateway", "Angular 17+", "PostgreSQL (Supabase)", "Redis (Upstash)", "RabbitMQ (CloudAMQP)", "Resilience4j", "WSO2 Asgardeo"],
         introduction: "A scalable, secure, and event-driven microservices platform for managing EV charging stations, user bookings, and real-time grid load balancing. It features a modern, SSR-safe Angular frontend and a robust, reactive API Gateway to ensure high availability and seamless user experiences.",
         problemStatement: "Traditional EV charging management systems often rely on monolithic architectures that create centralized bottlenecks, lack real-time grid load awareness, and struggle with fragmented user experiences. Managing distributed charging infrastructure requires high availability, strict role-based access control (RBAC), and resilient inter-service communication, which traditional setups fail to provide efficiently without risking cascading failures or data inconsistency.",
@@ -246,6 +246,200 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 url: "/ev/evFlow.png", 
                 label: "End-to-End System Flow and Highlights", 
                 buttonText: "View Flow and Highlights" 
+              }
+            ]
+          }
+        ]
+      },
+      {
+        name: "Self-Healing AI Desktop Companion with Multi-Tier Model Orchestration",
+        category: "AI & ML",
+        tech: ["Python", "PyQt6", "qasync", "Google Gemini API", "FastAPI", "WebSocket"],
+        introduction: "A personal AI desktop companion for Windows built around an engineered persona, a resilient multi-tier model orchestration layer, and an agent harness that can autonomously test and repair its own code. Assisstant holds a consistent character across long sessions while streaming responses through a non-blocking PyQt6 UI, and degrades gracefully under model quota pressure without breaking the conversation.",
+        problemStatement: "Single-model AI integrations are brittle: a quota exhaustion or transient outage on one model kills the entire experience, and most implementations either crash or surface raw error messages to the user. Long-running desktop AI companions also tend to drift into generic assistant tone over extended sessions, and fixing code failures typically requires a human in the loop rather than the system diagnosing and repairing itself.",
+        requirements: [
+          "Engineer a persistent, consistent persona that doesn't drift into generic assistant tone over long sessions.",
+          "Build a fault-tolerant model orchestration layer that survives transient errors and quota exhaustion without breaking the conversation.",
+          "Keep the desktop UI fully responsive during long streaming AI responses, with no blocking or stutter.",
+          "Give the assistant an agent harness that can recognize a tool-call intent and autonomously test, diagnose, and repair its own code."
+        ],
+        solution: "Architected a PyQt6 desktop shell driven by a qasync event loop so all model calls stream asynchronously without blocking the UI thread. A persona engine enforces tone and formatting constraints on every call into MateBrain, which holds a trimmed conversation history and selects a model from a 5-tier Gemini fallback ladder, classifying errors as transient or quota-based to decide between a same-tier retry, tier escalation, or a scheduled recovery probe back to the top tier. An agent harness inspects each reply for a structured JSON tool-call schema; when detected, it hands off to a repair loop engine that runs a test command, requests an isolated JSON code patch on failure, writes it to disk, and re-verifies for up to three cycles.",
+        coreFeatures: [
+          "Persona engine enforcing tone, contraction usage, and formatting rules independent of the underlying model tier.",
+          "5-tier Gemini fallback chain (3.5-flash down to 2.5-flash-lite) with automatic escalation and scheduled recovery probing.",
+          "Agent harness that parses structured JSON replies as tool-call triggers rather than displaying raw JSON to the user.",
+          "Self-healing repair loop that runs tests, patches the failing file, and re-verifies automatically, capped at 3 cycles.",
+          "Async streaming chat bubble UI rendered via qasync for a non-blocking desktop experience.",
+          "FastAPI WebSocket bridge exposing the same brain to external callers alongside the desktop app."
+        ],
+        technicalHighlights: [
+          "Persona layer uses negative prompt constraints (no markdown, no em-dashes, contractions enforced) plus a 24-turn history trim to hold character over long sessions.",
+          "Error-aware retry logic distinguishes transient server errors (503, DEADLINE_EXCEEDED) from quota exhaustion (429, RESOURCE_EXHAUSTED) and routes each down a different recovery path.",
+          "Recovery probe pattern: the system tentatively re-tries the top-tier model on a cooldown timer and falls back cleanly if it's still unavailable, rather than staying degraded indefinitely.",
+          "Agent harness and repair loop engine constrain tool-call and patch output to strict JSON schemas, making automated file writes safe to execute without human review of each step.",
+          "Windows-specific rendering fix: identified and removed QGraphicsDropShadowEffect on a frameless translucent top-level window after tracing it to UpdateLayeredWindowIndirect repaint failures."
+        ],
+        architecture: "A PyQt6 frameless avatar window and chat overlay run on a qasync event loop, so streamed model output repaints the UI without blocking. User input reaches MateBrain, which applies persona constraints, holds trimmed history, and selects a model from its 5-tier Gemini ladder, escalating or retrying based on classified error type and periodically probing back to the top tier. An agent harness inspects each reply; a structured JSON trigger hands control to the repair loop engine, which runs the target test command as a subprocess, requests an isolated JSON-constrained code patch on failure, writes it back to disk, and re-tests up to 3 times. A parallel FastAPI WebSocket endpoint exposes the same brain for external or future web-based access.",
+        githubLink: "https://github.com/Shashika616/AI-Companion",
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { url: "/AI-COMP/AI-comp-arch.png", label: "End-to-End System Architecture", buttonText: "View Architecture Diagram" },
+              { url: "/AI-COMP/AI-comp-flow.png", label: "End-to-End System Flow and Highlights", buttonText: "View Flow and Highlights" }
+            ]
+          }
+        ]
+      },
+      {
+        name: "AlgoTrack - Self-Paced DSA and System Design Diary", 
+        category: "Monolithic",
+        tech: ["Next.js (App Router)", "TypeScript", "Supabase", "PostgreSQL", "Drizzle ORM", "Tailwind CSS"],
+        introduction: "A centralized platform for developers to master Data Structures, Algorithms, and System Design concepts at their own pace. AlgoTrack combines problem-solving tools with integrated personal journaling, allowing users to save solutions and document key learning insights for long-term knowledge retention.",
+        problemStatement: "Popular coding platforms often focus solely on immediate problem resolution and speed, lacking robust features for personal reflection and progressive learning documentation. Developers frequently struggle to track their unique learning curve, revise difficult concepts, and consolidate diverse educational notes alongside their direct code solutions.",
+        requirements: [
+          "Implement seamless, secure user authentication managing private access to personal dashboards and sensitive problem data.",
+          "Develop a responsive, data-driven interface using Next.js Server Components and Edge Middleware for optimized page delivery and auth state management.",
+          "Design and optimize a relational database schema (Postgres) to store structured problem details, user code submissions, and associated personal learning notes efficiently."
+        ],
+        solution: "Leveraged Next.js (App Router) for an SEO-friendly frontend and API layer, strictly managed by dynamic middleware to enforce page protection based on active Supabase authentication sessions. The data layer utilizes Drizzle ORM to interface with Supabase (PostgreSQL), storing categorized problems. User submissions map code solutions and associated Markdown-formatted learning diary entries to unique user IDs, ensuring complete data privacy and personalized progress tracking.",
+        coreFeatures: [
+          "Authentication (Supabase Auth) with protected dashboard routes access restricted via Next.js Edge Middleware.",
+          "Categorized Problem Library (DSA and System Design) with search/filter capabilities and difficulty ratings.",
+          "Personalized Solution Notebook: Save code solutions (with language syntax highlighting) directly linked to specific problems.",
+          "Integrated Learning Diary: Rich text editor (Markdown support) for adding personal notes, reflections, and key takeaways for each solved problem.",
+          "Progress Dashboard visualizing completion metrics, difficulty breakdown, and recent study activity."
+        ],
+        technicalHighlights: [
+          "Next.js App Router utilization with Server Components for direct DB fetching and dynamic middleware for instant, uncircumventable auth redirection (Dashboard/Problems paths).",
+          "Drizzle ORM for type-safe database interactions and structured querying of the Supabase-hosted PostgreSQL instance.",
+          "Optimized API route structure utilizing server-side validation and dynamic SQL queries to handle complex relationship mapping between users, solutions, and problems."
+        ],
+        architecture: "Processes client requests through Next.js Edge Middleware, instantly validating session integrity via Supabase Auth before allowing access to protected dashboard paths or dynamic API routes. Page rendering is optimized using Server Components where possible, minimizing client bundle size. When modifying data, API endpoints interface with the backend PostgreSQL database using Drizzle ORM, ensuring type-safe operations for CRUD actions on user solutions and personal learning diary entries. The unified storage (Supabase/Postgres) ensures ACID compliance for consistent data handling across the entire user lifecycle.",
+        githubLink: "https://github.com/Shashika616/algotrack", 
+        playLink: "https://algotrack-seven.vercel.app/",
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/algotrack/algotrack-arc.png", 
+                label: "System Architecture", 
+                buttonText: "View Architecture" 
+              }
+            ]
+          } 
+        ]
+      },
+      {
+        name: "Nova - AI-Powered Interactive Knowledge Book with Real-Time Streaming",
+        category: "AI & ML",
+        tech: [
+          "React",
+          "TypeScript",
+          "FastAPI",
+          "Python",
+          "Supabase",
+          "PostgreSQL",
+          "Groq API",
+          "JWT Authentication",
+          "REST API",
+          "Streaming Responses",
+          "GitHub Actions",
+          "AWS"
+        ],
+
+        introduction:
+          "Nova is an AI-powered interactive knowledge platform that transforms traditional AI conversations into a digital encyclopedia experience. Instead of a conventional chat interface, users explore AI-generated content through an animated book interface featuring real-time response streaming, topic-based navigation, and intelligent content discovery. The application combines a modern React frontend with a FastAPI backend, Supabase authentication, and LLM-powered knowledge generation to deliver an immersive learning experience.",
+
+        problemStatement:
+          "Traditional AI chat applications present responses as linear conversations that become difficult to revisit, organize, or explore further. Users often lose context between topics, receive generic interfaces with limited engagement, and experience delays while waiting for complete AI responses before any content is displayed.",
+
+        requirements: [
+          "Design an immersive digital book interface that makes AI-generated knowledge easier to consume than traditional chat applications.",
+          "Implement secure authentication and authorization using Supabase Auth and JWT validation.",
+          "Stream AI responses in real time to improve perceived performance and user experience.",
+          "Provide contextual topic suggestions that encourage continuous knowledge exploration.",
+          "Develop a scalable backend architecture capable of integrating multiple LLM providers in the future.",
+          "Prepare the application for cloud deployment using CI/CD pipelines and AWS infrastructure."
+        ],
+
+        solution:
+          "Architected a multi-tier full-stack application where a React frontend communicates with a FastAPI backend through authenticated REST and streaming endpoints. Users authenticate through Supabase Authentication before requesting AI-generated knowledge from the backend. The backend constructs optimized prompts, communicates with the Groq LLM API, streams generated content back to the client in real time, and enriches each response with contextual suggestions to support continuous exploration. The system is designed with modular service layers, allowing future integration of additional LLM providers without impacting frontend functionality.",
+
+        coreFeatures: [
+          "Interactive digital encyclopedia interface with realistic page-based reading experience.",
+          "Real-time AI response streaming for incremental content rendering.",
+          "Secure user registration, login, and JWT-based authorization using Supabase Authentication.",
+          "Prompt engineering layer that generates structured educational content across multiple knowledge levels.",
+          "Context-aware suggestion engine for continuous topic exploration.",
+          "Persistent reading history and chapter-based navigation.",
+          "Modular AI service abstraction supporting future multi-model integration.",
+          "Cloud-ready architecture with automated deployment pipeline using GitHub Actions and AWS."
+        ],
+
+        technicalHighlights: [
+          "Implemented streaming HTTP responses using FastAPI StreamingResponse to reduce response latency and improve user experience.",
+          "Designed a layered backend architecture separating routing, services, authentication, prompt generation, and AI provider integrations for maintainability.",
+          "Integrated Supabase Authentication with backend JWT validation to secure protected API endpoints.",
+          "Built reusable API abstraction layers in the React frontend for authentication and knowledge services.",
+          "Designed extensible AI provider architecture enabling future support for multiple LLM vendors without major architectural changes.",
+          "Prepared the application for automated cloud deployments using GitHub Actions and AWS infrastructure."
+        ],
+
+        architecture:
+          "The React frontend provides an interactive digital book experience where authenticated users request AI-generated knowledge. Requests pass through an API abstraction layer before reaching FastAPI controllers responsible for authentication, validation, and orchestration. The knowledge service constructs optimized prompts and communicates with the Groq LLM API, streaming generated content back through FastAPI StreamingResponse endpoints. Supabase Authentication manages user identity while PostgreSQL stores application data. The modular service architecture separates authentication, prompt engineering, AI integration, and business logic to simplify maintenance and future expansion. The application is designed for automated deployment through GitHub Actions into AWS infrastructure.",
+
+        githubLink: "https://github.com/Shashika616/nova",
+
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              {
+                url: "/AI-ENC/AI-ENC-ARCH.png",
+                label: " System Architecture",
+                buttonText: "View Architecture"
+              },
+            ]
+          }
+        ]
+      },
+      { 
+        name: "Compiler Arena - Tactical web game running on an underlying compiler engine", 
+        category: "Monolithic",
+        tech: ["JavaScript", "Compilers", "Game Development", "CS Theory"],
+        introduction: "A full-stack tactical puzzle game engine powered by a deterministic 4-stage compiler pipeline. Players write custom domain-specific language commands to navigate enemies with mathematically-defined hitbox patterns, transforming abstract compiler theory into interactive gameplay.",
+        problemStatement: "Game AI damage systems typically use hardcoded spatial logic instead of composable algorithms, while compiler education remains disconnected from practical applications. Standard approaches lack real-time feedback mechanisms that visualize the complete compilation process from tokenization through execution.",
+        requirements: [
+          "Construct a true Abstract Syntax Tree (AST) via handwritten lexer and recursive-descent parser without external parsing libraries.",
+          "Engineer 5 distinct enemy archetypes with unique damage zone geometries computed dynamically based on spatial distance metrics and type-specific algorithms.",
+          "Deliver precise error feedback with character-level offsets and maintain O(n) linear time complexity across tokenization, parsing, and semantic analysis phases."
+        ],
+        solution: "Built a single-pass, deterministic compiler frontend coupled with a state-driven game engine. The lexer tokenizes input into keywords/directions/identifiers; the LL(1) recursive-descent parser generates structured AST nodes; the semantic analyzer validates sequences against game rules; the executor mutates state and computes hitbox intersections per enemy type with cumulative damage stacking.",
+        coreFeatures: [
+          "Handwritten recursive-descent lexer and parser producing clean AST without regex or external dependencies.",
+          "5 enemy types with distinct spatial models: Goblin (X±1), Orc (3×3), Troll (X±2), Drake (ortho±1/diag±2), Demon (5×5).",
+          "Real-time CSS Grid visualization with dynamic hitbox overlays updating after each compiled command.",
+          "Grid bounds validation enforcing 0–15 coordinate limits; cumulative damage from overlapping enemy hitboxes.",
+          "4 progressive difficulty levels scaling from 2 enemies (pedagogical) to 6 enemies (expert multi-threat navigation)."
+        ],
+        technicalHighlights: [
+          "O(n) single-pass tokenization and O(n) recursive-descent parsing with explicit error messages containing exact character offsets.",
+          "Type-based enemy damage zone dispatch using functional pattern matching; hitbox calculations leverage Euclidean distance metrics.",
+          "Immutable-pattern state updates: each command triggers full grid re-evaluation and re-render without mutable intermediate objects."
+        ],
+        architecture: "Processes source code through a single-pass tokenization stream, validating structure against a strict context-free grammar before mapping nodes into a traversable AST. The executor interprets this tree sequentially, computing enemy hitboxes dynamically based on type and position, applying damage via set intersection, and enforcing grid boundaries before each state mutation. CSS Grid rendering layer visualizes danger zones as real-time background overlays.",
+        githubLink: "https://github.com/Shashika616/compiler-game.git",
+        playLink: "https://compiler-game.vercel.app/",
+        mediaGroups: [
+          {
+            groupTitle: "Architecture & Design",
+            items: [
+              { 
+                url: "/Compiler/arch.png", 
+                label: "High Level System Architecture", 
+                buttonText: "View Architectural Diagram" 
               }
             ]
           }
@@ -304,46 +498,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 url: "/sricare/sricare-arc.png", 
                 label: "High Level System Architecture", 
                 buttonText: "View Architecture" 
-              }
-            ]
-          }
-        ]
-      },
-      { 
-        name: "Compiler Arena - Tactical web game running on an underlying compiler engine", 
-        category: "Monolithic",
-        tech: ["JavaScript", "Compilers", "Game Development", "CS Theory"],
-        introduction: "A full-stack tactical puzzle game engine powered by a deterministic 4-stage compiler pipeline. Players write custom domain-specific language commands to navigate enemies with mathematically-defined hitbox patterns, transforming abstract compiler theory into interactive gameplay.",
-        problemStatement: "Game AI damage systems typically use hardcoded spatial logic instead of composable algorithms, while compiler education remains disconnected from practical applications. Standard approaches lack real-time feedback mechanisms that visualize the complete compilation process from tokenization through execution.",
-        requirements: [
-          "Construct a true Abstract Syntax Tree (AST) via handwritten lexer and recursive-descent parser without external parsing libraries.",
-          "Engineer 5 distinct enemy archetypes with unique damage zone geometries computed dynamically based on spatial distance metrics and type-specific algorithms.",
-          "Deliver precise error feedback with character-level offsets and maintain O(n) linear time complexity across tokenization, parsing, and semantic analysis phases."
-        ],
-        solution: "Built a single-pass, deterministic compiler frontend coupled with a state-driven game engine. The lexer tokenizes input into keywords/directions/identifiers; the LL(1) recursive-descent parser generates structured AST nodes; the semantic analyzer validates sequences against game rules; the executor mutates state and computes hitbox intersections per enemy type with cumulative damage stacking.",
-        coreFeatures: [
-          "Handwritten recursive-descent lexer and parser producing clean AST without regex or external dependencies.",
-          "5 enemy types with distinct spatial models: Goblin (X±1), Orc (3×3), Troll (X±2), Drake (ortho±1/diag±2), Demon (5×5).",
-          "Real-time CSS Grid visualization with dynamic hitbox overlays updating after each compiled command.",
-          "Grid bounds validation enforcing 0–15 coordinate limits; cumulative damage from overlapping enemy hitboxes.",
-          "4 progressive difficulty levels scaling from 2 enemies (pedagogical) to 6 enemies (expert multi-threat navigation)."
-        ],
-        technicalHighlights: [
-          "O(n) single-pass tokenization and O(n) recursive-descent parsing with explicit error messages containing exact character offsets.",
-          "Type-based enemy damage zone dispatch using functional pattern matching; hitbox calculations leverage Euclidean distance metrics.",
-          "Immutable-pattern state updates: each command triggers full grid re-evaluation and re-render without mutable intermediate objects."
-        ],
-        architecture: "Processes source code through a single-pass tokenization stream, validating structure against a strict context-free grammar before mapping nodes into a traversable AST. The executor interprets this tree sequentially, computing enemy hitboxes dynamically based on type and position, applying damage via set intersection, and enforcing grid boundaries before each state mutation. CSS Grid rendering layer visualizes danger zones as real-time background overlays.",
-        githubLink: "https://github.com/Shashika616/compiler-game.git",
-        playLink: "https://compiler-game.vercel.app/",
-        mediaGroups: [
-          {
-            groupTitle: "Architecture & Design",
-            items: [
-              { 
-                url: "/Compiler/arch.png", 
-                label: "High Level System Architecture", 
-                buttonText: "View Architectural Diagram" 
               }
             ]
           }
@@ -461,46 +615,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
               }
             ]
           }
-        ]
-      },
-      {
-        name: "AlgoTrack - Self-Paced DSA and System Design Diary", 
-        category: "Monolithic",
-        tech: ["Next.js (App Router)", "TypeScript", "Supabase", "PostgreSQL", "Drizzle ORM", "Tailwind CSS"],
-        introduction: "A centralized platform for developers to master Data Structures, Algorithms, and System Design concepts at their own pace. AlgoTrack combines problem-solving tools with integrated personal journaling, allowing users to save solutions and document key learning insights for long-term knowledge retention.",
-        problemStatement: "Popular coding platforms often focus solely on immediate problem resolution and speed, lacking robust features for personal reflection and progressive learning documentation. Developers frequently struggle to track their unique learning curve, revise difficult concepts, and consolidate diverse educational notes alongside their direct code solutions.",
-        requirements: [
-          "Implement seamless, secure user authentication managing private access to personal dashboards and sensitive problem data.",
-          "Develop a responsive, data-driven interface using Next.js Server Components and Edge Middleware for optimized page delivery and auth state management.",
-          "Design and optimize a relational database schema (Postgres) to store structured problem details, user code submissions, and associated personal learning notes efficiently."
-        ],
-        solution: "Leveraged Next.js (App Router) for an SEO-friendly frontend and API layer, strictly managed by dynamic middleware to enforce page protection based on active Supabase authentication sessions. The data layer utilizes Drizzle ORM to interface with Supabase (PostgreSQL), storing categorized problems. User submissions map code solutions and associated Markdown-formatted learning diary entries to unique user IDs, ensuring complete data privacy and personalized progress tracking.",
-        coreFeatures: [
-          "Authentication (Supabase Auth) with protected dashboard routes access restricted via Next.js Edge Middleware.",
-          "Categorized Problem Library (DSA and System Design) with search/filter capabilities and difficulty ratings.",
-          "Personalized Solution Notebook: Save code solutions (with language syntax highlighting) directly linked to specific problems.",
-          "Integrated Learning Diary: Rich text editor (Markdown support) for adding personal notes, reflections, and key takeaways for each solved problem.",
-          "Progress Dashboard visualizing completion metrics, difficulty breakdown, and recent study activity."
-        ],
-        technicalHighlights: [
-          "Next.js App Router utilization with Server Components for direct DB fetching and dynamic middleware for instant, uncircumventable auth redirection (Dashboard/Problems paths).",
-          "Drizzle ORM for type-safe database interactions and structured querying of the Supabase-hosted PostgreSQL instance.",
-          "Optimized API route structure utilizing server-side validation and dynamic SQL queries to handle complex relationship mapping between users, solutions, and problems."
-        ],
-        architecture: "Processes client requests through Next.js Edge Middleware, instantly validating session integrity via Supabase Auth before allowing access to protected dashboard paths or dynamic API routes. Page rendering is optimized using Server Components where possible, minimizing client bundle size. When modifying data, API endpoints interface with the backend PostgreSQL database using Drizzle ORM, ensuring type-safe operations for CRUD actions on user solutions and personal learning diary entries. The unified storage (Supabase/Postgres) ensures ACID compliance for consistent data handling across the entire user lifecycle.",
-        githubLink: "https://github.com/Shashika616/algotrack", 
-        playLink: "https://algotrack-seven.vercel.app/",
-        mediaGroups: [
-          {
-            groupTitle: "Architecture & Design",
-            items: [
-              { 
-                url: "/algotrack/algotrack-arc.png", 
-                label: "System Architecture", 
-                buttonText: "View Architecture" 
-              }
-            ]
-          } 
         ]
       }
     ],

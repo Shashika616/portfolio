@@ -7,7 +7,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Section } from "../../types";
 import { useGlobalTheme } from "../../context/ThemeContext";
 
-
 interface ProjectsSectionProps {
   sec: Section;
 }
@@ -57,7 +56,7 @@ interface CertificateItem {
 
 export function ProjectsSection({ sec }: ProjectsSectionProps) {
   const { activeTheme } = useGlobalTheme();
-  const [activeTab, setActiveTab] = useState<TabType>('researches');
+  const [activeTab, setActiveTab] = useState<TabType>('projects');
   const [selectedSubCategory, setSelectedSubCategory] = useState<SubCategoryType>('ALL');
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -121,36 +120,20 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "System Architecture",
             items: [
-              { 
-                url: "/hash-pipeline/graph-hash.png", 
-                label: "Solution Architecture", 
-                buttonText: "View Architectural Diagram" 
-              }
+              { url: "/hash-pipeline/graph-hash.png", label: "Solution Architecture", buttonText: "View Architectural Diagram" }
             ]
           },
           {
             groupTitle: "Performance Analysis",
             items: [
-              { 
-                url: "/hash-pipeline/time-comparison.png", 
-                label: "Time Complexity Comparison", 
-                buttonText: "View Comparison Table" 
-              },
-              { 
-                url: "/hash-pipeline/stat-comparison.png", 
-                label: "Statistical Comparison", 
-                buttonText: "View Comparison Table" 
-              }
+              { url: "/hash-pipeline/time-comparison.png", label: "Time Complexity Comparison", buttonText: "View Comparison Table" },
+              { url: "/hash-pipeline/stat-comparison.png", label: "Statistical Comparison", buttonText: "View Comparison Table" }
             ]
           },
           {
             groupTitle: "Practical Analysis",
             items: [
-              { 
-                url: "/hash-pipeline/prac-dep.png", 
-                label: "Practical Dependency Analysis", 
-                buttonText: "View Comparison Table" 
-              }
+              { url: "/hash-pipeline/prac-dep.png", label: "Practical Dependency Analysis", buttonText: "View Comparison Table" }
             ]
           }
         ]
@@ -174,38 +157,22 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "CT Scan Samples",
             items: [
-              { 
-                url: "/medical-image/tumor1.jpg", 
-                label: "3D-CT Scan Sample", 
-                buttonText: "View Sample Scan" 
-              },
-              { 
-                url: "/medical-image/tumor2.jpg", 
-                label: "3D-CT Scan Slice Sample", 
-                buttonText: "View Sample Scan" 
-              }
+              { url: "/medical-image/tumor1.jpg", label: "3D-CT Scan Sample", buttonText: "View Sample Scan" },
+              { url: "/medical-image/tumor2.jpg", label: "3D-CT Scan Slice Sample", buttonText: "View Sample Scan" }
             ]
           },
           {
             groupTitle: "Model Results",
             items: [
-              { 
-                url: "/medical-image/tumor3.mp4", 
-                label: "Scan Capture of the CNN", 
-                buttonText: "View Capture" 
-              },
-              { 
-                url: "/medical-image/confusion-matrix1.jpg", 
-                label: "Confusion Matrix", 
-                buttonText: "View Matrix Result" 
-              }
+              { url: "/medical-image/tumor3.mp4", label: "Scan Capture of the CNN", buttonText: "View Capture" },
+              { url: "/medical-image/confusion-matrix1.jpg", label: "Confusion Matrix", buttonText: "View Matrix Result" }
             ]
           }
         ]
       }
     ],
     projects: [
-        {
+      {
         name: "VoltNexus - Cloud-Native EV Charging Microservices Platform",
         category: "Distributed Systems",
         tech: ["Java 19", "Spring Boot 4", "Spring Cloud Gateway", "Angular 17+", "PostgreSQL (Supabase)", "Redis (Upstash)", "RabbitMQ (CloudAMQP)", "Resilience4j", "WSO2 Asgardeo"],
@@ -237,16 +204,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "Architecture & Design",
             items: [
-              { 
-                url: "/ev/evArch.png", 
-                label: "End-to-End System Architecture", 
-                buttonText: "View Architecture Diagram" 
-              },
-              { 
-                url: "/ev/evFlow.png", 
-                label: "End-to-End System Flow and Highlights", 
-                buttonText: "View Flow and Highlights" 
-              }
+              { url: "/ev/evArch.png", label: "End-to-End System Architecture", buttonText: "View Architecture Diagram" },
+              { url: "/ev/evFlow.png", label: "End-to-End System Flow and Highlights", buttonText: "View Flow and Highlights" }
             ]
           }
         ]
@@ -322,11 +281,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "Architecture & Design",
             items: [
-              { 
-                url: "/algotrack/algotrack-arc.png", 
-                label: "System Architecture", 
-                buttonText: "View Architecture" 
-              }
+              { url: "/algotrack/algotrack-arc.png", label: "System Architecture", buttonText: "View Architecture" }
             ]
           } 
         ]
@@ -334,27 +289,9 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       {
         name: "Nova - AI-Powered Interactive Knowledge Book with Real-Time Streaming",
         category: "AI & ML",
-        tech: [
-          "React",
-          "TypeScript",
-          "FastAPI",
-          "Python",
-          "Supabase",
-          "PostgreSQL",
-          "Groq API",
-          "JWT Authentication",
-          "REST API",
-          "Streaming Responses",
-          "GitHub Actions",
-          "AWS"
-        ],
-
-        introduction:
-          "Nova is an AI-powered interactive knowledge platform that transforms traditional AI conversations into a digital encyclopedia experience. Instead of a conventional chat interface, users explore AI-generated content through an animated book interface featuring real-time response streaming, topic-based navigation, and intelligent content discovery. The application combines a modern React frontend with a FastAPI backend, Supabase authentication, and LLM-powered knowledge generation to deliver an immersive learning experience.",
-
-        problemStatement:
-          "Traditional AI chat applications present responses as linear conversations that become difficult to revisit, organize, or explore further. Users often lose context between topics, receive generic interfaces with limited engagement, and experience delays while waiting for complete AI responses before any content is displayed.",
-
+        tech: ["React", "TypeScript", "FastAPI", "Python", "Supabase", "PostgreSQL", "Groq API", "JWT Authentication", "REST API", "Streaming Responses", "GitHub Actions", "AWS"],
+        introduction: "Nova is an AI-powered interactive knowledge platform that transforms traditional AI conversations into a digital encyclopedia experience. Instead of a conventional chat interface, users explore AI-generated content through an animated book interface featuring real-time response streaming, topic-based navigation, and intelligent content discovery. The application combines a modern React frontend with a FastAPI backend, Supabase authentication, and LLM-powered knowledge generation to deliver an immersive learning experience.",
+        problemStatement: "Traditional AI chat applications present responses as linear conversations that become difficult to revisit, organize, or explore further. Users often lose context between topics, receive generic interfaces with limited engagement, and experience delays while waiting for complete AI responses before any content is displayed.",
         requirements: [
           "Design an immersive digital book interface that makes AI-generated knowledge easier to consume than traditional chat applications.",
           "Implement secure authentication and authorization using Supabase Auth and JWT validation.",
@@ -363,10 +300,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Develop a scalable backend architecture capable of integrating multiple LLM providers in the future.",
           "Prepare the application for cloud deployment using CI/CD pipelines and AWS infrastructure."
         ],
-
-        solution:
-          "Architected a multi-tier full-stack application where a React frontend communicates with a FastAPI backend through authenticated REST and streaming endpoints. Users authenticate through Supabase Authentication before requesting AI-generated knowledge from the backend. The backend constructs optimized prompts, communicates with the Groq LLM API, streams generated content back to the client in real time, and enriches each response with contextual suggestions to support continuous exploration. The system is designed with modular service layers, allowing future integration of additional LLM providers without impacting frontend functionality.",
-
+        solution: "Architected a multi-tier full-stack application where a React frontend communicates with a FastAPI backend through authenticated REST and streaming endpoints. Users authenticate through Supabase Authentication before requesting AI-generated knowledge from the backend. The backend constructs optimized prompts, communicates with the Groq LLM API, streams generated content back to the client in real time, and enriches each response with contextual suggestions to support continuous exploration. The system is designed with modular service layers, allowing future integration of additional LLM providers without impacting frontend functionality.",
         coreFeatures: [
           "Interactive digital encyclopedia interface with realistic page-based reading experience.",
           "Real-time AI response streaming for incremental content rendering.",
@@ -377,7 +311,6 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Modular AI service abstraction supporting future multi-model integration.",
           "Cloud-ready architecture with automated deployment pipeline using GitHub Actions and AWS."
         ],
-
         technicalHighlights: [
           "Implemented streaming HTTP responses using FastAPI StreamingResponse to reduce response latency and improve user experience.",
           "Designed a layered backend architecture separating routing, services, authentication, prompt generation, and AI provider integrations for maintainability.",
@@ -386,21 +319,13 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           "Designed extensible AI provider architecture enabling future support for multiple LLM vendors without major architectural changes.",
           "Prepared the application for automated cloud deployments using GitHub Actions and AWS infrastructure."
         ],
-
-        architecture:
-          "The React frontend provides an interactive digital book experience where authenticated users request AI-generated knowledge. Requests pass through an API abstraction layer before reaching FastAPI controllers responsible for authentication, validation, and orchestration. The knowledge service constructs optimized prompts and communicates with the Groq LLM API, streaming generated content back through FastAPI StreamingResponse endpoints. Supabase Authentication manages user identity while PostgreSQL stores application data. The modular service architecture separates authentication, prompt engineering, AI integration, and business logic to simplify maintenance and future expansion. The application is designed for automated deployment through GitHub Actions into AWS infrastructure.",
-
+        architecture: "The React frontend provides an interactive digital book experience where authenticated users request AI-generated knowledge. Requests pass through an API abstraction layer before reaching FastAPI controllers responsible for authentication, validation, and orchestration. The knowledge service constructs optimized prompts and communicates with the Groq LLM API, streaming generated content back through FastAPI StreamingResponse endpoints. Supabase Authentication manages user identity while PostgreSQL stores application data. The modular service architecture separates authentication, prompt engineering, AI integration, and business logic to simplify maintenance and future expansion. The application is designed for automated deployment through GitHub Actions into AWS infrastructure.",
         githubLink: "https://github.com/Shashika616/nova",
-
         mediaGroups: [
           {
             groupTitle: "Architecture & Design",
             items: [
-              {
-                url: "/AI-ENC/AI-ENC-ARCH.png",
-                label: " System Architecture",
-                buttonText: "View Architecture"
-              },
+              { url: "/AI-ENC/AI-ENC-ARCH.png", label: " System Architecture", buttonText: "View Architecture" }
             ]
           }
         ]
@@ -436,11 +361,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "Architecture & Design",
             items: [
-              { 
-                url: "/Compiler/arch.png", 
-                label: "High Level System Architecture", 
-                buttonText: "View Architectural Diagram" 
-              }
+              { url: "/Compiler/arch.png", label: "High Level System Architecture", buttonText: "View Architectural Diagram" }
             ]
           }
         ]
@@ -448,18 +369,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       {
         name: "TELCOM App for a Distributed Environment",
         category: "Distributed Systems",
-        tech: [
-          "Node.js",
-          "Express.js",
-          "Flutter",
-          "MongoDB",
-          "Redis",
-          "RabbitMQ",
-          "Microservices",
-          "REST APIs",
-          "WebSockets",
-          "Docker"
-        ],
+        tech: ["Node.js", "Express.js", "Flutter", "MongoDB", "Redis", "RabbitMQ", "Microservices", "REST APIs", "WebSockets", "Docker"],
         introduction: "A cloud-native telecommunications self-care platform built on a distributed microservices architecture. The system provides customers with a unified digital experience for account management, billing, payments, service activation, notifications, and real-time support while demonstrating scalable backend engineering patterns used in modern telecom platforms.",
         problemStatement: "Traditional telecom applications often rely on tightly coupled backend systems where high-volume operations such as billing generation, notifications, and customer requests compete for the same resources. This creates scalability limitations, service dependency failures, and performance degradation during peak usage periods. The challenge was to design a fault-tolerant distributed platform where individual business capabilities could scale independently while maintaining fast communication between services.",
         requirements: [
@@ -494,11 +404,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "System Architecture",
             items: [
-              { 
-                url: "/sricare/sricare-arc.png", 
-                label: "High Level System Architecture", 
-                buttonText: "View Architecture" 
-              }
+              { url: "/sricare/sricare-arc.png", label: "High Level System Architecture", buttonText: "View Architecture" }
             ]
           }
         ]
@@ -506,16 +412,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
       {
         name: "Digital Gate Pass and Visitor Management System",
         category: "Monolithic",
-        tech: [
-          "Node.js",
-          "Express.js",
-          "React",
-          "MongoDB",
-          "REST APIs",
-          "Postman",
-          "Figma",
-          "GitHub"
-        ],
+        tech: ["Node.js", "Express.js", "React", "MongoDB", "REST APIs", "Postman", "Figma", "GitHub"],
         introduction: "A digital gate pass and visitor management solution designed for the Sri Lanka Rupavahini Corporation. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
         problemStatement: "The primary challenge lies in the absence of a digital tracking system, resulting in a heavy reliance on manual processes accompanied by extensive paperwork. This approach consumes a significant amount of time, demands substantial human effort, and causes operational inefficiencies. Specific pain points include limited external access to visitation details, a lack of automated entry/exit tracking mechanisms, constraints in managing guest reservations, and the physical storage space required for manual record management.",
         requirements: [
@@ -548,71 +445,27 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "System Architecture",
             items: [
-              { 
-                url: "/rup/rup-arc.png", 
-                label: "High Level System Architecture", 
-                buttonText: "View Architectural Diagram" 
-              }
+              { url: "/rup/rup-arc.png", label: "High Level System Architecture", buttonText: "View Architectural Diagram" }
             ]
           },
           {
             groupTitle: "WireFrames",
             items: [
-              { 
-                url: "/rup/wire1.png", 
-                label: "WireFrame", 
-                buttonText: "View WireFrame" 
-              },
-              { 
-                url: "/rup/wire2.png", 
-                label: "WireFrame",  
-                buttonText: "View WireFrame" 
-              },
-              { 
-                url: "/rup/wire3.png", 
-                label: "WireFrame",  
-                buttonText: "View WireFrame"
-              },
-              { 
-                url: "/rup/wire4.png", 
-                label: "WireFrame",  
-                buttonText: "View WireFrame"
-              },
-              { 
-                url: "/rup/wire5.png", 
-                label: "WireFrame",  
-                buttonText: "View WireFrame"
-              }
+              { url: "/rup/wire1.png", label: "WireFrame", buttonText: "View WireFrame" },
+              { url: "/rup/wire2.png", label: "WireFrame", buttonText: "View WireFrame" },
+              { url: "/rup/wire3.png", label: "WireFrame", buttonText: "View WireFrame" },
+              { url: "/rup/wire4.png", label: "WireFrame", buttonText: "View WireFrame" },
+              { url: "/rup/wire5.png", label: "WireFrame", buttonText: "View WireFrame" }
             ]
           },
           {
             groupTitle: "Application Overview",
             items: [
-              { 
-                url: "/rup/main1.png", 
-                label: "Overview", 
-                buttonText: "View Image" 
-              },
-              { 
-                url: "/rup/main2.png", 
-                label: "Overview", 
-                buttonText: "View Image"  
-              },
-              { 
-                url: "/rup/main3.png", 
-                label: "Overview", 
-                buttonText: "View Image" 
-              },
-              { 
-                url: "/rup/main4.png", 
-                label: "Overview", 
-                buttonText: "View Image" 
-              },
-              { 
-                url: "/rup/main5.png", 
-                label: "Overview", 
-                buttonText: "View Image" 
-              }
+              { url: "/rup/main1.png", label: "Overview", buttonText: "View Image" },
+              { url: "/rup/main2.png", label: "Overview", buttonText: "View Image" },
+              { url: "/rup/main3.png", label: "Overview", buttonText: "View Image" },
+              { url: "/rup/main4.png", label: "Overview", buttonText: "View Image" },
+              { url: "/rup/main5.png", label: "Overview", buttonText: "View Image" }
             ]
           }
         ]
@@ -656,51 +509,23 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
           {
             groupTitle: "Architecture & Design",
             items: [
-              { 
-                url: "/neon-overdrive/3d-shooter-arc.png", 
-                label: "Game Architecture Diagram", 
-                buttonText: "View System Architecture" 
-              }
+              { url: "/neon-overdrive/3d-shooter-arc.png", label: "Game Architecture Diagram", buttonText: "View System Architecture" }
             ]
           },
           {
             groupTitle: "Gameplay Optimization Architecture",
             items: [
-              { 
-                url: "/neon-overdrive/3d-shooter-df.png", 
-                label: "Data Flow", 
-                buttonText: "View Data Flow Diagram" 
-              },
-              { 
-                url: "/neon-overdrive/3d-shooter-mem.png", 
-                label: "Memory Allocation", 
-                buttonText: "View Memory Flow" 
-              }
+              { url: "/neon-overdrive/3d-shooter-df.png", label: "Data Flow", buttonText: "View Data Flow Diagram" },
+              { url: "/neon-overdrive/3d-shooter-mem.png", label: "Memory Allocation", buttonText: "View Memory Flow" }
             ]
           },
           {
             groupTitle: "Gameplay",
             items: [
-              { 
-                url: "/neon-overdrive/3d-shooter-1.png", 
-                label: "Gameplay Captures", 
-                buttonText: "View Gameplay" 
-              },
-              { 
-                url: "/neon-overdrive/3d-shooter-2.png", 
-                label: "Gameplay Captures", 
-                buttonText: "View Gameplay" 
-              },
-              { 
-                url: "/neon-overdrive/3d-shooter-3.png", 
-                label: "Gameplay Captures", 
-                buttonText: "View Gameplay" 
-              },
-              { 
-                url: "/neon-overdrive/3d-shooter-4.png", 
-                label: "Gameplay Captures", 
-                buttonText: "View Gameplay" 
-              }
+              { url: "/neon-overdrive/3d-shooter-1.png", label: "Gameplay Captures", buttonText: "View Gameplay" },
+              { url: "/neon-overdrive/3d-shooter-2.png", label: "Gameplay Captures", buttonText: "View Gameplay" },
+              { url: "/neon-overdrive/3d-shooter-3.png", label: "Gameplay Captures", buttonText: "View Gameplay" },
+              { url: "/neon-overdrive/3d-shooter-4.png", label: "Gameplay Captures", buttonText: "View Gameplay" }
             ]
           }
         ]
@@ -761,8 +586,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
   };
 
   const tabs: { id: TabType; label: string }[] = [
-    { id: 'researches', label: 'Researches' },
     { id: 'projects', label: 'Projects' },
+    { id: 'researches', label: 'Researches' },
     { id: 'games', label: 'Games' },
     { id: 'certificates', label: 'Certificates' }
   ];
@@ -885,12 +710,12 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   })}
                 </div>
               ) : (
-                <span className="font-mono text-xs uppercase font-extrabold tracking-widest text-slate-400">
+                <span className="font-mono text-xs uppercase font-extrabold tracking-widest" style={{ color: activeTheme.fillColor + '80' }}>
                   {activeTab === 'certificates' ? 'Certifications & Credentials' : activeTab}
                 </span>
               )}
 
-              <span className="font-mono text-[11px] text-slate-400 font-extrabold uppercase tracking-wider self-end sm:self-center">
+              <span className="font-mono text-[11px] font-extrabold uppercase tracking-wider self-end sm:self-center" style={{ color: activeTheme.fillColor + '80' }}>
                 Total : {filteredItems.length}
               </span>
             </div>
@@ -898,8 +723,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
             {/* COMPACT CARD GRID */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 flex-1 items-start content-start">
               {paginatedItems.length === 0 ? (
-                <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed border-slate-200 bg-white/50 rounded-xl">
-                  <span className="font-mono text-xs text-slate-400 font-medium">No matching registry files loaded.</span>
+                <div className="col-span-full h-44 flex flex-col items-center justify-center border border-dashed rounded-xl" style={{ borderColor: activeTheme.fillColor + '30', backgroundColor: activeTheme.fillColor + '05' }}>
+                  <span className="font-mono text-xs font-medium" style={{ color: activeTheme.fillColor + '80' }}>No matching registry files loaded.</span>
                 </div>
               ) : (
                 paginatedItems.map((item, idx) => {
@@ -909,27 +734,30 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                     return (
                       <div 
                         key={idx}
-                        className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
-                        style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                        className="group relative min-h-[180px] p-4 rounded-xl bg-white border transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-sm overflow-hidden"
+                        style={{ 
+                          borderColor: activeTheme.fillColor + '40',
+                          boxShadow: `0 2px 8px ${activeTheme.fillColor}05`
+                        }}
                         onMouseEnter={(e) => {
-                          e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
-                          e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
-                          e.currentTarget.style.transform = 'translateY(-1.5px)';
+                          e.currentTarget.style.boxShadow = `0 12px 24px ${activeTheme.fillColor}20, 0 4px 8px ${activeTheme.fillColor}10`;
+                          e.currentTarget.style.borderColor = activeTheme.fillColor;
+                          e.currentTarget.style.transform = 'translateY(-2px)';
                         }}
                         onMouseLeave={(e) => {
-                          e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
-                          e.currentTarget.style.borderColor = '#e2e8f0';
+                          e.currentTarget.style.boxShadow = `0 2px 8px ${activeTheme.fillColor}05`;
+                          e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
                           e.currentTarget.style.transform = 'translateY(0)';
                         }}
                       >
                         {/* Left Content Side */}
                         <div className="flex-1 flex flex-col justify-between min-w-0">
                           <div>
-                            <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
+                            <h5 className="font-mono text-slate-900 text-base font-extrabold tracking-tight transition-colors duration-300 break-words" style={{ color: activeTheme.textColor || '#0f172a' }}>
                               {cert.name}
                             </h5>
                             <div className="flex flex-wrap items-center gap-2 mt-1">
-                              <span className="font-mono text-xs font-bold text-slate-600">
+                              <span className="font-mono text-xs font-bold" style={{ color: activeTheme.fillColor }}>
                                 {cert.issuer}
                               </span>
                               <span className="text-slate-300">•</span>
@@ -941,7 +769,12 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                               {cert.skills.slice(0, 4).map((skill, sIdx) => (
                                 <span 
                                   key={sIdx} 
-                                  className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                                  className="font-mono text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide whitespace-nowrap transition-colors"
+                                  style={{ 
+                                    backgroundColor: activeTheme.fillColor + '10',
+                                    borderColor: activeTheme.fillColor + '30',
+                                    color: activeTheme.textColor || '#475569'
+                                  }}
                                 >
                                   {skill}
                                 </span>
@@ -957,17 +790,30 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                           <div className="flex justify-start pt-2">
                             <button 
                               onClick={() => setSelectedCertificate(cert)}
-                              className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                              className="font-mono text-[11px] font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border-2"
+                              style={{ 
+                                color: activeTheme.fillColor, 
+                                borderColor: activeTheme.fillColor,
+                                backgroundColor: 'transparent'
+                              }}
+                              onMouseEnter={(e) => {
+                                e.currentTarget.style.backgroundColor = activeTheme.fillColor;
+                                e.currentTarget.style.color = '#ffffff';
+                              }}
+                              onMouseLeave={(e) => {
+                                e.currentTarget.style.backgroundColor = 'transparent';
+                                e.currentTarget.style.color = activeTheme.fillColor;
+                              }}
                             >
                               View Certificate 
-                              <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                              <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-sm">→</span>
                             </button>
                           </div>
                         </div>
 
                         {/* Right Thumbnail Side */}
                         {cert.imageUrl && (
-                          <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
+                          <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto" style={{ borderColor: activeTheme.fillColor + '20' }}>
                             <img 
                               src={cert.imageUrl} 
                               alt={`${cert.name} preview`} 
@@ -991,30 +837,38 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   return (
                     <div 
                       key={idx}
-                      className="group relative min-h-[180px] p-4 rounded-xl bg-white border border-slate-200/80 transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-[0_2px_8px_rgba(0,0,0,0.01)] overflow-hidden"
-                      style={{ ['--glow-color' as any]: activeTheme.fillColor + '20' }}
+                      className="group relative min-h-[180px] p-4 rounded-xl bg-white border transition-all duration-300 ease-out flex flex-row gap-4 justify-between shadow-sm overflow-hidden"
+                      style={{ 
+                        borderColor: activeTheme.fillColor + '40',
+                        boxShadow: `0 2px 8px ${activeTheme.fillColor}05`
+                      }}
                       onMouseEnter={(e) => {
-                        e.currentTarget.style.boxShadow = `0 10px 24px var(--glow-color), 0 2px 4px ${activeTheme.fillColor}08`;
-                        e.currentTarget.style.borderColor = activeTheme.fillColor + '60';
-                        e.currentTarget.style.transform = 'translateY(-1.5px)';
+                        e.currentTarget.style.boxShadow = `0 12px 24px ${activeTheme.fillColor}20, 0 4px 8px ${activeTheme.fillColor}10`;
+                        e.currentTarget.style.borderColor = activeTheme.fillColor;
+                        e.currentTarget.style.transform = 'translateY(-2px)';
                       }}
                       onMouseLeave={(e) => {
-                        e.currentTarget.style.boxShadow = '0 2px 8px rgba(0,0,0,0.01)';
-                        e.currentTarget.style.borderColor = '#e2e8f0';
+                        e.currentTarget.style.boxShadow = `0 2px 8px ${activeTheme.fillColor}05`;
+                        e.currentTarget.style.borderColor = activeTheme.fillColor + '40';
                         e.currentTarget.style.transform = 'translateY(0)';
                       }}
                     >
                       {/* Left Content Side */}
                       <div className="flex-1 flex flex-col justify-between min-w-0">
                         <div>
-                          <h5 className={`font-mono text-slate-900 text-base font-extrabold tracking-tight group-hover:${activeTheme.textColor} transition-colors duration-300 break-words`}>
+                          <h5 className="font-mono text-slate-900 text-base font-extrabold tracking-tight transition-colors duration-300 break-words" style={{ color: activeTheme.textColor || '#0f172a' }}>
                             {project.name}
                           </h5>
                           <div className="flex flex-wrap gap-1.5 mt-2.5">
                             {project.tech.map((t, tIdx) => (
                               <span 
                                 key={tIdx} 
-                                className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                                className="font-mono text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide whitespace-nowrap transition-colors"
+                                style={{ 
+                                  backgroundColor: activeTheme.fillColor + '10',
+                                  borderColor: activeTheme.fillColor + '30',
+                                  color: activeTheme.textColor || '#475569'
+                                }}
                               >
                                 {t}
                               </span>
@@ -1025,17 +879,30 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                         <div className="flex justify-start pt-2">
                           <button 
                             onClick={() => setSelectedProject(project)}
-                            className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                            className="font-mono text-[11px] font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border-2"
+                            style={{ 
+                              color: activeTheme.fillColor, 
+                              borderColor: activeTheme.fillColor,
+                              backgroundColor: 'transparent'
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.backgroundColor = activeTheme.fillColor;
+                              e.currentTarget.style.color = '#ffffff';
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.backgroundColor = 'transparent';
+                              e.currentTarget.style.color = activeTheme.fillColor;
+                            }}
                           >
-                            See More 
-                            <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                            View Methodology 
+                            <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-sm">→</span>
                           </button>
                         </div>
                       </div>
 
                       {/* Right Thumbnail Side */}
                       {project.imageUrl && (
-                        <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border border-slate-100 overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto">
+                        <div className="w-24 h-full sm:w-28 bg-slate-50 rounded-lg border overflow-hidden flex-shrink-0 relative self-center aspect-square sm:aspect-auto" style={{ borderColor: activeTheme.fillColor + '20' }}>
                           <img 
                             src={project.imageUrl} 
                             alt={`${project.name} preview`} 
@@ -1061,17 +928,31 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
               <button
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(prev => prev - 1)}
-                className="px-3 py-1.5 font-mono text-xs font-bold uppercase rounded-xl border-2 border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-all cursor-pointer"
+                className="px-3 py-1.5 font-mono text-xs font-bold uppercase rounded-xl border-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{ 
+                  borderColor: activeTheme.fillColor + '40', 
+                  color: activeTheme.textColor || '#475569',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => { if (!e.currentTarget.disabled) { e.currentTarget.style.backgroundColor = activeTheme.fillColor + '10'; e.currentTarget.style.borderColor = activeTheme.fillColor; } }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = activeTheme.fillColor + '40'; }}
               >
                 🗎 Prev
               </button>
-              <span className="font-mono text-xs text-slate-500 font-extrabold tracking-wide">
+              <span className="font-mono text-xs font-extrabold tracking-wide" style={{ color: activeTheme.fillColor + '80' }}>
                 PAGE {currentPage} OF {totalPages}
               </span>
               <button
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(prev => prev + 1)}
-                className="px-3 py-1.5 font-mono text-xs font-bold uppercase rounded-xl border-2 border-slate-200 text-slate-600 hover:bg-slate-100 disabled:opacity-40 disabled:hover:bg-transparent transition-all cursor-pointer"
+                className="px-3 py-1.5 font-mono text-xs font-bold uppercase rounded-xl border-2 transition-all cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{ 
+                  borderColor: activeTheme.fillColor + '40', 
+                  color: activeTheme.textColor || '#475569',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => { if (!e.currentTarget.disabled) { e.currentTarget.style.backgroundColor = activeTheme.fillColor + '10'; e.currentTarget.style.borderColor = activeTheme.fillColor; } }}
+                onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = 'transparent'; e.currentTarget.style.borderColor = activeTheme.fillColor + '40'; }}
               >
                 Next 🗎
               </button>
@@ -1131,7 +1012,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 flex-shrink-0 select-none">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
-                    <span className="font-mono text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                    <span className="font-mono text-xs font-extrabold uppercase tracking-wider" style={{ color: activeTheme.fillColor }}>
                       Certificate • {selectedCertificate.issuer}
                     </span>
                   </div>
@@ -1145,23 +1026,16 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                 {/* Content */}
                 <div className="modal-scroll-pane flex-1 overflow-y-auto p-8 md:p-10 space-y-8 select-text scroll-smooth">
-                  {/* Certificate Image */}
                   {selectedCertificate.imageUrl && (
                     <div className="w-full max-w-md mx-auto rounded-xl overflow-hidden border border-slate-200 shadow-md">
-                      <img 
-                        src={selectedCertificate.imageUrl} 
-                        alt={selectedCertificate.name}
-                        className="w-full h-auto object-cover"
-                      />
+                      <img src={selectedCertificate.imageUrl} alt={selectedCertificate.name} className="w-full h-auto object-cover" />
                     </div>
                   )}
 
-                  {/* Details */}
                   <div className="space-y-4">
                     <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">{selectedCertificate.name}</h3>
-                    
                     <div className="flex flex-wrap items-center gap-4 text-sm">
-                      <span className="font-bold text-slate-700">{selectedCertificate.issuer}</span>
+                      <span className="font-bold" style={{ color: activeTheme.fillColor }}>{selectedCertificate.issuer}</span>
                       <span className="text-slate-300">|</span>
                       <span className="text-slate-500">{selectedCertificate.date}</span>
                       {selectedCertificate.credentialId && (
@@ -1171,19 +1045,14 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                         </>
                       )}
                     </div>
-
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      {selectedCertificate.description}
-                    </p>
+                    <p className="text-sm text-slate-600 leading-relaxed">{selectedCertificate.description}</p>
 
                     <div className="space-y-2">
-                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Skills Covered</h4>
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>Skills Covered</h4>
                       <div className="flex flex-wrap gap-2">
                         {selectedCertificate.skills.map((skill, idx) => (
-                          <span 
-                            key={idx} 
-                            className="font-mono text-[10px] font-bold bg-slate-100 text-slate-600 px-3 py-1 rounded border border-slate-200 uppercase tracking-wide"
-                          >
+                          <span key={idx} className="font-mono text-[10px] font-bold px-3 py-1 rounded border uppercase tracking-wide"
+                           style={{ backgroundColor: activeTheme.fillColor + '10', borderColor: activeTheme.fillColor + '30', color: activeTheme.fillColor || '#475569' }}>
                             {skill}
                           </span>
                         ))}
@@ -1193,15 +1062,8 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   <hr className="border-slate-100" />
 
-                  {/* Verify Button */}
                   <div className="flex flex-wrap gap-4">
-                    <a 
-                      href={selectedCertificate.verifyLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ backgroundImage: activeTheme.gradient }}
-                      className="px-6 py-3 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center"
-                    >
+                    <a href={selectedCertificate.verifyLink} target="_blank" rel="noreferrer" style={{ backgroundImage: activeTheme.gradient }} className="px-6 py-3 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center">
                       Verify Certificate ↗
                     </a>
                   </div>
@@ -1238,14 +1100,11 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between bg-slate-50 flex-shrink-0 select-none">
                   <div className="flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="font-mono text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                    <span className="font-mono text-xs font-extrabold uppercase tracking-wider" style={{ color: activeTheme.fillColor }}>
                       {selectedProject.name}
                     </span>
                   </div>
-                  <button 
-                    onClick={() => setSelectedProject(null)}
-                    className="px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-all cursor-pointer"
-                  >
+                  <button onClick={() => setSelectedProject(null)} className="px-3 py-1.5 rounded-lg font-mono text-xs font-bold text-slate-400 hover:text-slate-700 hover:bg-slate-200/50 transition-all cursor-pointer">
                     ✕
                   </button>
                 </div>
@@ -1270,29 +1129,16 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                       >
                         <div className="overflow-auto p-2 bg-slate-900/5 flex justify-center items-center">
                           {/\.(mp4|webm|ogg|mov)$/i.test(previewImage.url) ? (
-                            <video 
-                              src={previewImage.url} 
-                              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm"
-                              controls
-                              autoPlay
-                              playsInline
-                            />
+                            <video src={previewImage.url} className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm" controls autoPlay playsInline />
                           ) : (
-                            <img 
-                              src={previewImage.url} 
-                              alt={previewImage.label}
-                              className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm"
-                            />
+                            <img src={previewImage.url} alt={previewImage.label} className="max-w-full max-h-[70vh] object-contain rounded-lg shadow-sm" />
                           )}
                         </div>
                         <div className="px-5 py-3 bg-slate-50 border-t border-slate-200 flex items-center justify-between gap-4 font-mono select-none">
-                          <span className="text-xs font-bold text-slate-500 uppercase tracking-wide truncate">
+                          <span className="text-xs font-bold uppercase tracking-wide truncate" style={{ color: activeTheme.fillColor }}>
                             🔍 Viewing: {previewImage.label}
                           </span>
-                          <button 
-                            onClick={() => setPreviewImage(null)}
-                            className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
-                          >
+                          <button onClick={() => setPreviewImage(null)} className="px-3 py-1 bg-slate-200 hover:bg-slate-300 text-slate-800 text-[10px] font-extrabold uppercase tracking-wider rounded-lg transition-colors cursor-pointer">
                             Close
                           </button>
                         </div>
@@ -1305,7 +1151,7 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   <div className="space-y-2">
                     <div className="flex flex-wrap gap-2">
                       {selectedProject.tech.map((t, idx) => (
-                        <span key={idx} className="font-mono text-[10px] font-bold border border-slate-200 text-slate-400 px-2 py-0.5 rounded uppercase">
+                        <span key={idx} className="font-mono text-[10px] font-bold border px-2 py-0.5 rounded uppercase" style={{ borderColor: activeTheme.fillColor + '30', color: activeTheme.fillColor, backgroundColor: activeTheme.fillColor + '05' }}>
                           {t}
                         </span>
                       ))}
@@ -1317,18 +1163,18 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   <hr className="border-slate-100" />
 
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">01. Problem Statement</h4>
-                    <div className="p-4 rounded-xl bg-rose-50/50 border border-rose-100 text-slate-700 text-sm leading-relaxed">
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>01. Problem Statement</h4>
+                    <div className="p-4 rounded-xl border text-slate-700 text-sm leading-relaxed" style={{ backgroundColor: activeTheme.fillColor + '05', borderColor: activeTheme.fillColor + '20' }}>
                       {selectedProject.problemStatement}
                     </div>
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">02. Engineering Requirements</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>02. Engineering Requirements</h4>
                     <ul className="space-y-2">
                       {selectedProject.requirements.map((req, idx) => (
                         <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
-                          <span className="font-mono text-xs font-bold text-emerald-500 mt-0.5">✔</span>
+                          <span className="font-mono text-xs font-bold mt-0.5" style={{ color: activeTheme.fillColor }}>✔</span>
                           <span className="leading-relaxed">{req}</span>
                         </li>
                       ))}
@@ -1336,17 +1182,17 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   </div>
 
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">03. Applied Solution</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>03. Applied Solution</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.solution}</p>
                   </div>
 
                   {selectedProject.coreFeatures && selectedProject.coreFeatures.length > 0 && (
                     <div className="space-y-3">
-                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Core Features</h4>
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>Core Features</h4>
                       <ul className="space-y-2">
                         {selectedProject.coreFeatures.map((feature, idx) => (
                           <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
-                            <span className="font-mono text-xs font-bold text-blue-500 mt-0.5">◆</span>
+                            <span className="font-mono text-xs font-bold mt-0.5" style={{ color: activeTheme.fillColor }}>◆</span>
                             <span className="leading-relaxed">{feature}</span>
                           </li>
                         ))}
@@ -1356,11 +1202,11 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   {selectedProject.technicalHighlights && selectedProject.technicalHighlights.length > 0 && (
                     <div className="space-y-3">
-                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">Technical Highlights</h4>
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>Technical Highlights</h4>
                       <ul className="space-y-2">
                         {selectedProject.technicalHighlights.map((highlight, idx) => (
                           <li key={idx} className="flex items-start gap-3 text-sm text-slate-600">
-                            <span className="font-mono text-xs font-bold text-purple-500 mt-0.5">★</span>
+                            <span className="font-mono text-xs font-bold mt-0.5" style={{ color: activeTheme.fillColor }}>★</span>
                             <span className="leading-relaxed">{highlight}</span>
                           </li>
                         ))}
@@ -1369,27 +1215,20 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                   )}
 
                   <div className="space-y-3">
-                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">04. Architecture & Design Mapping</h4>
+                    <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>04. Architecture & Design Mapping</h4>
                     <p className="text-sm text-slate-600 leading-relaxed">{selectedProject.architecture}</p>
                   </div>
 
                   {selectedProject.mediaGroups && selectedProject.mediaGroups.length > 0 && (
                     <div className="space-y-6">
-                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest text-slate-400">
-                        05 / System Metrics & Interface Preview
-                      </h4>
-                      
+                      <h4 className="font-mono text-xs font-extrabold uppercase tracking-widest" style={{ color: activeTheme.fillColor }}>05 / System Metrics & Interface Preview</h4>
                       <div className="space-y-4">
                         {selectedProject.mediaGroups.map((group, groupIndex) => {
                           const currentIndex = mediaGroupIndices[groupIndex] || 0;
-                          
                           return (
                             <div key={groupIndex} className="space-y-2">
-                              <h5 className="font-mono text-sm font-bold text-slate-700 tracking-wide">
-                                {group.groupTitle}
-                              </h5>
-                              
-                              <div className="relative bg-slate-50 border border-slate-200/80 rounded-xl overflow-hidden">
+                              <h5 className="font-mono text-sm font-bold tracking-wide" style={{ color: activeTheme.fillColor }}>{group.groupTitle}</h5>
+                              <div className="relative bg-slate-50 border rounded-xl overflow-hidden" style={{ borderColor: activeTheme.fillColor + '30' }}>
                                 <div className="relative aspect-video overflow-hidden">
                                   <AnimatePresence mode="wait">
                                     <motion.div
@@ -1401,24 +1240,14 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                       className="w-full h-full"
                                     >
                                       {/\.(mp4|webm|ogg|mov)$/i.test(group.items[currentIndex].url) ? (
-                                        <video 
-                                          src={group.items[currentIndex].url} 
-                                          className="w-full h-full object-contain bg-slate-900/5"
-                                          controls
-                                          autoPlay
-                                          playsInline
-                                          key={`${groupIndex}-${currentIndex}`}
-                                        />
+                                        <video src={group.items[currentIndex].url} className="w-full h-full object-contain bg-slate-900/5" controls autoPlay playsInline key={`${groupIndex}-${currentIndex}`} />
                                       ) : (
                                         <img 
                                           src={group.items[currentIndex].url} 
                                           alt={`${selectedProject.name} - ${group.items[currentIndex].label}`} 
                                           className="w-full h-full object-contain bg-slate-900/5 cursor-pointer hover:opacity-90 transition-opacity"
                                           loading="lazy"
-                                          onClick={() => setPreviewImage({ 
-                                            url: group.items[currentIndex].url, 
-                                            label: group.items[currentIndex].label 
-                                          })}
+                                          onClick={() => setPreviewImage({ url: group.items[currentIndex].url, label: group.items[currentIndex].label })}
                                         />
                                       )}
                                     </motion.div>
@@ -1427,48 +1256,26 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                   {group.items.length > 1 && (
                                     <>
                                       <button
-                                        onClick={() => {
-                                          setMediaGroupIndices(prev => ({
-                                            ...prev,
-                                            [groupIndex]: currentIndex === 0 
-                                              ? group.items.length - 1 
-                                              : currentIndex - 1
-                                          }));
-                                        }}
+                                        onClick={() => setMediaGroupIndices(prev => ({ ...prev, [groupIndex]: currentIndex === 0 ? group.items.length - 1 : currentIndex - 1 }))}
                                         className="absolute left-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 z-10 cursor-pointer"
                                       >
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                                        </svg>
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" /></svg>
                                       </button>
                                       <button
-                                        onClick={() => {
-                                          setMediaGroupIndices(prev => ({
-                                            ...prev,
-                                            [groupIndex]: currentIndex === group.items.length - 1 
-                                              ? 0 
-                                              : currentIndex + 1
-                                          }));
-                                        }}
+                                        onClick={() => setMediaGroupIndices(prev => ({ ...prev, [groupIndex]: currentIndex === group.items.length - 1 ? 0 : currentIndex + 1 }))}
                                         className="absolute right-2 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white w-8 h-8 rounded-full flex items-center justify-center transition-all hover:scale-110 z-10 cursor-pointer"
                                       >
-                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                                        </svg>
+                                        <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" /></svg>
                                       </button>
                                     </>
                                   )}
                                 </div>
 
-                                <div className="px-4 py-3 bg-white border-t border-slate-200 flex items-center justify-between gap-4">
+                                <div className="px-4 py-3 bg-white border-t flex items-center justify-between gap-4" style={{ borderColor: activeTheme.fillColor + '20' }}>
                                   <div className="flex items-center gap-3 min-w-0">
-                                    <span className="text-xs font-bold text-slate-600 truncate">
-                                      {group.items[currentIndex].label}
-                                    </span>
+                                    <span className="text-xs font-bold truncate" style={{ color: activeTheme.fillColor }}>{group.items[currentIndex].label}</span>
                                     {group.items.length > 1 && (
-                                      <span className="font-mono text-[10px] font-bold text-slate-400 whitespace-nowrap">
-                                        {currentIndex + 1} / {group.items.length}
-                                      </span>
+                                      <span className="font-mono text-[10px] font-bold whitespace-nowrap" style={{ color: activeTheme.fillColor + '80' }}>{currentIndex + 1} / {group.items.length}</span>
                                     )}
                                   </div>
 
@@ -1478,22 +1285,13 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                         {group.items.map((_, idx) => (
                                           <button
                                             key={idx}
-                                            onClick={() => {
-                                              setMediaGroupIndices(prev => ({
-                                                ...prev,
-                                                [groupIndex]: idx
-                                              }));
-                                            }}
-                                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${
-                                              idx === currentIndex 
-                                                ? 'bg-slate-800 w-4' 
-                                                : 'bg-slate-300 hover:bg-slate-400'
-                                            }`}
+                                            onClick={() => setMediaGroupIndices(prev => ({ ...prev, [groupIndex]: idx }))}
+                                            className={`w-2 h-2 rounded-full transition-all cursor-pointer ${idx === currentIndex ? 'w-4' : 'hover:opacity-70'}`}
+                                            style={{ backgroundColor: idx === currentIndex ? activeTheme.fillColor : activeTheme.fillColor + '40' }}
                                           />
                                         ))}
                                       </div>
                                     )}
-                                    
                                     <button
                                       onClick={() => {
                                         const asset = group.items[currentIndex];
@@ -1503,11 +1301,10 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
                                           setPreviewImage({ url: asset.url, label: asset.label });
                                         }
                                       }}
-                                      className="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-mono text-[10px] font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer"
+                                      className="px-3 py-1.5 font-mono text-[10px] font-bold uppercase tracking-wider rounded-lg transition-colors cursor-pointer border"
+                                      style={{ backgroundColor: activeTheme.fillColor + '10', color: activeTheme.fillColor, borderColor: activeTheme.fillColor + '30' }}
                                     >
-                                      {/\.(mp4|webm|ogg|mov)$/i.test(group.items[currentIndex].url) 
-                                        ? 'Open Video' 
-                                        : 'Expand View'}
+                                      {/\.(mp4|webm|ogg|mov)$/i.test(group.items[currentIndex].url) ? 'Open Video' : 'Expand View'}
                                     </button>
                                   </div>
                                 </div>
@@ -1521,35 +1318,23 @@ export function ProjectsSection({ sec }: ProjectsSectionProps) {
 
                   <hr className="border-slate-100" />
 
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-slate-50 border border-slate-200/60">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border" style={{ backgroundColor: activeTheme.fillColor + '05', borderColor: activeTheme.fillColor + '20' }}>
                     <div>
-                      <h5 className="font-mono text-xs font-extrabold uppercase text-slate-700">Open-source Core Repository</h5>
-                      <p className="text-xs text-slate-400 font-mono mt-0.5">{selectedProject.githubLink}</p>
+                      <h5 className="font-mono text-xs font-extrabold uppercase" style={{ color: activeTheme.fillColor }}>Open-source Core Repository</h5>
+                      <p className="text-xs font-mono mt-0.5 text-slate-500">{selectedProject.githubLink}</p>
                     </div>
-                    <a 
-                      href={selectedProject.githubLink}
-                      target="_blank"
-                      rel="noreferrer"
-                      style={{ backgroundImage: activeTheme.gradient }}
-                      className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center"
-                    >
+                    <a href={selectedProject.githubLink} target="_blank" rel="noreferrer" style={{ backgroundImage: activeTheme.gradient }} className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center">
                       Inspect Source ↗
                     </a>
                   </div>
 
                   {selectedProject.playLink && (
-                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl bg-emerald-50 border border-emerald-200/60">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border" style={{ backgroundColor: activeTheme.fillColor + '05', borderColor: activeTheme.fillColor + '20' }}>
                       <div>
-                        <h5 className="font-mono text-xs font-extrabold uppercase text-emerald-700">Wanna tryout?</h5>
-                        <p className="text-xs text-emerald-600 font-mono mt-0.5">Launch live and experience the application...</p>
+                        <h5 className="font-mono text-xs font-extrabold uppercase" style={{ color: activeTheme.fillColor }}>Wanna tryout?</h5>
+                        <p className="text-xs font-mono mt-0.5" style={{ color: activeTheme.fillColor + '80' }}>Launch live and experience the application...</p>
                       </div>
-                      <a 
-                        href={selectedProject.playLink}
-                        target="_blank"
-                        rel="noreferrer"
-                        style={{ backgroundImage: activeTheme.gradient }}
-                        className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap"
-                      >
+                      <a href={selectedProject.playLink} target="_blank" rel="noreferrer" style={{ backgroundImage: activeTheme.gradient }} className="px-4 py-2 rounded-xl text-xs font-mono font-bold tracking-wider text-white shadow-md uppercase hover:brightness-110 transition-all text-center whitespace-nowrap">
                         Launch ▶
                       </a>
                     </div>

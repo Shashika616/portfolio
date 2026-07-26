@@ -278,7 +278,7 @@ export function AboutSection() {
                 {/* Live PDF Frame Layout */}
                 <div className="flex-1 bg-slate-100 p-4 relative">
                   <iframe 
-                    src="/cv1.pdf" 
+                    src="/ShashikaFernandoCV.pdf" 
                     className="w-full h-full rounded-xl shadow-inner border border-slate-200 bg-white"
                     title="Curriculum Vitae Document Preview"
                   />

@@ -273,12 +273,17 @@ export function ExperienceSection({ sec }: ExperienceSectionProps) {
                           {item.overview}
                         </p>
 
-                        {/* Tech Stack */}
+                        {/* Tech Stack - UPDATED WITH THEME COLOR TEXT */}
                         <div className="flex flex-wrap gap-1.5 mt-3">
                           {item.tech.slice(0, 6).map((t, tIdx) => (
                             <span 
                               key={tIdx} 
-                              className="font-mono text-[10px] font-bold bg-slate-100 text-slate-500 px-2 py-0.5 rounded border border-slate-200/40 uppercase tracking-wide whitespace-nowrap"
+                              className="font-mono text-[10px] font-bold px-2 py-0.5 rounded border uppercase tracking-wide whitespace-nowrap transition-colors"
+                              style={{ 
+                                backgroundColor: activeTheme.fillColor + '10',
+                                borderColor: activeTheme.fillColor + '30',
+                                color: activeTheme.fillColor // Explicitly uses the theme color for text
+                              }}
                             >
                               {t}
                             </span>
@@ -291,13 +296,26 @@ export function ExperienceSection({ sec }: ExperienceSectionProps) {
                         </div>
                       </div>
 
-                      <div className="flex justify-start pt-3">
+                      <div className="flex justify-start pt-2">
                         <button 
                           onClick={() => setSelectedExperience(item)}
-                          className={`font-mono text-[11px] font-bold tracking-wider uppercase transition-colors flex items-center gap-1 cursor-pointer text-slate-400 group-hover:${activeTheme.textColor}`}
+                          className="font-mono text-[11px] font-bold tracking-wider uppercase transition-all duration-200 flex items-center gap-1.5 cursor-pointer px-3 py-1.5 rounded-lg border-2"
+                          style={{ 
+                            color: activeTheme.fillColor, 
+                            borderColor: activeTheme.fillColor,
+                            backgroundColor: 'transparent'
+                          }}
+                          onMouseEnter={(e) => {
+                            e.currentTarget.style.backgroundColor = activeTheme.fillColor;
+                            e.currentTarget.style.color = '#ffffff';
+                          }}
+                          onMouseLeave={(e) => {
+                            e.currentTarget.style.backgroundColor = 'transparent';
+                            e.currentTarget.style.color = activeTheme.fillColor;
+                          }}
                         >
-                          Read Full Experience 
-                          <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-xs">→</span>
+                          View Full Description
+                          <span className="transform group-hover:translate-x-0.5 transition-transform font-sans text-sm">→</span>
                         </button>
                       </div>
                     </div>
@@ -446,9 +464,19 @@ export function ExperienceSection({ sec }: ExperienceSectionProps) {
                         </>
                       )}
                     </div>
+                    
+                    {/* Modal Tech Stack - UPDATED WITH THEME COLOR TEXT */}
                     <div className="flex flex-wrap gap-1.5 mt-2">
                       {selectedExperience.tech.map((t, idx) => (
-                        <span key={idx} className="font-mono text-[10px] font-bold border border-slate-200 text-slate-400 px-2 py-0.5 rounded uppercase">
+                        <span 
+                          key={idx} 
+                          className="font-mono text-[10px] font-bold border px-2 py-0.5 rounded uppercase transition-colors"
+                          style={{ 
+                            backgroundColor: activeTheme.fillColor + '10',
+                            borderColor: activeTheme.fillColor + '30',
+                            color: activeTheme.fillColor // Explicitly uses the theme color for text
+                          }}
+                        >
                           {t}
                         </span>
                       ))}

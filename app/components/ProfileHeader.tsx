@@ -20,8 +20,8 @@ export default function ProfileHeader() {
         </span>
       </span>
       <div className="min-w-0 leading-tight">
-        <p className="text-[15px] sm:text-base font-semibold tracking-[-0.01em] text-slate-900 truncate">{PROFILE.name}</p>
-        <p className="text-[13px] text-slate-500 truncate">{PROFILE.title} · {PROFILE.location.split(',')[0]}</p>
+        <p className="display text-[1.35rem] sm:text-[1.5rem] leading-none text-slate-900 truncate">{PROFILE.name}</p>
+        <p className="text-[13px] text-slate-500 truncate mt-1">{PROFILE.title} · {PROFILE.location.split(',')[0]}</p>
       </div>
     </div>
   );

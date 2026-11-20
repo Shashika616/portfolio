@@ -3,7 +3,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-import { LayoutDashboard, LayoutGrid, Rows3 } from "lucide-react";
+import { LayoutDashboard, LayoutGrid, Newspaper } from "lucide-react";
 import { handOffGalleryMode, requestScrollToWork } from "../lib/navigation";
 
 export type WorkView = "collage" | "grid" | "feed";
@@ -11,7 +11,7 @@ export type WorkView = "collage" | "grid" | "feed";
 const OPTIONS: { id: WorkView; label: string; Icon: typeof LayoutGrid }[] = [
   { id: "collage", label: "Collage", Icon: LayoutDashboard },
   { id: "grid", label: "Grid", Icon: LayoutGrid },
-  { id: "feed", label: "Feed", Icon: Rows3 },
+  { id: "feed", label: "Profile", Icon: Newspaper },
 ];
 
 /**

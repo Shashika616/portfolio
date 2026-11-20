@@ -40,6 +40,10 @@ export interface ProjectItem {
   platforms?: Platform[];
   /** One outcome-first sentence for cards and the profile feed (≤ ~160 chars). */
   summary?: string;
+  /** Short magazine cover line for featured work on /profile (facts only, ≤ ~50 chars). */
+  coverline?: string;
+  /** Featured only: one sentence pairing the engineering with its business outcome (facts only). */
+  pullQuote?: string;
   category: ProjectCategory;
   status?: ProjectStatus;
   year?: string;
@@ -53,6 +57,9 @@ export interface ProjectItem {
   architecture: string;
   /** Drawn architecture diagram for projects without an image diagram. Facts only. */
   architectureDiagram?: ArchitectureDiagram;
+  engineering?: EngineeringNotes;
+  sequence?: SequenceFlow;
+  threats?: Threat[];
   coreFeatures?: string[];
   technicalHighlights?: string[];
   /** Websites only: what the site ships for search engines (SEO) and AI answer engines (GEO). Facts, no ranking claims. */
@@ -71,6 +78,29 @@ export interface ProjectItem {
 export interface ArchitectureDiagram {
   tiers: { label: string; nodes: string[] }[];
   notes?: string[];
+}
+
+/** Engineering notes for a case study. Facts only; omit a key if there is nothing documented. */
+export interface EngineeringNotes {
+  performance?: string[];
+  security?: string[];
+  resources?: string[];
+  testing?: string[];
+  maintenance?: string[];
+  impact?: string[];
+}
+
+/** Request flow drawn as a sequence: actors left to right, steps top to bottom. */
+export interface SequenceFlow {
+  title: string;
+  actors: string[];
+  steps: { from: number; to: number; label: string }[];
+}
+
+/** Threat model: what could go wrong, and what prevents it. */
+export interface Threat {
+  risk: string;
+  mitigation: string;
 }
 
 export interface CertificateItem {

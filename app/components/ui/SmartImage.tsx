@@ -30,6 +30,9 @@ export function SmartImage({
     if (img?.complete && img.naturalWidth > 0) setLoaded(true);
   }, []);
 
+  // No source: keep the shape with a skeleton rather than an <img src=""> (which refetches the page).
+  if (!src) return <span aria-hidden className={`skeleton block ${dark ? "skeleton-dark" : ""} ${className}`} />;
+
   return (
     <span className={`relative block overflow-hidden ${className}`}>
       {!loaded && <span aria-hidden className={`skeleton absolute inset-0 ${dark ? "skeleton-dark" : ""}`} />}

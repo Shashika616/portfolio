@@ -10,6 +10,8 @@ Add an object to the right array in `app/data/catalog.ts` (`projects`, `research
 {
   name: "Product Name - What It Is",          // text before " - " is the short title
   summary: "One outcome-first sentence (≤160 chars).",
+  coverline: "Featured only: the outcome in a few words, why it matters (not internals like counts or refactors).",
+  pullQuote: "Featured only: one sentence pairing the engineering with its business outcome.",
   cover: "/work/product.jpg",                 // live screenshot or key diagram
   category: "Web Development",                // see ProjectCategory in types.ts
   platforms: ["Web", "Backend"],              // drives the Websites/Mobile/Backend/Desktop filters

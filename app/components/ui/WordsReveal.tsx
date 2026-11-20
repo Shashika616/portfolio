@@ -18,6 +18,7 @@ export function WordsReveal({
   stagger = 0.035,
   delay = 0,
   dim = 0.12,
+  as = "p",
 }: {
   text: string;
   className?: string;
@@ -26,18 +27,21 @@ export function WordsReveal({
   stagger?: number;
   delay?: number;
   dim?: number;
+  /** Render as a span when used inside a heading or other phrasing context. */
+  as?: "p" | "span";
 }) {
   const ref = useRef<HTMLParagraphElement>(null);
   const words = text.split(/\s+/);
 
   if (mode === "scroll") return <ScrollWords words={words} className={className} container={container} dim={dim} innerRef={ref} />;
-  return <TimeWords words={words} className={className} stagger={stagger} delay={delay} innerRef={ref} />;
+  return <TimeWords words={words} className={className} stagger={stagger} delay={delay} innerRef={ref} as={as} />;
 }
 
-function TimeWords({ words, className, stagger, delay, innerRef }: { words: string[]; className?: string; stagger: number; delay: number; innerRef: React.RefObject<HTMLParagraphElement | null> }) {
+function TimeWords({ words, className, stagger, delay, innerRef, as = "p" }: { words: string[]; className?: string; stagger: number; delay: number; innerRef: React.RefObject<HTMLParagraphElement | null>; as?: "p" | "span" }) {
   const inView = useInView(innerRef, { once: true, margin: "0px 0px -10% 0px" });
+  const Tag = as;
   return (
-    <p ref={innerRef} className={className}>
+    <Tag ref={innerRef} className={className}>
       {/* Spaces live between the spans so lines wrap normally. */}
       {words.map((w, i) => (
         <React.Fragment key={i}>
@@ -52,7 +56,7 @@ function TimeWords({ words, className, stagger, delay, innerRef }: { words: stri
           {i < words.length - 1 ? " " : null}
         </React.Fragment>
       ))}
-    </p>
+    </Tag>
   );
 }
 

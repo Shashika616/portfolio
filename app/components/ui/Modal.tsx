@@ -89,7 +89,7 @@ export function Modal({ open, onClose, title, headerAction, children, size = "lg
               <p className="text-sm font-semibold text-slate-900 truncate">{title}</p>
               <div className="flex items-center gap-1 flex-shrink-0">
                 {headerAction}
-                <button onClick={onClose} className="btn btn-ghost btn-icon btn-sm" aria-label="Close">
+                <button onClick={onClose} className="btn btn-close btn-icon btn-sm" aria-label="Close" data-cursor="Close">
                   <X className="w-[18px] h-[18px]" strokeWidth={2} />
                 </button>
               </div>

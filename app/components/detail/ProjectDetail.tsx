@@ -5,6 +5,9 @@ import { ArrowUpRight } from "lucide-react";
 import type { ProjectItem } from "../../data/types";
 import { MediaGallery } from "../ui/MediaGallery";
 import { ArchitectureDiagram } from "./ArchitectureDiagram";
+import { EngineeringNotes } from "./EngineeringNotes";
+import { SequenceDiagram } from "./SequenceDiagram";
+import { ThreatModel } from "./ThreatModel";
 import { SmartImage } from "../ui/SmartImage";
 import { GithubIcon } from "../ui/BrandIcons";
 
@@ -71,10 +74,28 @@ export function ProjectDetail({ project }: { project: ProjectItem }) {
         <Block title="Search and AI visibility (SEO / GEO)"><List items={project.searchVisibility} accent /></Block>
       ) : null}
 
+      {project.engineering ? (
+        <Block title="Engineering">
+          <EngineeringNotes notes={project.engineering} />
+        </Block>
+      ) : null}
+
       <Block title="Architecture">
         {project.architectureDiagram && <ArchitectureDiagram diagram={project.architectureDiagram} title={project.name} />}
         <p className="text-[15px] leading-7 text-slate-700 text-pretty">{project.architecture}</p>
       </Block>
+
+      {project.sequence ? (
+        <Block title="Request flow">
+          <SequenceDiagram flow={project.sequence} />
+        </Block>
+      ) : null}
+
+      {project.threats?.length ? (
+        <Block title="Threat model">
+          <ThreatModel threats={project.threats} />
+        </Block>
+      ) : null}
 
       {project.mediaGroups?.length ? (
         <Block title="Diagrams and screens">
@@ -87,8 +108,12 @@ export function ProjectDetail({ project }: { project: ProjectItem }) {
 
 export function Block({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="space-y-3.5">
-      <h3 className="text-[13px] font-semibold uppercase tracking-[0.06em] text-slate-500">{title}</h3>
+    <section className="space-y-4">
+      {/* Bold, clear subtitle marked with the site's dial tick. */}
+      <h3 className="flex items-center gap-3 text-[19px] sm:text-[21px] font-bold tracking-[-0.01em] text-slate-900">
+        <span aria-hidden className="w-4 h-[3px] rounded-full flex-shrink-0" style={{ background: "var(--accent)" }} />
+        {title}
+      </h3>
       {children}
     </section>
   );

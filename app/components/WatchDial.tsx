@@ -234,7 +234,7 @@ function MobileNav({ sections, currentIndex, jumpToSection, isSidebarOpen, setIs
                     <p className="text-xs text-slate-500">{current.subtitle}</p>
                   </div>
                 </div>
-                <button onClick={close} aria-label="Close menu" className="btn btn-ghost btn-icon btn-sm">
+                <button onClick={close} aria-label="Close menu" className="btn btn-close btn-icon btn-sm">
                   <X className="w-5 h-5" />
                 </button>
               </div>

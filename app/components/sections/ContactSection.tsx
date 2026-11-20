@@ -1,6 +1,8 @@
 "use client";
 
+import { CvButton } from "../ui/CvPicker";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { Mail, Copy, Check, ArrowUpRight, Download } from "lucide-react";
 import { Section } from "../../types";
 import { PROFILE } from "../../data/profile";
@@ -27,21 +29,32 @@ export function ContactSection({ sec }: { sec: Section }) {
         lede="Hiring, collaborating, or curious about one of these projects? Email is the fastest way to reach me."
       />
 
-      <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 space-y-5">
-        <p className="text-xl sm:text-2xl font-semibold tracking-[-0.015em] text-slate-900 break-all">{PROFILE.email}</p>
-        <div className="flex flex-wrap gap-2.5">
-          <a href={`mailto:${PROFILE.email}`} className="btn btn-primary">
+      {/* The back page, as on the profile: dark, with a large serif invitation. */}
+      <motion.div
+        className="rounded-3xl bg-[#141416] text-white p-7 sm:p-10 space-y-7"
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.15, duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+      >
+        <a href={`mailto:${PROFILE.email}`} className="group block w-fit" data-cursor="Write">
+          <span className="display italic block text-[3rem] sm:text-[4.4rem] leading-[0.9]">Write to me</span>
+          <span className="mt-3 inline-flex items-center gap-2 text-lg text-white/70 group-hover:text-white transition-colors break-all">
+            {PROFILE.email} <ArrowUpRight className="w-5 h-5 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+          </span>
+        </a>
+        <div className="flex flex-wrap gap-2.5 pt-2 border-t border-white/15">
+          <a href={`mailto:${PROFILE.email}`} className="btn btn-primary mt-5">
             <Mail className="w-4 h-4" /> Email me
           </a>
-          <button onClick={copy} className="btn btn-secondary" aria-live="polite">
-            {copied ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-4 h-4" />}
+          <button onClick={copy} className="btn mt-5 bg-white/10 text-white border-white/20 hover:bg-white/20" aria-live="polite">
+            {copied ? <Check className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
             {copied ? "Copied" : "Copy address"}
           </button>
-          <a href={PROFILE.cv} download className="btn btn-ghost">
+          <CvButton className="btn mt-5 bg-white text-slate-900 hover:bg-white/90">
             <Download className="w-4 h-4" /> CV
-          </a>
+          </CvButton>
         </div>
-      </div>
+      </motion.div>
 
       <ul className="grid sm:grid-cols-2 gap-3">
         {[

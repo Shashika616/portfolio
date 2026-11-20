@@ -1,9 +1,9 @@
 "use client";
 
 import React, { useState } from "react";
-import { MapPin, FileText, Download } from "lucide-react";
+import { MapPin, FileText } from "lucide-react";
 import { PROFILE, SKILLS } from "../../data/profile";
-import { Modal } from "../ui/Modal";
+import { CvPicker } from "../ui/CvPicker";
 import { GithubIcon, LinkedinIcon } from "../ui/BrandIcons";
 import { SectionHeader } from "./SectionHeader";
 
@@ -12,14 +12,16 @@ export function AboutSection() {
 
   return (
     <div className="section-body space-y-12">
-      <SectionHeader title="About me" />
+      <SectionHeader title="About" />
 
       <div className="flex flex-col md:flex-row gap-8 items-start">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src={PROFILE.portrait}
           alt={`Portrait of ${PROFILE.name}`}
-          className="w-32 h-40 md:w-40 md:h-48 rounded-2xl object-cover ring-1 ring-slate-200 shadow-sm flex-shrink-0"
+          // The site's "machined plate" shape, as on the profile cover.
+          style={{ clipPath: "polygon(9% 0%, 100% 0%, 100% 92%, 91% 100%, 0% 100%, 0% 8%)" }}
+          className="w-40 h-40 md:w-52 md:h-52 object-cover flex-shrink-0"
         />
         <div className="space-y-4 max-w-2xl">
           {PROFILE.about.map((p) => (
@@ -43,11 +45,11 @@ export function AboutSection() {
       </div>
 
       <section className="space-y-5" aria-labelledby="skills-heading">
-        <h3 id="skills-heading" className="text-[13px] font-semibold uppercase tracking-[0.06em] text-slate-500">Toolbox</h3>
-        <dl className="divide-y divide-slate-100 border-y border-slate-100">
+        <h3 id="skills-heading" className="text-[12px] tracking-[0.14em] uppercase text-slate-500">Toolbox</h3>
+        <dl className="divide-y divide-slate-900/10 border-y border-slate-900/10">
           {SKILLS.map((s) => (
             <div key={s.group} className="grid sm:grid-cols-[180px_1fr] gap-2 sm:gap-6 py-4">
-              <dt className="text-sm font-semibold text-slate-900">{s.group}</dt>
+              <dt className="display text-[1.35rem] leading-tight text-slate-900">{s.group}</dt>
               <dd className="flex flex-wrap gap-1.5">
                 {s.items.map((i) => <span key={i} className="tag">{i}</span>)}
               </dd>
@@ -56,33 +58,22 @@ export function AboutSection() {
         </dl>
       </section>
 
-      <section className="grid md:grid-cols-2 gap-x-10 gap-y-6" aria-label="How I work">
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold text-slate-900">Interfaces that feel considered</h3>
+      <section className="grid md:grid-cols-2 border-t border-slate-900/10" aria-label="How I work">
+        <div className="space-y-2 py-5 md:pr-8 border-b border-slate-900/10">
+          <h3 className="display text-[1.6rem] leading-tight text-slate-900">Interfaces that feel considered</h3>
           <p className="text-sm leading-6 text-slate-600 text-pretty">
             I enjoy building immersive, interactive experiences on top of solid engineering: from expressive web interfaces to full-stack apps that balance function, performance and user experience.
           </p>
         </div>
-        <div className="space-y-2">
-          <h3 className="text-base font-semibold text-slate-900">How I work</h3>
+        <div className="space-y-2 py-5 md:pl-8 md:border-l border-b border-slate-900/10">
+          <h3 className="display text-[1.6rem] leading-tight text-slate-900">How I work</h3>
           <p className="text-sm leading-6 text-slate-600 text-pretty">
             Problem-solving, critical thinking and continuous learning. I work well alone and in teams, and I focus on turning complex ideas into practical, scalable software.
           </p>
         </div>
       </section>
 
-      <Modal
-        open={cvOpen}
-        onClose={() => setCvOpen(false)}
-        title="Curriculum vitae"
-        headerAction={
-          <a href={PROFILE.cv} download className="btn btn-secondary btn-sm">
-            <Download className="w-4 h-4" /> Download
-          </a>
-        }
-      >
-        <iframe src={PROFILE.cv} title={`${PROFILE.name} CV`} className="w-full h-full min-h-[70dvh] bg-slate-100" />
-      </Modal>
+      <CvPicker open={cvOpen} onClose={() => setCvOpen(false)} />
     </div>
   );
 }

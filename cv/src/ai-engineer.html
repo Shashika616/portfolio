@@ -19,7 +19,7 @@
 
 <section>
   <h2>Summary</h2>
-  <p class="summary">AI engineer who builds LLM systems people can trust in production: an AI data analyst that answers only from a company's own data, an assistant that keeps working when model APIs fail, and deep learning for medical imaging. Backed by solid backend and security engineering, so AI features ship as products, not demos.</p>
+  <p class="summary">AI engineer who builds LLM systems people can trust in production: RAG chatbots shipped for businesses, including an AI data analyst that answers only from a company's own data, an assistant that keeps working when model APIs fail, and deep learning for medical imaging. Backed by solid backend and security engineering, so AI features ship as products, not demos.</p>
 </section>
 
 <section class="skills">
@@ -31,16 +31,47 @@
 </section>
 
 <section>
-  <h2>AI Projects</h2>
+  <h2>Experience</h2>
 
   <div class="role">
-    <div class="role-head"><span class="title">AI Data Analyst for a <span class="nb">Multi-Outlet</span> Bakery (client project)</span><span class="dates">2026</span></div>
+    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
+    <p class="org">Software product company, Colombo. Builds and runs TieHere (tiehere.com) and ashirulabs.com</p>
     <ul>
-      <li>Let managers ask about production, sales, waste and stock in plain English by turning questions into SQL over <b>8 curated <span class="nb">read-only</span> views</b>; every answer shows a table, a chart and the SQL used.</li>
-      <li>Kept numbers trustworthy by computing totals in code instead of the model and routing production questions to a deterministic planner based on actual sales; the AI cannot change any data.</li>
+      <li>Launched TieHere, an app that helps professionals nearby meet in person, to <b>31 production users</b> on iOS and Android from a single Flutter codebase.</li>
+      <li>Reduced the backend from <b>five microservices plus Redis and Pub/Sub to two deployables</b> (a Go API gateway and a modular monolith over gRPC on Google Cloud Run), cutting running and operating costs while keeping each module separable.</li>
+      <li>Designed the identity layer: the gateway alone holds the <span class="nb">token-signing</span> key and issues JWTs, trust levels come from verified phone and company email, and safety features unlock only at higher trust.</li>
+      <li>Shipped every backend update without breaking apps already on users' phones by enforcing <span class="nb">additive-only</span> API changes and checking auth changes against the released client.</li>
+      <li>Secured and ran production: admin console behind Google <span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes with a full audit trail, PostgreSQL backups and migrations in GitHub Actions, a recovery runbook, and <b>14 architecture decision records</b>.</li>
     </ul>
-    <p class="stack">Python, LLM <span class="nb">text-to-SQL</span>, SQL Server, JavaScript, Docker</p>
   </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <ul>
+      <li><b>Customer management application:</b> kept accounts, commissions, payments and promotion schemes running at <b>99.5% uptime for 50+ concurrent users</b> by designing secure REST APIs with JWT authentication, RBAC, <span class="nb">fine-grained</span> permissions and audit logging for every financial transaction (Angular, .NET, SQL Server, Azure).</li>
+      <li><b>Ticket lifecycle system:</b> cut resolution time by <b>35%</b> by building automated routing, approval and escalation workflows, <span class="nb">role-based</span> assignment, status tracking and notifications for product change requests and new features (React, .NET, SQL Server, Azure).</li>
+      <li><b>Offline-first field sales app:</b> let about <b>20 sales reps</b> take orders, returns and payments with no signal on phones and tablets, syncing exactly once into the company's existing SQL Server database without changing it (Flutter, ASP.NET Core, SQL Server).</li>
+      <li><b>AI data analyst (RAG chatbot) for a <span class="nb">multi-outlet</span> bakery:</b> managers ask about production, sales, waste and stock in plain English and get answers from SQL over <b>8 <span class="nb">read-only</span> views</b>, with a chart and the SQL shown; totals are computed in code and production plans come from a deterministic planner, so the AI cannot invent numbers or change data (Python, LLM, SQL Server).</li>
+      <li><b>AI business assistant (RAG chatbot)</b> for a <span class="nb">motor-parts</span> business.</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <p class="org">Identity and Access Management, API Management and internal tooling</p>
+    <ul>
+      <li><b>Single <span class="nb">sign-on</span>:</b> moved <b>100+ enterprise users</b> onto SSO and federated identity with WSO2 Identity Server and Asgardeo, configuring SAML 2.0, OpenID Connect, OAuth 2.0 and RBAC across multiple enterprise applications, and built the login flows with React and Spring Boot.</li>
+      <li><b>Identity administration:</b> configured service providers, identity providers, user stores, claims, roles and permissions, and authentication policies (MFA, session management, token validation) for <span class="nb">multi-tenant</span> identity governance.</li>
+      <li><b>API management:</b> secured APIs with WSO2 Choreo.</li>
+      <li><b>ServiceNow engineer feedback portal:</b> reduced manual operational effort by <b>40%</b> by building a Service Portal with AngularJS widgets, REST APIs, Script Includes, Business Rules, GlideRecord and GlideAjax, automating submission, review, approvals and notifications, with dashboards and RBAC and ACL security.</li>
+      <li>Worked with Product, QA, DevOps and Security through sprint planning, code reviews, testing, deployment and production support, and mentored junior teammates on authentication and authorisation.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>AI Projects</h2>
+
 
   <div class="role">
     <div class="role-head"><span class="title">Self-Healing AI Desktop Companion</span><span class="dates">2026</span></div>
@@ -75,47 +106,17 @@
   </div>
 </section>
 
-<section>
-  <h2>Experience</h2>
 
-  <div class="role">
-    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
-    <p class="org">Software product company, Colombo. Builds and runs TieHere (tiehere.com) and ashirulabs.com</p>
-    <ul>
-      <li>Launched TieHere, an app that helps professionals nearby meet in person, to <b>31 production users</b> on iOS and Android from a single Flutter codebase.</li>
-      <li>Reduced the backend from <b>five microservices plus Redis and Pub/Sub to two deployables</b> (a Go API gateway and a modular monolith over gRPC on Google Cloud Run), cutting running and operating costs while keeping each module separable.</li>
-      <li>Designed the identity layer: the gateway alone holds the <span class="nb">token-signing</span> key and issues JWTs, trust levels come from verified phone and company email, and safety features unlock only at higher trust.</li>
-      <li>Shipped every backend update without breaking apps already on users' phones by enforcing <span class="nb">additive-only</span> API changes and checking auth changes against the released client.</li>
-      <li>Secured and ran production: admin console behind Google <span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes with a full audit trail, PostgreSQL backups and migrations in GitHub Actions, a recovery runbook, and <b>14 architecture decision records</b>.</li>
-    </ul>
-  </div>
-
-  <div class="role">
-    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
-    <ul>
-      <li><b>Customer management application:</b> kept accounts, commissions, payments and promotion schemes running at <b>99.5% uptime for 50+ concurrent users</b> by designing secure REST APIs with JWT authentication, RBAC, <span class="nb">fine-grained</span> permissions and audit logging for every financial transaction (Angular, .NET, SQL Server, Azure).</li>
-      <li><b>Ticket lifecycle system:</b> cut resolution time by <b>35%</b> by building automated routing, approval and escalation workflows, <span class="nb">role-based</span> assignment, status tracking and notifications for product change requests and new features (React, .NET, SQL Server, Azure).</li>
-    </ul>
-  </div>
-
-  <div class="role">
-    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
-    <p class="org">Identity and Access Management, API Management and internal tooling</p>
-    <ul>
-      <li><b>Single <span class="nb">sign-on</span>:</b> moved <b>100+ enterprise users</b> onto SSO and federated identity with WSO2 Identity Server and Asgardeo, configuring SAML 2.0, OpenID Connect, OAuth 2.0 and RBAC across multiple enterprise applications, and built the login flows with React and Spring Boot.</li>
-      <li><b>Identity administration:</b> configured service providers, identity providers, user stores, claims, roles and permissions, and authentication policies (MFA, session management, token validation) for <span class="nb">multi-tenant</span> identity governance.</li>
-      <li><b>API management:</b> secured APIs with WSO2 Choreo.</li>
-      <li><b>ServiceNow engineer feedback portal:</b> reduced manual operational effort by <b>40%</b> by building a Service Portal with AngularJS widgets, REST APIs, Script Includes, Business Rules, GlideRecord and GlideAjax, automating submission, review, approvals and notifications, with dashboards and RBAC and ACL security.</li>
-      <li>Worked with Product, QA, DevOps and Security through sprint planning, code reviews, testing, deployment and production support, and mentored junior teammates on authentication and authorisation.</li>
-    </ul>
-  </div>
-</section>
 
 <section>
   <h2>Education</h2>
   <div class="role">
     <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
     <p class="org">GPA 3.87 / 4.0. Coursework: Neural Networks and AI, Data Mining, Distributed Systems, Data and Network Security</p>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">GCE Advanced Level, Ananda College, Colombo 10</span><span class="dates">2019</span></div>
+    <p class="org">Physical Science stream</p>
   </div>
 </section>
 

@@ -16,86 +16,75 @@
   <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616 | <span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
 </header>
 <main>
-
 <section>
   <h2>Summary</h2>
-  <p class="summary">Engineer focused on keeping systems up, safe and affordable to run: a production platform at 99.5% uptime, a backend simplified from five services to two, and designs that expect failure (circuit breakers, rate limiting, guaranteed delivery). I own the path from code to cloud, including CI/CD, backups, migrations and security reviews.</p>
+  <p class="summary">Reliability-focused engineer who keeps production systems available, secure and <span class="nb">cost-efficient</span>: 99.5% uptime on a live business platform, infrastructure consolidated from five services to two, and <span class="nb">failure-tolerant</span> designs built on circuit breakers, rate limiting and guaranteed delivery. <span class="nb">Hands-on</span> across CI/CD, backups, migrations, identity and recovery runbooks.</p>
 </section>
 
 <section class="skills">
   <h2>Skills</h2>
-  <p><b>Reliability:</b> rate limiting, circuit breakers (Resilience4j), transactional outbox, graceful degradation and fallback, <span class="nb">backward-compatible</span> releases, load testing, runbooks, security reviews</p>
+  <p><b>Reliability:</b> rate limiting, circuit breakers (Resilience4j), transactional outbox, graceful degradation, <span class="nb">backward-compatible</span> releases, load testing, runbooks, security reviews</p>
   <p><b>Cloud and infrastructure:</b> Google Cloud Run, Azure, Docker, Supabase, Vercel, GitHub Actions (CI/CD, backups, migrations)</p>
   <p><b>Data and messaging:</b> PostgreSQL, SQL Server, MongoDB, Redis, RabbitMQ, connection pooling (HikariCP)</p>
   <p><b>Languages:</b> Go, Java, Python, TypeScript, C#, SQL</p>
-  <p><b>Identity and access management:</b> WSO2 Identity Server, Asgardeo, WSO2 Choreo (API management), SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, passwordless authentication, user lifecycle management, RBAC, ACLs</p>
+  <p><b>Identity and access management:</b> WSO2 Identity Server, Asgardeo, WSO2 Choreo, SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, passwordless authentication, user lifecycle management, RBAC, ACLs</p>
   <p><b>Data security:</b> PostgreSQL <span class="nb">Row-Level</span> Security (RLS), <span class="nb">multi-tenant</span> data isolation, audit logging</p>
 </section>
 
 <section>
   <h2>Experience</h2>
-
   <div class="role">
     <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
     <p class="org">Software product company, Colombo. Builds and runs TieHere (tiehere.com) and ashirulabs.com</p>
     <ul>
-      <li>Launched TieHere, an app that helps professionals nearby meet in person, to <b>31 production users</b> on iOS and Android from a single Flutter codebase.</li>
-      <li>Reduced the backend from <b>five microservices plus Redis and Pub/Sub to two deployables</b> (a Go API gateway and a modular monolith over gRPC on Google Cloud Run), cutting running and operating costs while keeping each module separable.</li>
-      <li>Designed the identity layer: the gateway alone holds the <span class="nb">token-signing</span> key and issues JWTs, trust levels come from verified phone and company email, and safety features unlock only at higher trust.</li>
-      <li>Shipped every backend update without breaking apps already on users' phones by enforcing <span class="nb">additive-only</span> API changes and checking auth changes against the released client.</li>
-      <li>Secured and ran production: admin console behind Google <span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes with a full audit trail, PostgreSQL backups and migrations in GitHub Actions, a recovery runbook, and <b>14 architecture decision records</b>.</li>
+      <li>Cut the production footprint from <b>five services plus Redis and Pub/Sub to two deployables</b> on Google Cloud Run by consolidating into a Go gateway and modular monolith, lowering cost and operational load.</li>
+      <li>Shipped continuous releases with zero breakage for installed app versions by enforcing <span class="nb">backward-compatible</span> API contracts and testing auth changes against released clients.</li>
+      <li>Automated PostgreSQL backups and migrations in CI and wrote the recovery runbook, giving the live app (<b>31 production users</b>) a tested path back from failure.</li>
+      <li>Hardened production access with <span class="nb">gateway-only</span> token signing, an <span class="nb">MFA-protected</span> admin console, short sessions, full audit logs and recurring security reviews.</li>
     </ul>
   </div>
-
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
     <ul>
-      <li><b>Customer management application:</b> kept accounts, commissions, payments and promotion schemes running at <b>99.5% uptime for 50+ concurrent users</b> by designing secure REST APIs with JWT authentication, RBAC, <span class="nb">fine-grained</span> permissions and audit logging for every financial transaction (Angular, .NET, SQL Server, Azure).</li>
-      <li><b>Ticket lifecycle system:</b> cut resolution time by <b>35%</b> by building automated routing, approval and escalation workflows, <span class="nb">role-based</span> assignment, status tracking and notifications for product change requests and new features (React, .NET, SQL Server, Azure).</li>
-      <li><b>Offline-first field sales app:</b> let about <b>20 sales reps</b> take orders, returns and payments with no signal on phones and tablets, syncing exactly once into the company's existing SQL Server database without changing it (Flutter, ASP.NET Core, SQL Server).</li>
-      <li><b>AI data analyst (RAG chatbot) for a <span class="nb">multi-outlet</span> bakery:</b> managers ask about production, sales, waste and stock in plain English and get answers from SQL over <b>8 <span class="nb">read-only</span> views</b>, with a chart and the SQL shown; totals are computed in code and production plans come from a deterministic planner, so the AI cannot invent numbers or change data (Python, LLM, SQL Server).</li>
-      <li><b>AI business assistant (RAG chatbot)</b> for a <span class="nb">motor-parts</span> business.</li>
+      <li>Kept a payments and commissions platform at <b>99.5% uptime for 50+ concurrent users</b> with secure .NET APIs, <span class="nb">fine-grained</span> RBAC and transaction audit logging on Azure.</li>
+      <li>Reduced ticket resolution time by <b>35%</b> by automating routing, escalation and <span class="nb">role-based</span> assignment.</li>
+      <li>Made field sales resilient to connectivity loss: <b>about 20 reps</b> work fully offline, with <span class="nb">exactly-once</span> sync into the existing SQL Server back office.</li>
+      <li>Delivered <b>two production RAG chatbots</b> for client businesses, with <span class="nb">read-only</span> data access so AI features cannot change records.</li>
     </ul>
   </div>
-
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
     <p class="org">Identity and Access Management, API Management and internal tooling</p>
     <ul>
-      <li><b>Single <span class="nb">sign-on</span>:</b> moved <b>100+ enterprise users</b> onto SSO and federated identity with WSO2 Identity Server and Asgardeo, configuring SAML 2.0, OpenID Connect, OAuth 2.0 and RBAC across multiple enterprise applications, and built the login flows with React and Spring Boot.</li>
-      <li><b>Identity administration:</b> configured service providers, identity providers, user stores, claims, roles and permissions, and authentication policies (MFA, session management, token validation) for <span class="nb">multi-tenant</span> identity governance.</li>
-      <li><b>API management:</b> secured APIs with WSO2 Choreo.</li>
-      <li><b>ServiceNow engineer feedback portal:</b> reduced manual operational effort by <b>40%</b> by building a Service Portal with AngularJS widgets, REST APIs, Script Includes, Business Rules, GlideRecord and GlideAjax, automating submission, review, approvals and notifications, with dashboards and RBAC and ACL security.</li>
-      <li>Worked with Product, QA, DevOps and Security through sprint planning, code reviews, testing, deployment and production support, and mentored junior teammates on authentication and authorisation.</li>
+      <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> across <span class="nb">multi-tenant</span> applications (SAML 2.0, OpenID Connect, OAuth 2.0) on WSO2 Identity Server and Asgardeo, with MFA, session and token policies.</li>
+      <li>Cut manual operational effort by <b>40%</b> by automating approvals, notifications and dashboards in a ServiceNow portal.</li>
+      <li>Supported releases and production with DevOps and Security teams, and mentored junior engineers on identity and access.</li>
     </ul>
   </div>
 </section>
 
 <section>
   <h2>Projects</h2>
-
   <div class="role">
     <div class="role-head"><span class="title">VoltNexus: <span class="nb">Fault-Tolerant</span> EV Charging Platform</span><span class="dates">2026</span></div>
     <ul>
-      <li>Guaranteed booking delivery through outages with the transactional outbox pattern on RabbitMQ, and contained failures with Resilience4j circuit breakers and Redis rate limiting at a Spring Cloud Gateway.</li>
+      <li>Prevented lost bookings and cascading failures through outages with the transactional outbox pattern, Resilience4j circuit breakers and Redis rate limiting at the gateway.</li>
     </ul>
-    <p class="stack">Java, Spring Boot, Spring Cloud Gateway, RabbitMQ, Redis, Resilience4j, PostgreSQL, HikariCP</p>
+    <p class="stack">Java, Spring Boot, Spring Cloud Gateway, RabbitMQ, Redis, PostgreSQL</p>
   </div>
-
   <div class="role">
     <div class="role-head"><span class="title">Distributed Telecom <span class="nb">Self-Care</span> Backend</span><span class="dates">2026</span></div>
     <ul>
-      <li>Load-tested stateless Node.js services to <b>1,000+ concurrent connections</b> with <b>sub-100 ms</b> responses across <b>50+ endpoints</b>, using RabbitMQ to keep slow work off the request path and Redis caching; containerised with Docker.</li>
+      <li>Sustained <b>1,000+ concurrent connections</b> at <b>sub-100 ms</b> response times in load tests by keeping services stateless, moving slow work onto RabbitMQ and caching in Redis.</li>
     </ul>
-    <p class="stack">Node.js, Express, RabbitMQ, Redis, MongoDB, Docker</p>
+    <p class="stack">Node.js, RabbitMQ, Redis, MongoDB, Docker</p>
   </div>
-
   <div class="role">
-    <div class="role-head"><span class="title">Enterprise Ticket Management Platform (client project)</span><span class="dates">2026</span></div>
+    <div class="role-head"><span class="title">Enterprise Ticket Management Platform</span><span class="dates">2026</span></div>
     <ul>
-      <li>Enforced <span class="nb">multi-tenant</span> data isolation in the database with PostgreSQL <span class="nb">Row-Level</span> Security (RLS), verified by <b>38 database tests</b>, <b>19 <span class="nb">end-to-end</span> tests</b> and <b>435 unit tests</b> (95% coverage on <span class="nb">access-control</span> code), with a clean dependency audit.</li>
+      <li>Guaranteed strict tenant data isolation by enforcing PostgreSQL <span class="nb">Row-Level</span> Security, validated by database, <span class="nb">end-to-end</span> and unit tests at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li>
     </ul>
-    <p class="stack">Next.js, TypeScript, PostgreSQL, Supabase, Playwright, pgTAP</p>
+    <p class="stack">Next.js, TypeScript, PostgreSQL, Supabase, Playwright</p>
   </div>
 </section>
 
@@ -103,7 +92,7 @@
   <h2>Education</h2>
   <div class="role">
     <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
-    <p class="org">GPA 3.87 / 4.0. Coursework: Distributed Systems, Operating Systems, Data and Network Security, Internet Protocols</p>
+    <p class="org">GPA 3.87 / 4.0</p>
   </div>
   <div class="role">
     <div class="role-head"><span class="title">GCE Advanced Level, Ananda College, Colombo 10</span><span class="dates">2019</span></div>
@@ -115,7 +104,6 @@
   <h2>Certifications</h2>
   <p>WSO2 Certified Associate, Identity and Access Management (2024)</p>
 </section>
-
 </main>
 </body>
 </html>

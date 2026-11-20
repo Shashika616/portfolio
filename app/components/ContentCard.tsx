@@ -20,7 +20,6 @@ interface ContentCardProps {
   setRef: (el: HTMLDivElement | null) => void;
   /** Jump to another section by id (used by in-content links such as "See all work"). */
   onNavigate?: (sectionId: string) => void;
-  total: number;
 }
 
 function ContentCardComponent({
@@ -31,7 +30,6 @@ function ContentCardComponent({
   handleCardScroll,
   setRef,
   onNavigate,
-  total
 }: ContentCardProps) {
   const isCurrent = idx === currentIndex;
   
@@ -84,9 +82,6 @@ function ContentCardComponent({
             {sec.title}
           </span>
         </div>
-        <span className="font-mono text-xs text-slate-500 tabular">
-          {String(idx + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
-        </span>
       </div>
 
       {/* CONTENT INNER WRAPPER - Padding steps down fluidly on smaller screens */}

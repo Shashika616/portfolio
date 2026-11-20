@@ -154,6 +154,19 @@ input { caret-color: var(--accent); }
 .btn-ghost { background: transparent; color: #475569; }
 .btn-ghost:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 10%, #f1f5f9); color: var(--accent-strong); }
 
+/* Close / back: always red, everywhere (modals, gallery view, menu, nav sheet). */
+.btn-close {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: rgba(220, 38, 38, 0.22);
+}
+.btn-close:hover:not(:disabled) {
+  background: #fee2e2;
+  color: #b91c1c;
+  border-color: rgba(220, 38, 38, 0.4);
+  box-shadow: 0 6px 16px rgba(220, 38, 38, 0.18);
+}
+
 /* Brand buttons: recognisable at a glance. */
 .btn-github { background: #181717; color: #fff; }
 .btn-github:hover:not(:disabled) { background: #000; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25); }

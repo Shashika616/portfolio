@@ -9,6 +9,51 @@ export const CATALOG: Catalog = {
   researches: [
     { 
       name: "Plot Based Chaotic Hashing Pipeline", 
+      engineering: {
+        "security": [
+          "Stretches low-entropy passwords through chaotic maps before Argon2id, raising the cost of each guess."
+        ],
+        "performance": [
+          "Designed to keep sign-in under 200 ms."
+        ],
+        "testing": [
+          "Compared on time cost, statistical quality and practical dependency against standard hashing."
+        ]
+      },
+      sequence: {
+        "title": "Hashing a password",
+        "actors": [
+          "Password",
+          "HMAC-SHA256",
+          "Chaotic maps",
+          "XOR avalanche",
+          "Argon2id"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Derive dimensions and iterations"
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Sweep through chaotic manifolds"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Normalise and amplify"
+          },
+          {
+            "from": 3,
+            "to": 4,
+            "label": "Memory-hard final hash"
+          }
+        ]
+      },
+      pullQuote: "People keep passwords they can remember, while every guess an attacker makes becomes far more expensive.",
+      coverline: "Research to protect the weak passwords people really use",
       cover: "/hash-pipeline/graph-hash.png",
       featured: true,
       summary: "Final-year research: chaotic-map pre-hashing that expands low-entropy passwords before Argon2id, raising brute-force cost without asking users to remember more.",
@@ -125,6 +170,18 @@ export const CATALOG: Catalog = {
   projects: [
     {
       name: "AshiruLabs - Studio Website with a Real-Time 3D Scene",
+      engineering: {
+        "performance": [
+          "The 3D scene loads as a separate chunk after the first paint, so text appears immediately.",
+          "The animation loop writes straight to the page, with no re-rendering per frame."
+        ],
+        "maintenance": [
+          "Every claim and contact detail lives in one content file."
+        ],
+        "impact": [
+          "Readable without WebGL and calm under reduced-motion settings, so it works for everyone."
+        ]
+      },
       architectureDiagram: {
         "tiers": [
           {
@@ -181,6 +238,119 @@ export const CATALOG: Catalog = {
     },
     {
       name: "TieHere - Proximity App for Professionals to Meet in Person",
+      engineering: {
+        "performance": [
+          "Per-user rate limiting runs in the gateway's memory, so there is no network hop to a cache on every request.",
+          "Modules talk through an in-process event bus instead of a message broker, removing a network round trip between them."
+        ],
+        "security": [
+          "Exact locations are never exposed: coordinates are rounded before any proximity search.",
+          "Only the gateway holds the token-signing key; the backend can authenticate users but can never mint tokens.",
+          "Safety features unlock only at higher trust levels, built from verified phone and company email.",
+          "The operations console needs Google sign-in plus a one-time code, keeps sessions short, and logs every change with a reason."
+        ],
+        "resources": [
+          "Consolidated five separately deployed services, a Redis cache and a Pub/Sub broker into two deployables (gateway + monolith).",
+          "One PostgreSQL database with a schema per module replaces five separate databases, while keeping modules separable later."
+        ],
+        "testing": [
+          "Built phase by phase, each phase verified before the next started.",
+          "Recurring security reviews are written up and tracked in the repository (October and November 2026)."
+        ],
+        "maintenance": [
+          "14 architecture decision records explain why each major choice was made.",
+          "Database backups and migrations run from GitHub Actions; a runbook covers operations.",
+          "Release rule: API routes and fields are only ever added, never renamed, so apps already on users' phones keep working."
+        ],
+        "impact": [
+          "31 people using it in production (October 2026), on iOS and Android.",
+          "Professionals nearby meet in person around a specific intent instead of scrolling a feed."
+        ]
+      },
+      sequence: {
+        "title": "Signing in and finding a meetup",
+        "actors": [
+          "Flutter app",
+          "API gateway",
+          "Monolith",
+          "PostgreSQL"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Sign in (REST)"
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Verify credentials (gRPC)"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Read user & trust level"
+          },
+          {
+            "from": 2,
+            "to": 1,
+            "label": "User X, trust level Y"
+          },
+          {
+            "from": 1,
+            "to": 0,
+            "label": "Signed access token"
+          },
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Nearby meetups + token"
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Rate-limited, translated to gRPC"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Proximity query on rounded coordinates"
+          },
+          {
+            "from": 2,
+            "to": 0,
+            "label": "Meetups returned via gateway"
+          }
+        ]
+      },
+      threats: [
+        {
+          "risk": "Someone tracks a user's exact location",
+          "mitigation": "Coordinates are rounded before any search, so results never reveal an exact position."
+        },
+        {
+          "risk": "A stolen backend could forge login tokens",
+          "mitigation": "Only the gateway holds the signing key; the backend never sees it."
+        },
+        {
+          "risk": "Strangers misuse safety features",
+          "mitigation": "SOS and similar features require a higher, verified trust level."
+        },
+        {
+          "risk": "An admin account is misused",
+          "mitigation": "Google sign-in + one-time code, short sessions, every write audited with a reason."
+        },
+        {
+          "risk": "An update breaks the app on users' phones",
+          "mitigation": "Backward-compatible releases: routes and fields are added, never removed."
+        },
+        {
+          "risk": "Request floods",
+          "mitigation": "Per-user rate limiting in the gateway."
+        }
+      ],
+      pullQuote: "Every update reaches users without breaking the app already on their phones, on a backend lean enough for a young product to run.",
+      coverline: "TieHere: a live app helping professionals meet in person",
       architectureDiagram: {
         "tiers": [
           {
@@ -264,6 +434,115 @@ export const CATALOG: Catalog = {
     },
     {
       name: "Enterprise Ticket Management System",
+      cover: "/work/ticketing.jpg",
+      mediaGroups: [
+        {
+          groupTitle: "Inside the app",
+          items: [
+            { url: "/work/ticketing.jpg", label: "Team dashboard: unassigned queue, SLA risk and response targets", buttonText: "View dashboard" },
+            { url: "/work/ticketing-queue.jpg", label: "My work: tickets by priority and SLA due, with filters and saved views", buttonText: "View queue" }
+          ]
+        }
+      ],
+      engineering: {
+        "performance": [
+          "One deployable serves all three surfaces (client portal, team workspace, admin), with server-side actions instead of a separate API layer."
+        ],
+        "security": [
+          "Each client can only ever see their own data, enforced by the database itself (row-level security), not just by app code.",
+          "Passwords must be 12+ characters and are checked against known breached passwords.",
+          "Admins and leads must use a one-time code (TOTP) on every request, not only at sign-in.",
+          "Accounts are invite-only, with single-use invites that expire after 7 days.",
+          "Rendering of user-supplied HTML is confined to one sanitising component."
+        ],
+        "resources": [
+          "Runs fully offline for development and tests (local sign-in, storage and email), so no paid cloud services are needed to work on it."
+        ],
+        "testing": [
+          "435 unit and authorisation tests, with 95% statement and 93% branch coverage on the business and access-control code.",
+          "38 database-level tests prove the data-separation rules hold.",
+          "19 end-to-end browser tests, including attempts to read another client's data and an accessibility scan with zero violations.",
+          "Dependency audit: no known vulnerabilities."
+        ],
+        "maintenance": [
+          "Architecture rules are enforced by the linter (for example, the client portal cannot import staff-only code).",
+          "Strict TypeScript; the full specification and build status live in the repository."
+        ],
+        "impact": [
+          "Clients raise and track requests in one place, with response-time targets they can see.",
+          "The business can promise data separation between clients and prove it with tests."
+        ]
+      },
+      sequence: {
+        "title": "A client raises a request",
+        "actors": [
+          "Client portal",
+          "Server action",
+          "Data layer",
+          "PostgreSQL"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Submit request + attachments"
+          },
+          {
+            "from": 1,
+            "to": 1,
+            "label": "Check session, role, one-time code"
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Create ticket"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Insert under the client's identity"
+          },
+          {
+            "from": 3,
+            "to": 2,
+            "label": "Row rules allow only their own data"
+          },
+          {
+            "from": 2,
+            "to": 1,
+            "label": "Ticket + response-time target"
+          },
+          {
+            "from": 1,
+            "to": 0,
+            "label": "Confirmation (and email)"
+          }
+        ]
+      },
+      threats: [
+        {
+          "risk": "A client sees another client's tickets",
+          "mitigation": "Database row rules (row-level security) plus end-to-end tests that try exactly that."
+        },
+        {
+          "risk": "Weak or leaked passwords",
+          "mitigation": "12+ characters, checked against known breaches, rate-limited sign-in."
+        },
+        {
+          "risk": "Admin account takeover",
+          "mitigation": "One-time code required for admins and leads on every request."
+        },
+        {
+          "risk": "Reused or stolen invite links",
+          "mitigation": "Single-use, hashed, expire after 7 days."
+        },
+        {
+          "risk": "Malicious content in replies (XSS)",
+          "mitigation": "All user HTML goes through one sanitising component."
+        }
+      ],
+      pullQuote: "Each client sees only their own requests, enforced by the database itself, so the business can promise data separation instead of hoping for it.",
+      coverline: "One portal where a business runs its clients, support and system upkeep",
       architectureDiagram: {
         "tiers": [
           {
@@ -303,7 +582,7 @@ export const CATALOG: Catalog = {
         ]
       },
       platforms: ["Web"],
-      summary: "Ticketing platform with client portal, agent workspace and admin console, secured by Postgres row-level security and mandatory 2FA; 435 unit tests, 19 E2E specs.",
+      summary: "One platform where a business takes client requests, runs support and maintains client systems. Each client only ever sees their own data, and 435 tests prove it.",
       category: "Web Development",
       status: "Client work",
       year: "2026",
@@ -335,6 +614,78 @@ export const CATALOG: Catalog = {
     },
     {
       name: "AI Data Analyst for a Bakery Business",
+      engineering: {
+        "security": [
+          "The AI can only read 8 purpose-built views; it cannot change any data.",
+          "Sessions expire safely, keeping the unsent question for after sign-in."
+        ],
+        "performance": [
+          "Production plans come from a deterministic planner, not the model, so they are instant and repeatable."
+        ],
+        "testing": [
+          "Any number that could be got wrong (single figures, totals) is written by code, not by the AI."
+        ],
+        "impact": [
+          "Managers ask questions in plain English instead of writing SQL, and see the SQL behind every answer.",
+          "Production quantities per outlet are based on what actually sold, with a buffer for waste."
+        ]
+      },
+      sequence: {
+        "title": "A manager asks a question",
+        "actors": [
+          "Manager",
+          "Chat app",
+          "Router",
+          "LLM",
+          "SQL Server"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "\"Waste by outlet, last 7 days?\""
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Analytics or production question?"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Write SQL over allowed views"
+          },
+          {
+            "from": 3,
+            "to": 4,
+            "label": "Read-only query"
+          },
+          {
+            "from": 4,
+            "to": 1,
+            "label": "Rows"
+          },
+          {
+            "from": 1,
+            "to": 0,
+            "label": "Table + chart + the SQL used"
+          }
+        ]
+      },
+      threats: [
+        {
+          "risk": "The AI changes or deletes data",
+          "mitigation": "It only has read access to 8 curated views."
+        },
+        {
+          "risk": "The AI invents a number",
+          "mitigation": "Totals and single figures are computed by code, not generated."
+        },
+        {
+          "risk": "Wrong production quantities",
+          "mitigation": "Production questions always go to a deterministic planner."
+        }
+      ],
       architectureDiagram: {
         "tiers": [
           {
@@ -391,6 +742,57 @@ export const CATALOG: Catalog = {
     },
     {
       name: "Offline-First Field Sales App",
+      engineering: {
+        "resources": [
+          "Writes straight into the company's existing database: no second system to run and no data re-keyed by the office."
+        ],
+        "performance": [
+          "Every screen reads and writes the device, so reps never wait for the network in a shop."
+        ],
+        "maintenance": [
+          "Requirements, data model and delivery plan specified in more than 40 documents."
+        ],
+        "impact": [
+          "About 20 field reps never lose an order, payment or return, even with no signal."
+        ]
+      },
+      sequence: {
+        "title": "An order taken with no signal",
+        "actors": [
+          "Rep",
+          "App (local DB)",
+          "Sync engine",
+          "API",
+          "SQL Server"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Take order offline"
+          },
+          {
+            "from": 1,
+            "to": 1,
+            "label": "Saved on the device"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Signal back: send queued changes"
+          },
+          {
+            "from": 3,
+            "to": 4,
+            "label": "Write to existing tables"
+          },
+          {
+            "from": 3,
+            "to": 2,
+            "label": "Acknowledge (exactly once)"
+          }
+        ]
+      },
       architectureDiagram: {
         "tiers": [
           {
@@ -443,6 +845,17 @@ export const CATALOG: Catalog = {
     },
     {
       name: "Healthy Meal Pre-Ordering App and Backend",
+      engineering: {
+        "resources": [
+          "The backend is one Node.js process with seven modules instead of six separate Java services, chosen to cut memory use."
+        ],
+        "maintenance": [
+          "Mobile changes live in a separate fork; shared-code changes are additive only, so the live web platform never changes."
+        ],
+        "impact": [
+          "Customers order from Android and iOS with one codebase, built from a 27-screen design."
+        ]
+      },
       architectureDiagram: {
         "tiers": [
           {
@@ -491,6 +904,16 @@ export const CATALOG: Catalog = {
     },
     {
       name: "Modern Womenswear Storefront",
+      engineering: {
+        "performance": [
+          "Product pages are generated ahead of time, so they load as plain, fast HTML.",
+          "The cinematic home page plays a 120-frame canvas sequence instead of a video file.",
+          "Products are found by slug in constant time (O(1) index)."
+        ],
+        "security": [
+          "Every checkout input is validated on the server, and the order endpoint is rate-limited."
+        ]
+      },
       architectureDiagram: {
         "tiers": [
           {
@@ -546,10 +969,99 @@ export const CATALOG: Catalog = {
     },
     {
       name: "VoltNexus - Cloud-Native EV Charging Microservices Platform",
+      engineering: {
+        "performance": [
+          "Rate limiting and token checks happen once at the gateway, taking load off every service behind it.",
+          "Database connections are pooled (HikariCP) per service."
+        ],
+        "security": [
+          "Sign-in through WSO2 Asgardeo (OAuth 2.0 / OIDC with PKCE), with role-based dashboards for drivers and station owners.",
+          "A custom token validator accepts Asgardeo's standard access tokens without weakening checks."
+        ],
+        "resources": [
+          "Managed cloud tiers for the database, cache and message broker (Supabase, Upstash, CloudAMQP) instead of self-hosted servers."
+        ],
+        "testing": [
+          "Resilience paths designed for failure: circuit breakers stop one failing service from taking others down."
+        ],
+        "maintenance": [
+          "Each service owns its own data and talks through events, so services can change and deploy independently."
+        ],
+        "impact": [
+          "Bookings are never lost: the outbox pattern guarantees every event is delivered once the system recovers."
+        ]
+      },
+      sequence: {
+        "title": "A driver books a charger",
+        "actors": [
+          "Angular app",
+          "Gateway",
+          "Booking service",
+          "RabbitMQ",
+          "Station service"
+        ],
+        "steps": [
+          {
+            "from": 0,
+            "to": 1,
+            "label": "Book (with access token)"
+          },
+          {
+            "from": 1,
+            "to": 1,
+            "label": "Validate token, rate limit"
+          },
+          {
+            "from": 1,
+            "to": 2,
+            "label": "Create booking"
+          },
+          {
+            "from": 2,
+            "to": 2,
+            "label": "Save booking + outbox event (one transaction)"
+          },
+          {
+            "from": 2,
+            "to": 3,
+            "label": "Publish event"
+          },
+          {
+            "from": 3,
+            "to": 4,
+            "label": "Reserve charger"
+          },
+          {
+            "from": 2,
+            "to": 0,
+            "label": "Booking confirmed"
+          }
+        ]
+      },
+      threats: [
+        {
+          "risk": "Forged or expired tokens",
+          "mitigation": "Every request's token is cryptographically validated at the gateway."
+        },
+        {
+          "risk": "Traffic spikes overwhelm services",
+          "mitigation": "Redis-backed rate limiting at the gateway."
+        },
+        {
+          "risk": "One failing service cascades",
+          "mitigation": "Circuit breakers (Resilience4j) isolate the failure."
+        },
+        {
+          "risk": "A booking event is lost mid-failure",
+          "mitigation": "Transactional outbox: the event is saved with the booking and retried until delivered."
+        }
+      ],
+      pullQuote: "A failing service can't take the rest of the platform down, and no booking is lost: every event is delivered once the system recovers.",
+      coverline: "EV charging that stays bookable even when parts of it fail",
       platforms: ["Web", "Backend"],
       cover: "/ev/evArch.png",
       featured: true,
-      summary: "Event-driven EV-charging platform: Spring Cloud Gateway, RabbitMQ with the transactional outbox, and Asgardeo OAuth via a custom JWT decoder.",
+      summary: "EV-charging bookings that survive failures: services are isolated, traffic is rate-limited at one gateway, and no booking event is ever lost.",
       status: "Personal",
       category: "Distributed Systems",
       tech: ["Java 19", "Spring Boot 4", "Spring Cloud Gateway", "Angular 17+", "PostgreSQL (Supabase)", "Redis (Upstash)", "RabbitMQ (CloudAMQP)", "Resilience4j", "WSO2 Asgardeo"],
@@ -873,6 +1385,16 @@ export const CATALOG: Catalog = {
   games: [
     {
       name: "Survive Cyber - Cyberpunk Urban FPS Simulator",
+      engineering: {
+        "performance": [
+          "Shared geometry and materials cut draw calls by 90% and memory use by 65%.",
+          "70 pre-allocated particles mean explosions cause no garbage-collection pauses.",
+          "Holds 60 FPS with a clamped game loop."
+        ],
+        "resources": [
+          "All sound effects are synthesised in the browser: no audio files to download."
+        ]
+      },
       platforms: ["Web"],
       cover: "/neon-overdrive/3d-shooter-1.png",
       summary: "Browser FPS in plain Three.js: procedural city, state-machine enemies and pooled particles, built to hold 60 FPS. Playable online.",

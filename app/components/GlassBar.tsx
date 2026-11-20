@@ -11,14 +11,14 @@ import { PROFILE } from "../data/profile";
  * viewport height). Styles: .glass-bar in globals.css (solid under
  * prefers-reduced-transparency).
  */
-export function GlassBar({ left, onMenu, lightAfter = 0.62 }: { left: React.ReactNode; onMenu: () => void; lightAfter?: number }) {
+export function GlassBar({ left, onMenu, lightAfter = 0.62, alwaysLight = false }: { left: React.ReactNode; onMenu: () => void; lightAfter?: number; alwaysLight?: boolean }) {
   const { scrollY } = useScroll();
   const [onLight, setOnLight] = useState(false);
   useMotionValueEvent(scrollY, "change", (y) => setOnLight(y > window.innerHeight * lightAfter));
   return (
     <header className="fixed top-3 inset-x-3 sm:inset-x-6 z-50">
       <div
-        className={`glass-bar ${onLight ? "glass-bar--light" : "glass-bar--dark"} h-14 px-3 sm:px-5 grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-2xl transition-[background-color,color,box-shadow,border-color] duration-500`}
+        className={`glass-bar ${alwaysLight || onLight ? "glass-bar--light" : "glass-bar--dark"} h-14 px-3 sm:px-5 grid grid-cols-[1fr_auto_1fr] items-center gap-2 rounded-2xl transition-[background-color,color,box-shadow,border-color] duration-500`}
       >
         <div className="justify-self-start">{left}</div>
         <span className="justify-self-center display text-lg sm:text-2xl whitespace-nowrap">{PROFILE.name}</span>

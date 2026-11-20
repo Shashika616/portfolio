@@ -1,64 +1,69 @@
 "use client";
 
+import { CvButton } from "../ui/CvPicker";
 import React, { useState } from "react";
+import { motion } from "framer-motion";
 import { ArrowRight, Download } from "lucide-react";
 import { PROFILE, FOCUS_AREAS } from "../../data/profile";
 import { CATALOG } from "../../data/catalog";
 import type { ProjectItem } from "../../data/types";
 import { Modal } from "../ui/Modal";
 import { ProjectDetail } from "../detail/ProjectDetail";
+import { SectionHeader } from "./SectionHeader";
 
+const EASE = [0.16, 1, 0.3, 1] as const;
 const FEATURED = [...CATALOG.projects, ...CATALOG.researches].filter((p) => p.featured);
 
+/** Welcome, set like the profile cover: headline, then the lead stories as numbered cover lines. */
 export function WelcomeSection({ onNavigate }: { onNavigate?: (sectionId: string) => void }) {
   const [open, setOpen] = useState<ProjectItem | null>(null);
 
   return (
     <div className="section-body space-y-12">
-      <header className="space-y-5 max-w-3xl">
-        <h1 className="display text-[2.9rem] sm:text-[4.25rem] text-slate-900 text-balance">
-          I build systems that hold up in{" "}
-          <em className="italic" style={{ color: "var(--accent-strong)" }}>production</em>, not just in demos.
-        </h1>
-        <p className="text-lg leading-relaxed text-slate-600 text-pretty">{PROFILE.headline}</p>
-        <div className="flex flex-wrap gap-3 pt-1">
-          <button className="btn btn-primary" onClick={() => onNavigate?.("projects")}>
-            See all work <ArrowRight className="w-4 h-4" />
-          </button>
-          <a className="btn btn-secondary" href={PROFILE.cv} download>
-            <Download className="w-4 h-4" /> Download CV
-          </a>
-        </div>
-      </header>
+      <SectionHeader title="Welcome" lede={PROFILE.headline} />
 
-      <section className="space-y-4" aria-labelledby="featured-heading">
-        <h2 id="featured-heading" className="text-[13px] font-semibold uppercase tracking-[0.06em] text-slate-500">Featured work</h2>
-        <ul className="divide-y divide-slate-100 rounded-2xl border border-slate-200 bg-white overflow-hidden">
-          {FEATURED.map((p) => (
-            <li key={p.name}>
-              <button
-                type="button"
-                onClick={() => setOpen(p)}
-                className="group w-full text-left px-5 py-4 flex items-start gap-4 hover:bg-slate-50 transition-colors"
-              >
-                <span className="flex-1 min-w-0 space-y-1.5">
-                  <span className="display block text-[1.5rem] leading-none text-slate-900">{p.name.split(" - ")[0]}</span>
-                  <span className="block text-sm leading-6 text-slate-600 text-pretty">{p.summary}</span>
+      <p className="display italic text-[2rem] sm:text-[2.6rem] leading-[1.02] text-slate-900 max-w-3xl text-balance">
+        I build systems that hold up in <span style={{ color: "var(--accent-strong)" }}>production</span>, not just in demos.
+      </p>
+
+      <div className="flex flex-wrap gap-3">
+        <button className="btn btn-primary" onClick={() => onNavigate?.("projects")}>
+          See all work <ArrowRight className="w-4 h-4" />
+        </button>
+        <CvButton className="btn btn-secondary">
+          <Download className="w-4 h-4" /> Download CV
+        </CvButton>
+      </div>
+
+      <section aria-labelledby="lead-heading" className="space-y-3">
+        <h3 id="lead-heading" className="text-[12px] tracking-[0.14em] uppercase text-slate-500">In this issue</h3>
+        <ol className="divide-y divide-slate-900/10 border-y border-slate-900/10">
+          {FEATURED.map((p, i) => (
+            <motion.li
+              key={p.name}
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.25 + i * 0.08, duration: 0.7, ease: EASE }}
+            >
+              <button type="button" onClick={() => setOpen(p)} data-cursor="Read" className="group w-full flex items-baseline gap-4 py-3.5 text-left">
+                <span className="font-mono text-[12px] tabular" style={{ color: "var(--accent-strong)" }}>{String(i + 1).padStart(2, "0")}</span>
+                <span className="display text-[1.45rem] sm:text-[1.75rem] leading-tight text-slate-900 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-2">
+                  {p.coverline ?? p.name.split(" - ")[0]}
                 </span>
-                <ArrowRight className="w-4 h-4 mt-1 flex-shrink-0 text-slate-400 transition-transform group-hover:translate-x-0.5 group-hover:text-slate-700" />
+                <ArrowRight className="ml-auto w-4 h-4 flex-shrink-0 text-slate-400 transition-transform group-hover:translate-x-1 group-hover:text-[var(--accent-strong)]" />
               </button>
-            </li>
+            </motion.li>
           ))}
-        </ul>
+        </ol>
       </section>
 
-      <section className="space-y-5" aria-labelledby="focus-heading">
-        <h2 id="focus-heading" className="text-[13px] font-semibold uppercase tracking-[0.06em] text-slate-500">What I work on</h2>
-        <dl className="grid sm:grid-cols-2 gap-x-10 gap-y-7">
-          {FOCUS_AREAS.map((f) => (
-            <div key={f.title} className="space-y-1.5">
-              <dt className="text-base font-semibold text-slate-900 pb-2 border-b border-slate-100">{f.title}</dt>
-              <dd className="text-sm leading-6 text-slate-600 text-pretty pt-1">{f.desc}</dd>
+      <section aria-labelledby="focus-heading" className="space-y-3">
+        <h3 id="focus-heading" className="text-[12px] tracking-[0.14em] uppercase text-slate-500">What I work on</h3>
+        <dl className="grid sm:grid-cols-2 border-t border-slate-900/10">
+          {FOCUS_AREAS.map((f, i) => (
+            <div key={f.title} className={`py-5 border-b border-slate-900/10 ${i % 2 === 0 ? "sm:pr-8" : "sm:pl-8 sm:border-l"}`}>
+              <dt className="display text-[1.6rem] leading-tight text-slate-900">{f.title}</dt>
+              <dd className="mt-2 text-[14px] leading-6 text-slate-600 text-pretty">{f.desc}</dd>
             </div>
           ))}
         </dl>

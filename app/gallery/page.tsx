@@ -155,7 +155,7 @@ export default function GalleryPage() {
                     <button className="btn btn-primary" onClick={() => { const p = active; setActive(null); setCaseStudy(p); }}>
                       Case study <ArrowRight className="w-4 h-4" />
                     </button>
-                    <button className="btn btn-secondary btn-icon" onClick={() => setActive(null)} aria-label="Close">
+                    <button className="btn btn-close btn-icon" onClick={() => setActive(null)} aria-label="Close">
                       <X className="w-4 h-4" />
                     </button>
                   </div>

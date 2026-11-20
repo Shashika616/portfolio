@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
+import { CvPicker } from "./ui/CvPicker";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
@@ -16,6 +17,7 @@ import { goToDial } from "../lib/navigation";
 export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { activeTheme, setThemeById } = useGlobalTheme();
   const router = useRouter();
+  const [cvOpen, setCvOpen] = useState(false);
 
   useEffect(() => {
     if (!open) return;
@@ -34,10 +36,12 @@ export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => v
     { label: "Gallery", note: "Every system", href: "/gallery" },
     { label: "Profile", note: "The quick read", href: "/profile" },
     { label: "Contact", note: "Email", href: `mailto:${PROFILE.email}`, external: true },
-    { label: "CV", note: "PDF", href: PROFILE.cv, download: true },
+    { label: "CV", note: "Three roles", onClick: () => setCvOpen(true) },
   ];
 
   return (
+    <>
+    <CvPicker open={cvOpen} onClose={() => setCvOpen(false)} />
     <AnimatePresence>
       {open && (
         <motion.div
@@ -52,7 +56,7 @@ export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => v
         >
           <div className="h-14 px-4 sm:px-6 flex items-center justify-between">
             <span className="text-sm text-white/60">{PROFILE.name}</span>
-            <button onClick={onClose} className="h-10 px-3 inline-flex items-center gap-2 text-sm text-white/80 hover:text-white" data-cursor="Close">
+            <button onClick={onClose} className="btn btn-close btn-sm" data-cursor="Close">
               Close <X className="w-4 h-4" />
             </button>
           </div>
@@ -105,5 +109,6 @@ export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => v
         </motion.div>
       )}
     </AnimatePresence>
+    </>
   );
 }

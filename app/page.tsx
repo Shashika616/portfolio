@@ -31,6 +31,10 @@ export default function LuxuryInstrumentWatchPortfolio() {
   const boundaryIntentAccumulator = useRef(0);
   const lastWheelAt = useRef(0);
   const arrivedMidGesture = useRef(false);
+  const notches = useRef(0);
+  const lastNotchAt = useRef(0);
+  const notchDir = useRef(0);
+  const notchSpent = useRef(false);
   const lastDelta = useRef(0);
   const pullTimer = useRef<number | null>(null);
   // Rubber-band offset of the card stack while pushing past an edge.
@@ -93,6 +97,15 @@ export default function LuxuryInstrumentWatchPortfolio() {
     const FRESH_THRESHOLD = 200;
     const CONTINUING_THRESHOLD = 360;
     const MAX_PULL_PX = 34;
+    // Mouse wheels move in discrete notches (|deltaY| ≥ 50, or line/page mode);
+    // trackpads stream small, uneven deltas. Each gets its own paging rule.
+    const NOTCHES_TO_TURN = 2;
+    const NOTCH_WINDOW_MS = 1000;
+    // A spin that scrolled content is "spent": its overshoot clicks (which land
+    // while Chrome is still animating the scroll) never count. Counting starts
+    // after a break of at least NOTCH_BREAK_MS between clicks.
+    const NOTCH_BREAK_MS = 250;
+    const isMouseNotch = (e: WheelEvent) => e.deltaMode !== 0 || (Math.abs(e.deltaY) >= 50 && Math.abs(e.deltaX) < 1);
 
     const releasePull = () => {
       if (pullTimer.current) window.clearTimeout(pullTimer.current);
@@ -112,9 +125,47 @@ export default function LuxuryInstrumentWatchPortfolio() {
       if (!el) return;
 
       const now = performance.now();
+
+      if (isMouseNotch(e)) {
+        // ---- Mouse wheel: count deliberate notches past the edge. ----
+        if (now - lastScrollTime.current < COOLDOWN_MS) return;
+        const down = e.deltaY > 0;
+        const atBottom = Math.ceil(el.scrollTop + el.clientHeight) >= el.scrollHeight - 1;
+        const atTop = el.scrollTop <= 0;
+        const past = (down && atBottom && currentIndex < SECTIONS.length - 1) || (!down && atTop && currentIndex > 0);
+        const gap = now - lastNotchAt.current;
+        const sameRun = gap < NOTCH_WINDOW_MS && notchDir.current === (down ? 1 : -1);
+        lastNotchAt.current = now;
+        notchDir.current = down ? 1 : -1;
+        if (!past) {
+          // This notch scrolled content (or reached the edge): it never counts, and spends the spin.
+          notches.current = 0;
+          notchSpent.current = true;
+          pull.set(0);
+          return;
+        }
+        if (notchSpent.current) {
+          if (gap < NOTCH_BREAK_MS && sameRun) return; // still the same spin's overshoot
+          notchSpent.current = false;
+          notches.current = 0;
+        }
+        notches.current = sameRun ? notches.current + 1 : 1;
+        pull.set((down ? -1 : 1) * MAX_PULL_PX * Math.min(1, notches.current / NOTCHES_TO_TURN) * 0.7);
+        releasePull();
+        if (notches.current >= NOTCHES_TO_TURN) {
+          notches.current = 0;
+          pull.set(0);
+          jumpToSection(currentIndex + (down ? 1 : -1));
+        }
+        return;
+      }
+
+      // ---- Trackpad: continuous intent with momentum filtering. ----
       const fresh = now - lastWheelAt.current > GESTURE_GAP_MS;
       lastWheelAt.current = now;
       const mag = Math.abs(e.deltaY);
+      // Trackpad momentum tails off quickly; ignore only clearly decaying deltas
+      // (a deliberate finger push can also shrink a little, so the margin matters).
       const decaying = !fresh && mag < lastDelta.current * 0.92;
       lastDelta.current = mag;
 
@@ -254,7 +305,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
                     handleCardScroll={handleCardScroll}
                     setRef={(el) => { cardRefs.current[idx] = el; }}
                     onNavigate={navigateToId}
-                    total={SECTIONS.length}
                   />
                 ))}
               </motion.div>

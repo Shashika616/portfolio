@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shashika Fernando - Site Reliability Engineer CV</title>
+<link rel="stylesheet" href="cv.css">
+</head>
+<body>
+
+<header>
+  <h1>Shashika Fernando</h1>
+  <p class="target">Site Reliability Engineer</p>
+  <p class="contact">Colombo, Sri Lanka | +94 77 947 3203 | shashikauda@gmail.com</p>
+  <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616 | <span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
+</header>
+
+<section>
+  <h2>Summary</h2>
+  <p class="summary">Engineer focused on keeping systems up, safe and affordable to run: a production platform at 99.5% uptime, a backend simplified from five services to two, and designs that expect failure (circuit breakers, rate limiting, guaranteed delivery). I own the path from code to cloud, including CI/CD, backups, migrations and security reviews.</p>
+</section>
+
+<section class="skills">
+  <h2>Skills</h2>
+  <p><b>Reliability:</b> rate limiting, circuit breakers (Resilience4j), transactional outbox, graceful degradation and fallback, <span class="nb">backward-compatible</span> releases, load testing, runbooks, security reviews</p>
+  <p><b>Cloud and infrastructure:</b> Google Cloud Run, Azure, Docker, Supabase, Vercel, GitHub Actions (CI/CD, backups, migrations)</p>
+  <p><b>Data and messaging:</b> PostgreSQL, SQL Server, MongoDB, Redis, RabbitMQ, connection pooling (HikariCP)</p>
+  <p><b>Languages and security:</b> Go, Java, Python, TypeScript, C#, SQL, SSO (OAuth 2.0, OIDC, SAML 2.0), MFA, RBAC, PostgreSQL <span class="nb">Row-Level</span> Security (RLS)</p>
+</section>
+
+<section>
+  <h2>Experience</h2>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
+    <p class="org">Runs TieHere (tiehere.com), a live app with 31 production users</p>
+    <ul>
+      <li>Cut the production footprint from <b>five microservices plus Redis and Pub/Sub to two deployables</b> on Google Cloud Run (Go API gateway and modular monolith over gRPC), lowering cost and operational load.</li>
+      <li>Shipped backend releases without breaking apps already on users' phones by enforcing <span class="nb">additive-only</span> API and JSON changes and testing auth changes against the released client.</li>
+      <li>Automated PostgreSQL backups and migrations in GitHub Actions with a recovery runbook, and hardened production access (<span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes, short sessions, audit logs, recurring security reviews).</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <ul>
+      <li>Kept a customer management and payments platform at <b>99.5% uptime for 50+ concurrent users</b> with secure REST APIs, <span class="nb">role-based</span> permissions and audit logging for every financial transaction (.NET, SQL Server, Azure).</li>
+      <li>Cut ticket resolution time by <b>35%</b> with automated routing, escalation and <span class="nb">role-based</span> assignment.</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <ul>
+      <li>Rolled out single <span class="nb">sign-on</span> for <b>100+ enterprise users</b> across <span class="nb">multi-tenant</span> applications (SAML 2.0, OpenID Connect) with <span class="nb">role-based</span> access.</li>
+      <li>Reduced manual operational effort by <b>40%</b> by automating approvals, notifications and dashboards in a ServiceNow portal.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Projects</h2>
+
+  <div class="role">
+    <div class="role-head"><span class="title">VoltNexus: <span class="nb">Fault-Tolerant</span> EV Charging Platform</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Guaranteed booking delivery through outages with the transactional outbox pattern on RabbitMQ, and contained failures with Resilience4j circuit breakers and Redis rate limiting at a Spring Cloud Gateway.</li>
+    </ul>
+    <p class="stack">Java, Spring Boot, Spring Cloud Gateway, RabbitMQ, Redis, Resilience4j, PostgreSQL, HikariCP</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Distributed Telecom <span class="nb">Self-Care</span> Backend</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Load-tested stateless Node.js services to <b>1,000+ concurrent connections</b> with <b>sub-100 ms</b> responses across <b>50+ endpoints</b>, using RabbitMQ to keep slow work off the request path and Redis caching; containerised with Docker.</li>
+    </ul>
+    <p class="stack">Node.js, Express, RabbitMQ, Redis, MongoDB, Docker</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Enterprise Ticket Management Platform (client project)</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Enforced <span class="nb">multi-tenant</span> data isolation in the database with PostgreSQL <span class="nb">Row-Level</span> Security (RLS), verified by <b>38 database tests</b>, <b>19 <span class="nb">end-to-end</span> tests</b> and <b>435 unit tests</b> (95% coverage on <span class="nb">access-control</span> code), with a clean dependency audit.</li>
+    </ul>
+    <p class="stack">Next.js, TypeScript, PostgreSQL, Supabase, Playwright, pgTAP</p>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="role">
+    <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
+    <p class="org">GPA 3.87 / 4.0. Coursework: Distributed Systems, Operating Systems, Data and Network Security, Internet Protocols</p>
+  </div>
+</section>
+
+<section>
+  <h2>Certifications</h2>
+  <p>WSO2 Certified Associate, Identity and Access Management (2024)</p>
+</section>
+
+</body>
+</html>

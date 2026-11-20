@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shashika Fernando - AI Engineer CV</title>
+<link rel="stylesheet" href="cv.css">
+</head>
+<body>
+
+<header>
+  <h1>Shashika Fernando</h1>
+  <p class="target">AI Engineer</p>
+  <p class="contact">Colombo, Sri Lanka | +94 77 947 3203 | shashikauda@gmail.com</p>
+  <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616 | <span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
+</header>
+
+<section>
+  <h2>Summary</h2>
+  <p class="summary">AI engineer who builds LLM systems people can trust in production: an AI data analyst that answers only from a company's own data, an assistant that keeps working when model APIs fail, and deep learning for medical imaging. Backed by solid backend and security engineering, so AI features ship as products, not demos.</p>
+</section>
+
+<section class="skills">
+  <h2>Skills</h2>
+  <p><b>LLM engineering:</b> <span class="nb">text-to-SQL</span>, tool calling and agent loops, <span class="nb">JSON-schema</span> output, <span class="nb">multi-model</span> fallback, streaming (SSE), <span class="nb">read-only</span> data access for models, Gemini API, Groq API</p>
+  <p><b>Machine learning:</b> PyTorch, PyTorch Lightning, 3D <span class="nb">U-Net</span>, TorchIO, image segmentation, Dice and <span class="nb">cross-entropy</span> loss</p>
+  <p><b>Backend, data and security:</b> Python, FastAPI, Go, Java, TypeScript, PostgreSQL (RLS), SQL Server, Docker, Cloud Run, SSO (OAuth 2.0, OIDC)</p>
+</section>
+
+<section>
+  <h2>AI Projects</h2>
+
+  <div class="role">
+    <div class="role-head"><span class="title">AI Data Analyst for a <span class="nb">Multi-Outlet</span> Bakery (client project)</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Let managers ask about production, sales, waste and stock in plain English by turning questions into SQL over <b>8 curated <span class="nb">read-only</span> views</b>; every answer shows a table, a chart and the SQL used.</li>
+      <li>Kept numbers trustworthy by computing totals in code instead of the model and routing production questions to a deterministic planner based on actual sales; the AI cannot change any data.</li>
+    </ul>
+    <p class="stack">Python, LLM <span class="nb">text-to-SQL</span>, SQL Server, JavaScript, Docker</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Self-Healing AI Desktop Companion</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Kept conversations alive through API outages with a <b>5-tier Gemini fallback chain</b> that tells temporary errors from quota limits and probes back to the best model every <b>120 seconds</b>.</li>
+      <li>Built an agent loop that runs tests, applies a <span class="nb">JSON-schema-constrained</span> patch on failure and <span class="nb">re-verifies</span> for up to <b>3 cycles</b>, streaming to a <span class="nb">non-blocking</span> UI at <b>sub-100 ms</b> perceived latency.</li>
+    </ul>
+    <p class="stack">Python, PyQt6, qasync, Google Gemini API, FastAPI, WebSocket</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">3D Liver Tumour Segmentation from CT Scans</span><span class="dates">Research</span></div>
+    <ul>
+      <li>Trained a 3D <span class="nb">U-Net</span> to outline liver and tumour volumes voxel by voxel, aiming to save radiologists hours of manual work; used <span class="nb">patch-based</span> sampling to fit full 3D scans in local GPU memory.</li>
+    </ul>
+    <p class="stack">PyTorch, PyTorch Lightning, TorchIO, 3D <span class="nb">U-Net</span></p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Nova: AI Knowledge Book with <span class="nb">Real-Time</span> Streaming</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Streamed <span class="nb">LLM-generated</span>, structured learning content from FastAPI to React with <span class="nb">Server-Sent</span> Events, behind Supabase authentication, with a provider layer ready for more models.</li>
+    </ul>
+    <p class="stack">Python, FastAPI, Groq API, React, TypeScript, Supabase, PostgreSQL</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Password Hashing Research (<span class="nb">final-year</span> research)</span><span class="dates">2025 - 2026</span></div>
+    <ul>
+      <li>Strengthened the entropy of weak passwords by over <b>7x</b> by transforming them through chaotic maps before Argon2id, with <b>100%</b> deterministic <span class="nb">sign-in</span> success at 250 to 500 ms.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Experience</h2>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
+    <ul>
+      <li>Launched TieHere to <b>31 production users</b> on iOS and Android and cut its backend from five services to two (Go, gRPC, Cloud Run).</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <ul>
+      <li>Kept a customer management platform at <b>99.5% uptime for 50+ concurrent users</b>, and cut ticket resolution time by <b>35%</b> with automated routing and escalation (.NET, Angular, React, Azure).</li>
+    </ul>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <ul>
+      <li>Moved <b>100+ enterprise users</b> onto single <span class="nb">sign-on</span> (SAML 2.0, OpenID Connect) and reduced manual operational effort by <b>40%</b> with an automated ServiceNow feedback portal.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Education</h2>
+  <div class="role">
+    <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
+    <p class="org">GPA 3.87 / 4.0. Coursework: Neural Networks and AI, Data Mining, Distributed Systems, Data and Network Security</p>
+  </div>
+</section>
+
+<section>
+  <h2>Certifications</h2>
+  <p>WSO2 Certified Associate, Identity and Access Management (2024)</p>
+</section>
+
+</body>
+</html>

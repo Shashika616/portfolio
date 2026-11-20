@@ -1,344 +1,277 @@
 "use client";
 
-import React from 'react';
-import { motion, AnimatePresence, MotionValue } from 'framer-motion';
-import { Section } from '../types';
-import { useGlobalTheme } from '../context/ThemeContext';
+import React, { useEffect } from "react";
+import Link from "next/link";
+import { motion, AnimatePresence, MotionValue, useTransform } from "framer-motion";
+import { Menu, X, LayoutGrid } from "lucide-react";
+import { Section } from "../types";
+import { DIAL_START, DIAL_STEP, dialAngle } from "../sectionsData";
 
 interface WatchDialProps {
+  variant: "desktop" | "mobile";
   sections: Section[];
   currentIndex: number;
-  watchHandTransform: MotionValue<string>;
-  structuralGearRotation: MotionValue<string>;
+  /** Smoothed hand angle in degrees (spring-driven in page.tsx). */
+  rotation: MotionValue<number>;
   jumpToSection: (index: number) => void;
   isSidebarOpen: boolean;
   setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function WatchDialComponent({
-  sections,
-  currentIndex,
-  watchHandTransform,
-  structuralGearRotation,
-  jumpToSection,
-  isSidebarOpen,
-  setIsSidebarOpen
-}: WatchDialProps) {
-  const { activeTheme } = useGlobalTheme();
+// ---------- Dial geometry (desktop) ----------
+const SIZE = 448;            // px, the dial disc (28rem)
+const C = SIZE / 2;          // centre
+const R_EDGE = 219;          // outer hairline
+const R_TICK = 204;          // tick ring outer radius
+const R_ARC = 211;           // progress arc radius
+const R_INNER = 150;         // inner hairline
+const LABEL_R = 240;         // label distance from centre
+const HAND_LEN = 196;
 
-  const handleSectionClick = (index: number) => {
-    jumpToSection(index);
-    setIsSidebarOpen(false);
-  };
+const rad = (deg: number) => (deg * Math.PI) / 180;
+const polar = (r: number, deg: number) => [C + r * Math.cos(rad(deg)), C + r * Math.sin(rad(deg))] as const;
 
-  // Reusable drop-shadow object for the vector watch-pointer arrows
-  const pointerGlowStyle = {
-    filter: `drop-shadow(0 0 8px ${activeTheme.fillColor || '#3b82f6'}cc)`,
-    transition: 'filter 0.4s ease-in-out, fill 0.4s ease-in-out'
-  };
+function arcPath(r: number, from: number, to: number) {
+  const [x0, y0] = polar(r, from);
+  const [x1, y1] = polar(r, to);
+  const large = to - from > 180 ? 1 : 0;
+  return `M ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
+}
+
+export default function WatchDial(props: WatchDialProps) {
+  return props.variant === "desktop" ? <DesktopDial {...props} /> : <MobileNav {...props} />;
+}
+
+/* ===================================================================== */
+/* Desktop: a flat instrument face, half-docked on the left edge.         */
+/* ===================================================================== */
+
+function DesktopDial({ sections, currentIndex, rotation, jumpToSection }: WatchDialProps) {
+  const last = sections.length - 1;
+  const spanEnd = dialAngle(last) + DIAL_STEP; // hand can travel one step past the last section while scrolling it
+  const span = spanEnd - DIAL_START;
+
+  // Progress arc fills from the first section to wherever the hand is.
+  const progress = useTransform(rotation, (v) => Math.min(1, Math.max(0, (v - DIAL_START) / span)));
+  const handTransform = useTransform(rotation, (v) => `rotate(${v}deg)`);
+
+  // Minor ticks every 2°, across the travelled span only: every mark means something.
+  const ticks: { deg: number; major: number | null }[] = [];
+  // Starting 6° before the first section keeps every section angle on the 2° grid.
+  for (let d = DIAL_START - 6; d <= spanEnd; d += 2) {
+    const majorIndex = sections.findIndex((_, i) => Math.abs(dialAngle(i) - d) < 0.01);
+    ticks.push({ deg: d, major: majorIndex >= 0 ? majorIndex : null });
+  }
+
+  return (
+    <div
+      className="fixed left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 pointer-events-auto z-50"
+      style={{ width: SIZE, height: SIZE }}
+    >
+      <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} className="absolute inset-0 overflow-visible" aria-hidden>
+        <defs>
+          <radialGradient id="dial-face" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#ffffff" />
+            <stop offset="85%" stopColor="#fbfcfd" />
+            <stop offset="100%" stopColor="#f3f6f9" />
+          </radialGradient>
+          <filter id="dial-shadow" x="-20%" y="-20%" width="140%" height="140%">
+            <feDropShadow dx="0" dy="18" stdDeviation="22" floodColor="#0f172a" floodOpacity="0.08" />
+          </filter>
+        </defs>
+
+        {/* Face */}
+        <circle cx={C} cy={C} r={R_EDGE} fill="url(#dial-face)" filter="url(#dial-shadow)" />
+        <circle cx={C} cy={C} r={R_EDGE} fill="none" stroke="#e2e8f0" strokeWidth="1" />
+        <circle cx={C} cy={C} r={R_INNER} fill="none" stroke="#eef2f6" strokeWidth="1" />
+        <circle cx={C} cy={C} r={R_INNER - 34} fill="none" stroke="#f1f5f9" strokeWidth="1" strokeDasharray="1 5" />
+
+        {/* Progress track + arc */}
+        <path d={arcPath(R_ARC, DIAL_START, spanEnd)} fill="none" stroke="#eef2f6" strokeWidth="3" strokeLinecap="round" />
+        <motion.path
+          d={arcPath(R_ARC, DIAL_START, spanEnd)}
+          fill="none"
+          stroke="var(--accent)"
+          strokeWidth="3"
+          strokeLinecap="round"
+          style={{ pathLength: progress }}
+        />
+
+        {/* Ticks: major ticks at sections carry state (visited / current / upcoming). */}
+        {ticks.map(({ deg, major }) => {
+          const isMajor = major !== null;
+          const len = isMajor ? 15 : 5;
+          const [x0, y0] = polar(R_TICK, deg);
+          const [x1, y1] = polar(R_TICK - len, deg);
+          let stroke = "#d5dde6";
+          if (isMajor) stroke = major! < currentIndex ? "color-mix(in srgb, var(--accent) 55%, #cbd5e1)" : major === currentIndex ? "var(--accent)" : "#94a3b8";
+          return (
+            <line
+              key={deg}
+              x1={x0.toFixed(2)} y1={y0.toFixed(2)} x2={x1.toFixed(2)} y2={y1.toFixed(2)}
+              stroke={stroke}
+              strokeWidth={isMajor ? (major === currentIndex ? 2.5 : 1.5) : 1}
+              strokeLinecap="round"
+              style={{ transition: "stroke 300ms ease" }}
+            />
+          );
+        })}
+      </svg>
+
+      {/* Hand */}
+      <motion.div
+        aria-hidden
+        className="absolute left-1/2 top-1/2 origin-left will-change-transform"
+        style={{ width: HAND_LEN, height: 2, marginTop: -1, transform: handTransform }}
+      >
+        <span className="absolute inset-0 rounded-full bg-slate-900" />
+        <span className="absolute right-0 top-1/2 -translate-y-1/2 w-6 h-[3px] rounded-full" style={{ background: "var(--accent)" }} />
+      </motion.div>
+      <span aria-hidden className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-3.5 h-3.5 rounded-full bg-white ring-[1.5px] ring-slate-900 shadow-sm" />
+
+      {/* Section labels */}
+      <ol className="absolute left-1/2 top-1/2 w-0 h-0">
+        {sections.map((sec, i) => {
+          const active = i === currentIndex;
+          const deg = dialAngle(i);
+          const x = LABEL_R * Math.cos(rad(deg));
+          const y = LABEL_R * Math.sin(rad(deg));
+          return (
+            <li key={sec.id} className="absolute" style={{ transform: `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px) translateY(-50%)` }}>
+              <button
+                onClick={() => jumpToSection(i)}
+                aria-current={active ? "true" : undefined}
+                className="group flex items-baseline gap-2 whitespace-nowrap py-1.5 pr-2 cursor-pointer"
+              >
+                <span
+                  className="font-mono text-[11px] tabular transition-colors"
+                  style={{ color: active ? "var(--accent-strong)" : "#94a3b8" }}
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <span
+                  className={`text-[15px] tracking-[-0.01em] transition-colors ${
+                    active ? "font-semibold text-slate-900" : "font-medium text-slate-500 group-hover:text-slate-900"
+                  }`}
+                >
+                  {sec.title}
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
+    </div>
+  );
+}
+
+/* ===================================================================== */
+/* Mobile: menu trigger + slide-in sheet with a matching progress ring.   */
+/* ===================================================================== */
+
+function MobileNav({ sections, currentIndex, jumpToSection, isSidebarOpen, setIsSidebarOpen }: WatchDialProps) {
+  const close = () => setIsSidebarOpen(false);
+
+  useEffect(() => {
+    if (!isSidebarOpen) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSidebarOpen]);
+
+  const n = sections.length;
+  const ringR = 22;
+  const ringC = 2 * Math.PI * ringR;
+  const current = sections[currentIndex];
 
   return (
     <>
-      {/* ================= FLOATING MENU TRIGGER (Mobile/Tablet Only) ================= */}
       <button
-        onClick={(e) => {
-          e.stopPropagation();
-          setIsSidebarOpen(!isSidebarOpen);
-        }}
-        style={{ 
-          backgroundImage: activeTheme.gradient,
-          boxShadow: `0 4px 20px ${(activeTheme.fillColor || '#3b82f6')}50`
-        }}
-        className={`lg:hidden fixed top-7 left-5 z-[10001] p-3 rounded-xl text-white flex items-center justify-center border-none cursor-pointer touch-manipulation min-w-[44px] min-h-[44px] transition-all duration-200 ease-in-out ${
-          isSidebarOpen ? 'opacity-0 pointer-events-none scale-90' : 'opacity-100 pointer-events-auto scale-100'
-        }`}
-        aria-label="Toggle navigation menu"
+        onClick={() => setIsSidebarOpen((o) => !o)}
+        aria-label="Open section menu"
+        aria-expanded={isSidebarOpen}
+        className="lg:hidden fixed top-[26px] left-4 z-[10001] w-11 h-11 rounded-xl bg-white text-slate-800 ring-1 ring-slate-200 shadow-sm flex items-center justify-center pointer-events-auto active:scale-95 transition-transform"
       >
-        <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h10" />
-        </svg>
+        <Menu className="w-5 h-5" />
       </button>
 
-      {/* ================= MOBILE/TABLET SLIDABLE SIDEBAR ================= */}
       <AnimatePresence>
         {isSidebarOpen && (
-          <div className="lg:hidden fixed inset-0 z-[10000] flex pointer-events-none">
-            {/* Backdrop Dimmer Mask */}
+          <div className="lg:hidden fixed inset-0 z-[10002]">
             <motion.div
+              aria-hidden
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              onClick={() => setIsSidebarOpen(false)}
-              className="absolute inset-0 bg-slate-950/40 backdrop-blur-xs pointer-events-auto"
+              onClick={close}
+              className="absolute inset-0 bg-slate-950/40 backdrop-blur-[3px] pointer-events-auto"
             />
-
-            {/* Sliding Drawer Chassis */}
-            <motion.div
+            <motion.nav
+              aria-label="Sections"
               initial={{ x: "-100%" }}
               animate={{ x: 0 }}
               exit={{ x: "-100%" }}
-              transition={{ type: "spring", damping: 25, stiffness: 220 }}
-              className="relative w-[280px] sm:w-[320px] h-full bg-white border-r border-slate-200 shadow-2xl flex flex-col justify-center overflow-hidden px-4 pointer-events-auto"
+              transition={{ type: "spring", bounce: 0, duration: 0.35 }}
+              className="absolute left-0 top-0 h-full w-[300px] max-w-[85vw] bg-white shadow-2xl flex flex-col pointer-events-auto"
             >
-              {/* SIDEBAR HEADER CONTAINER */}
-              <div className="absolute top-8 left-6 right-6 flex items-center justify-between z-20">
-                {/* BRANDING HEADER TAG */}
-                <div className="flex items-center gap-2">
-                  <span className={`w-1.5 h-1.5 rounded-full ${activeTheme.accentColor}`} />
-                  <span className="font-mono text-[10px] font-bold text-slate-400 tracking-widest uppercase">Navigation</span>
-                </div>
-
-                {/* INTERNAL CLOSE BUTTON (Top Right) */}
-                <button
-                  onClick={() => setIsSidebarOpen(false)}
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100/80 transition-colors cursor-pointer border-none bg-transparent flex items-center justify-center focus:outline-none touch-manipulation"
-                  aria-label="Close menu"
-                >
-                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              <div className="flex items-center justify-between h-[72px] pl-5 pr-3 border-b border-slate-100">
+                <div className="flex items-center gap-3.5">
+                  <svg width="52" height="52" viewBox="0 0 52 52" aria-hidden>
+                    <circle cx="26" cy="26" r={ringR} fill="none" stroke="#eef2f6" strokeWidth="3" />
+                    <circle
+                      cx="26" cy="26" r={ringR} fill="none" stroke="var(--accent)" strokeWidth="3" strokeLinecap="round"
+                      strokeDasharray={`${(ringC * (currentIndex + 1)) / n} ${ringC}`}
+                      transform="rotate(-90 26 26)"
+                      style={{ transition: "stroke-dasharray 400ms cubic-bezier(0.22,1,0.36,1)" }}
+                    />
+                    <text x="26" y="30" textAnchor="middle" className="font-mono" fontSize="12" fill="#0f172a">
+                      {String(currentIndex + 1).padStart(2, "0")}
+                    </text>
                   </svg>
+                  <div className="leading-tight">
+                    <p className="text-[15px] font-semibold text-slate-900">{current.title}</p>
+                    <p className="text-xs text-slate-500">{current.subtitle}</p>
+                  </div>
+                </div>
+                <button onClick={close} aria-label="Close menu" className="btn btn-ghost btn-icon btn-sm">
+                  <X className="w-5 h-5" />
                 </button>
               </div>
 
-              {/* INTEGRATED PERSISTENT GHOST WATCH MECHANISM */}
-              <div className="relative w-full aspect-square flex items-center justify-center mt-8">
-                
-                {/* Embedded Fully Interactive Chronograph Backing Chassis */}
-                <div 
-                  className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/3 w-[26rem] h-[26rem] flex items-center justify-center rounded-full bg-gradient-to-br from-slate-50 to-slate-100/40 border border-slate-200/60 opacity-30 pointer-events-none select-none will-change-transform transition-shadow duration-500"
-                  style={{ 
-                    boxShadow: `inset 0 0 40px ${(activeTheme.fillColor || '#3b82f6')}20, 0 10px 30px rgba(0,0,0,0.03)` 
-                  }}
-                >
-                  <div className="absolute w-[94%] h-[94%] rounded-full bg-white/80 flex items-center justify-center overflow-hidden">
-                    
-                    {/* Animated Escapement Gear */}
-                    <motion.div style={{ transform: structuralGearRotation }} className="absolute top-1/4 left-1/4 w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center">
-                      <div className="w-8 h-8 rounded-full border border-dashed border-slate-300 animate-[spin_30s_linear_infinite]" />
-                    </motion.div>
-
-                    {/* Chronograph Instrument Dial Scaled Vector */}
-                    <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
-                      <circle cx="100" cy="100" r="92" fill="none" stroke="#e2e8f0" strokeWidth="0.75" />
-                      <circle cx="100" cy="100" r="88" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="0.3 1.5" />
-                      <circle cx="100" cy="100" r="68" fill="none" stroke="#cbd5e1" strokeWidth="0.5" />
-
-                      {[...Array(60)].map((_, i) => {
-                        const angle = i * 6;
-                        const rad = (angle - 90) * (Math.PI / 180);
-                        const isMajor = i % 5 === 0;   
-                        const tickLength = isMajor ? 8 : 4;
-                        const rOuter = 92;
-                        const rInner = rOuter - tickLength;
-
-                        return (
-                          <line 
-                            key={i} 
-                            x1={(100 + rOuter * Math.cos(rad)).toFixed(2)} 
-                            y1={(100 + rOuter * Math.sin(rad)).toFixed(2)} 
-                            x2={(100 + rInner * Math.cos(rad)).toFixed(2)} 
-                            y2={(100 + rInner * Math.sin(rad)).toFixed(2)} 
-                            stroke={isMajor ? "#475569" : "#cbd5e1"} 
-                            strokeWidth={isMajor ? "0.75" : "0.5"} 
-                          />
-                        );
-                      })}
-                    </svg>
-
-                    {/* Real-time Tracking Chronograph Watch Hand */}
-                    <motion.div 
-                      style={{ transform: watchHandTransform }}
-                      className="absolute top-1/2 left-1/2 w-[125px] h-[1.5px] bg-slate-700 origin-left z-20 will-change-transform"
-                    >
-                      <svg className="absolute right-0 -top-[4px] w-2.5 h-2.5" viewBox="0 0 12 12">
-                        <path 
-                          d="M2 1 L10 6 L2 11 Z" 
-                          fill={activeTheme.fillColor || "#3b82f6"} 
-                          style={pointerGlowStyle}
-                        />
-                      </svg>
-                    </motion.div>
-
-                    {/* Mechanical Core Cap */}
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-slate-100 border border-slate-300 shadow-xs flex items-center justify-center">
-                      <div className="w-1 h-1 rounded-full bg-slate-800" />
-                    </div>
-
-                  </div>
-                </div>
-
-                {/* Vertical Navigation Link Stack Layer */}
-                <div className="flex flex-col gap-6 w-full pl-8 relative z-10">
-                  {sections.map((sec, index) => {
-                    const isCurrent = currentIndex === index;
-                    return (
+              <ol className="flex-1 overflow-y-auto py-3">
+                {sections.map((sec, i) => {
+                  const active = i === currentIndex;
+                  return (
+                    <li key={sec.id}>
                       <button
-                        key={sec.id}
-                        onClick={() => handleSectionClick(index)}
-                        className="flex items-center gap-4 py-1 group text-left focus:outline-none cursor-pointer touch-manipulation"
+                        onClick={() => { jumpToSection(i); close(); }}
+                        aria-current={active ? "true" : undefined}
+                        className={`w-full flex items-center gap-4 px-5 py-3 text-left transition-colors ${active ? "bg-slate-50" : "hover:bg-slate-50"}`}
                       >
-                        <span 
-                          className={`h-1.5 rounded-full transition-all duration-300 ${
-                            isCurrent ? 'w-6 shadow-xs' : 'bg-slate-300/80 w-2 group-hover:bg-slate-400'
-                          }`}
-                          style={isCurrent ? { 
-                            backgroundImage: activeTheme.gradient,
-                            boxShadow: `0 0 10px ${activeTheme.fillColor || '#3b82f6'}80`
-                          } : {}}
-                        />
-                        <div className="flex flex-col">
-                          <span className={`font-mono text-[9px] font-bold ${isCurrent ? 'text-slate-900' : 'text-slate-400'}`}>
-                            0{index + 1}
-                          </span>
-                          <span className={`text-[16px] uppercase tracking-wider font-sans mt-0.5 transition-all duration-200 ${
-                            isCurrent ? 'text-slate-950 font-black' : 'text-slate-400 font-medium group-hover:text-slate-700'
-                          }`}>
-                            {sec.title}
-                          </span>
-                        </div>
+                        <span aria-hidden className="h-[2px] flex-shrink-0 transition-all" style={{ width: active ? 18 : 10, background: active ? "var(--accent)" : i < currentIndex ? "color-mix(in srgb, var(--accent) 55%, #cbd5e1)" : "#cbd5e1" }} />
+                        <span className="font-mono text-[11px] tabular w-5" style={{ color: active ? "var(--accent-strong)" : "#94a3b8" }}>
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="flex-1 min-w-0">
+                          <span className={`block text-[15px] ${active ? "font-semibold text-slate-900" : "font-medium text-slate-700"}`}>{sec.title}</span>
+                          <span className="block text-xs text-slate-500">{sec.subtitle}</span>
+                        </span>
                       </button>
-                    );
-                  })}
-                </div>
+                    </li>
+                  );
+                })}
+              </ol>
 
+              <div className="p-4 border-t border-slate-100">
+                <Link href="/profile" className="btn btn-secondary w-full">
+                  <LayoutGrid className="w-4 h-4" /> Switch to profile view
+                </Link>
               </div>
-            </motion.div>
+            </motion.nav>
           </div>
         )}
       </AnimatePresence>
-
-      {/* ============================================================================= */}
-      {/* ================= DESKTOP ENGINE (Untouched Persistent Layout) ================= */}
-      {/* ============================================================================= */}
-      <div 
-        className="hidden lg:flex fixed left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 w-[28rem] h-[28rem] items-center justify-center rounded-full bg-gradient-to-tr from-slate-300 via-slate-100 to-white border border-slate-300 pointer-events-auto z-50 transition-all duration-500 ease-in-out"
-        style={{ 
-          boxShadow: `inset 0 2px 4px rgba(255,255,255,0.8), 0 25px 60px rgba(100,116,139,0.15), 0 0 50px ${(activeTheme.fillColor || '#3b82f6')}15` 
-        }}
-      >
-        <div className="absolute w-[96%] h-[96%] rounded-full bg-gradient-to-br from-slate-200 via-slate-50 to-slate-100 shadow-[inset_0_3px_8px_rgba(0,0,0,0.06)] flex items-center justify-center">
-          <div 
-            className="absolute w-[94%] h-[94%] rounded-full bg-white border border-slate-200/40 flex items-center justify-center overflow-hidden transition-all duration-500 ease-in-out"
-            style={{ 
-              boxShadow: `inset 0 0 35px ${(activeTheme.fillColor || '#3b82f6')}12` 
-            }}
-          >
-            
-            {/* ESCAPEMENT CONTROLS */}
-            <motion.div style={{ transform: structuralGearRotation }} className="absolute top-1/3 left-1/3 w-14 h-14 rounded-full border border-slate-100 bg-[#fafcfd] shadow-[inset_0_2px_5px_rgba(0,0,0,0.04)] flex items-center justify-center opacity-40">
-              <div className="w-10 h-10 rounded-full border border-dashed border-slate-200/80 flex items-center justify-center animate-[spin_40s_linear_infinite]">
-                <div className="w-4 h-[0.5px] bg-slate-300" />
-              </div>
-            </motion.div>
-
-            {/* CHRONOGRAPH INSTRUMENT DIALS */}
-            <svg className="absolute inset-0 w-full h-full" viewBox="0 0 200 200">
-              <circle cx="100" cy="100" r="92" fill="none" stroke="#e2e8f0" strokeWidth="1" />
-              <circle cx="100" cy="100" r="88" fill="none" stroke="#94a3b8" strokeWidth="0.5" strokeDasharray="0.3 1.2" />
-              <circle cx="100" cy="100" r="68" fill="none" stroke="#cbd5e1" strokeWidth="0.5" />
-
-              {[...Array(120)].map((_, i) => {
-                const angle = i * 3;
-                if (angle < 0 || angle > 180) return null; 
-                const rad = (angle - 90) * (Math.PI / 180);
-                const isMajor = i % 10 === 0;   
-                const isMedium = i % 5 === 0 && !isMajor;
-
-                const tickLength = isMajor ? 9 : isMedium ? 6 : 4;
-                const rOuter = 92;
-                const rInner = rOuter - tickLength;
-
-                return (
-                  <line 
-                    key={i} 
-                    x1={(100 + rOuter * Math.cos(rad)).toFixed(2)} 
-                    y1={(100 + rOuter * Math.sin(rad)).toFixed(2)} 
-                    x2={(100 + rInner * Math.cos(rad)).toFixed(2)} 
-                    y2={(100 + rInner * Math.sin(rad)).toFixed(2)} 
-                    stroke={isMajor ? "#334155" : isMedium ? "#64748b" : "#cbd5e1"} 
-                    strokeWidth={isMajor ? "1" : "0.5"} 
-                  />
-                );
-              })}
-            </svg>
-
-            {/* DYNAMIC CHRONOGRAPH ARMATURE CHASSIS */}
-            <motion.div 
-              style={{ transform: watchHandTransform }}
-              className="absolute top-1/2 left-1/2 w-[140px] h-[2px] bg-slate-800 origin-left z-20 will-change-transform shadow-[0_2px_4px_rgba(0,0,0,0.12)]"
-            >
-              <svg className="absolute right-0 -top-[5px] w-3 h-3" viewBox="0 0 12 12">
-                <path 
-                  d="M2 1 L10 6 L2 11 Z" 
-                  fill={activeTheme.fillColor || "#3b82f6"} 
-                  style={pointerGlowStyle}
-                />
-              </svg>
-            </motion.div>
-
-            {/* CENTER CAP HUB WITH GLOW AURA */}
-            <div 
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-gradient-to-tr from-slate-200 via-white to-slate-100 z-30 border border-slate-300 flex items-center justify-center transition-all duration-500"
-              style={{ 
-                boxShadow: `0 0 15px ${(activeTheme.fillColor || '#3b82f6')}50, 0 2px 5px rgba(0,0,0,0.15)` 
-              }}
-            >
-              <div className="w-1.5 h-1.5 rounded-full bg-slate-900" />
-            </div>
-
-          </div>
-        </div>
-
-        {/* FLYBACK LINKS */}
-        <div className="absolute top-1/2 left-1/2 w-0 h-0 pointer-events-none">
-          {sections.map((sec, index) => {
-            const isCurrent = currentIndex === index;
-            const spreadArcDegree = -55 + (index * 22); 
-            const rad = spreadArcDegree * (Math.PI / 180);
-            const radiusDistance = 235; 
-            
-            const x = (radiusDistance * Math.cos(rad)).toFixed(2);
-            const y = (radiusDistance * Math.sin(rad)).toFixed(2);
-
-            return (
-              <button
-                key={sec.id}
-                onClick={() => handleSectionClick(index)}
-                className="absolute pointer-events-auto flex items-center gap-2.5 group whitespace-nowrap focus:outline-none cursor-pointer"
-                style={{ transform: `translate3d(${x}px, ${y}px, 0) translateY(-50%)` }}
-              >
-                <span 
-                  className={`h-0.5 rounded-full transition-all duration-300 ${
-                    isCurrent ? 'w-5 shadow-[0_1px_4px_rgba(0,0,0,0.15)]' : 'bg-slate-300 w-2 group-hover:bg-slate-400'
-                  }`}
-                  style={isCurrent ? { 
-                    backgroundImage: activeTheme.gradient,
-                    boxShadow: `0 0 12px ${activeTheme.fillColor || '#3b82f6'}cc`
-                  } : {}}
-                />
-
-                <div className="flex flex-col items-start text-left leading-none bg-white/60 backdrop-blur-xs px-1.5 py-0.5 rounded">
-                  <span 
-                    className="font-mono text-[9px] tracking-tight font-bold transition-all duration-200"
-                    style={isCurrent ? { 
-                      color: activeTheme.fillColor || '#3b82f6'
-                    } : { 
-                      color: '#94a3b8' 
-                    }}
-                  >
-                    0{index + 1}
-                  </span>
-                  <span className={`text-[13px] tracking-wider uppercase font-sans mt-0.5 transition-all duration-200 ${
-                    isCurrent ? 'text-slate-950 font-extrabold scale-[1.02]' : 'text-slate-400 font-medium group-hover:text-slate-600'
-                  }`}>
-                    {sec.title}
-                  </span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
     </>
   );
 }

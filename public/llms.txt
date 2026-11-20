@@ -1,0 +1,27 @@
+# Shashika Fernando
+
+> Software engineer in Colombo, Sri Lanka, working across distributed systems, security and applied AI, from research prototypes to products in production.
+
+This site has two views of the same content:
+
+- [Interactive dial](/): an intro, then six sections (Welcome, About, Education, Projects, Experience, Contact) navigated by a watch-dial instrument.
+- [Gallery](/gallery): every system as an image collage.
+- [Profile](/profile): a quick-read profile with a feed of every project, filterable by websites, mobile apps, backend, AI, research and games.
+
+## Selected work
+
+- TieHere: proximity app for professionals to meet in person. Flutter, Go API gateway and modular monolith over gRPC, PostgreSQL on Supabase, Google Cloud Run. https://tiehere.com
+- Enterprise Ticket Management System: Next.js 16 ticketing platform with Postgres row-level security, mandatory TOTP for admins, 435 unit tests and 19 end-to-end specs.
+- Modern Womenswear Storefront: Next.js storefront with a scroll-scrubbed canvas film and statically generated product pages.
+- AshiruLabs website: studio site with a real-time Three.js scene driven by scroll. https://ashirulabs.com
+- Offline-First Field Sales App: Flutter app with an ASP.NET Core API over an existing SQL Server back office.
+- Healthy Meal Pre-Ordering App: Flutter app on a NestJS modular-monolith backend.
+- AI Data Analyst for a bakery business: plain-English questions answered by SQL over read-only views, with a deterministic production planner.
+- VoltNexus: event-driven EV-charging microservices (Spring Cloud Gateway, RabbitMQ, transactional outbox).
+- Research: chaotic-map password pre-hashing before Argon2id; 3D U-Net liver tumour segmentation.
+
+## Contact
+
+- Contact: [/profile](/profile)
+- GitHub: https://github.com/Shashika616
+- LinkedIn: https://www.linkedin.com/in/shashika-fernando-5399062b5/

@@ -1,26 +1,385 @@
 @import "tailwindcss";
 
+/*
+ * Design tokens. The site is light-only by design (the watch-dial chassis is
+ * built from slate highlights), so there is no dark-mode override here.
+ * --accent / --accent-gradient are written at runtime by ThemeContext from the
+ * active theme; the values below are the Aurora defaults used before hydration.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --muted: #64748b;
+  --hairline: #e2e8f0;
+  --accent: #3b82f6;
+  --accent-strong: #2563eb; /* AA (≥4.5:1) against white; fills primary buttons */
+  --accent-gradient: conic-gradient(from 0deg, #3b82f6, #8b5cf6, #ec4899, #f43f5e, #eab308, #3b82f6);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
+  --color-accent: var(--accent);
+  --font-sans: var(--font-sans-ui);
+  --font-serif: var(--font-serif-display);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans-ui), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ---------- Browser surfaces, themed from the active accent ---------- */
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 22%, transparent);
+  color: var(--foreground);
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--accent) 35%, #cbd5e1) transparent;
+}
+*::-webkit-scrollbar { width: 8px; height: 8px; }
+*::-webkit-scrollbar-track { background: transparent; }
+*::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--accent) 30%, #cbd5e1);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+/* Visible keyboard focus everywhere; mouse clicks stay clean. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+input::placeholder { color: #94a3b8; }
+input { caret-color: var(--accent); }
+
+.tabular { font-variant-numeric: tabular-nums; }
+
+/*
+ * Shared interactive surface used by section cards (pillars, education,
+ * contact, project/experience/certificate cards). Replaces per-component
+ * onMouseEnter/onMouseLeave style mutation so hover and keyboard focus behave
+ * the same and the accent follows the theme.
+ */
+.accent-card {
+  border-color: var(--hairline);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.03);
+  transition:
+    transform 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 300ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 300ms ease;
+}
+.accent-card:hover,
+.accent-card:focus-within {
+  border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+  box-shadow:
+    0 18px 36px color-mix(in srgb, var(--accent) 16%, transparent),
+    0 2px 8px color-mix(in srgb, var(--accent) 10%, transparent);
+  transform: translateY(-2px);
+}
+.accent-card--tinted {
+  border-color: color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/*
+ * ---------- Button system: colour follows purpose ----------
+ * .btn-primary   one per view, the main action. Solid --accent-strong
+ *                (each theme's AA-contrast shade), white label.
+ * .btn-secondary supporting actions (CV, live, filters). Theme tint, never plain white.
+ * .btn-github / .btn-linkedin  brand-coloured links to those profiles and repos.
+ * .btn-ghost     quiet actions (close, pagination). Text only.
+ * .chip          filters and tabs; selected = accent tint, never a solid block.
+ * Gradients are brand ornament only and never fill a button.
+ */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.125rem;
+  border-radius: 12px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid transparent;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease, box-shadow 160ms ease, transform 100ms ease-out;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:active:not(:disabled) { transform: translateY(0) scale(0.97); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-sm { min-height: 36px; padding: 0 0.875rem; font-size: 0.8125rem; border-radius: 10px; }
+.btn-lg { min-height: 52px; padding: 0 1.75rem; font-size: 1rem; border-radius: 14px; }
+
+.btn-primary {
+  background: var(--accent-strong);
+  color: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.12), 0 6px 16px color-mix(in srgb, var(--accent-strong) 26%, transparent);
+}
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent-strong) 88%, #000);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(15, 23, 42, 0.12), 0 12px 26px color-mix(in srgb, var(--accent-strong) 34%, transparent);
+}
+
+/* Secondary: a tint of the theme, never plain white. */
+.btn-secondary {
+  background: color-mix(in srgb, var(--accent) 10%, #fff);
+  color: var(--accent-strong);
+  border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+}
+.btn-secondary:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--accent) 17%, #fff);
+  border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+
+.btn-ghost { background: transparent; color: #475569; }
+.btn-ghost:hover:not(:disabled) { background: color-mix(in srgb, var(--accent) 10%, #f1f5f9); color: var(--accent-strong); }
+
+/* Brand buttons: recognisable at a glance. */
+.btn-github { background: #181717; color: #fff; }
+.btn-github:hover:not(:disabled) { background: #000; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(0, 0, 0, 0.25); }
+.btn-linkedin { background: #0a66c2; color: #fff; }
+.btn-linkedin:hover:not(:disabled) { background: #004182; transform: translateY(-1px); box-shadow: 0 10px 22px rgba(10, 102, 194, 0.3); }
+
+.btn-icon { width: 44px; padding: 0; }
+.btn-icon.btn-sm { width: 36px; }
+
+/*
+ * ---------- Labels: the "machined plate" ----------
+ * Every label on the site (tech tags, status badges, filter chips) shares one
+ * custom shape: a tinted plate with the top-left and bottom-right corners
+ * chamfered, like an engraved index plate on an instrument. No leading dots,
+ * no generic pills. --notch controls the cut.
+ */
+.plate {
+  --notch: 5px;
+  clip-path: polygon(
+    var(--notch) 0, 100% 0,
+    100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%,
+    0 100%, 0 var(--notch)
+  );
+}
+
+.chip {
+  --notch: 6px;
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0 0.875rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: #475569;
+  background: #f1f5f9;
+  box-shadow: inset 0 -2px 0 transparent;
+  cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
+}
+.chip:hover { background: #e8edf3; color: var(--foreground); }
+.chip:active { transform: translateY(1px); }
+.chip[aria-pressed="true"], .chip[aria-selected="true"] {
+  background: color-mix(in srgb, var(--accent) 13%, #fff);
+  color: var(--accent-strong);
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+/* Non-interactive tag (tech stack). */
+.tag {
+  --notch: 4px;
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1875rem 0.5625rem;
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.005em;
+  color: #334155;
+  background: #eef2f6;
+  white-space: nowrap;
+}
+
+/* Status badge for projects: same plate, stronger tint, small caps. */
+.badge {
+  --notch: 5px;
+  clip-path: polygon(var(--notch) 0, 100% 0, 100% calc(100% - var(--notch)), calc(100% - var(--notch)) 100%, 0 100%, 0 var(--notch));
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1875rem 0.625rem;
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.badge-client { background: color-mix(in srgb, var(--accent) 16%, #fff); color: var(--accent-strong); }
+.badge-neutral { background: #e8edf3; color: #475569; }
+
+/* Display serif: the exhibit voice, used for names and section titles. */
+.display {
+  font-family: var(--font-serif-display), ui-serif, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.02em;
+  line-height: 0.98;
+}
+
+/* Eyebrow-free section heading used inside cards. */
+.section-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #64748b;
+}
+
+/* Exhibit scroll hint: a drop of light running down a hairline. */
+@keyframes exhibit-drip {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(200%); }
+}
+
+/* Profile cover carousel: story-style segment fill. */
+@keyframes cover-fill {
+  from { width: 0%; }
+  to { width: 100%; }
+}
+
+/*
+ * Section arrival (dial): when a card becomes current, each top-level block of
+ * its section rises out of a soft blur, staggered, like prints coming into
+ * focus. Pure CSS keyed off .is-active, so it replays on every arrival.
+ */
+@keyframes rise-in {
+  from { opacity: 0; transform: perspective(1200px) translateY(28px) rotateX(14deg); filter: blur(10px); }
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+
+/* Dial page turn between sections (see ContentCard). */
+.card-page {
+  transition:
+    transform 950ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 600ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 700ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 400ms ease;
+  backface-visibility: hidden;
+}
+.is-active .section-body > * {
+  animation: rise-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.is-active .section-body > *:nth-child(1) { animation-delay: 80ms; }
+.is-active .section-body > *:nth-child(2) { animation-delay: 160ms; }
+.is-active .section-body > *:nth-child(3) { animation-delay: 240ms; }
+.is-active .section-body > *:nth-child(4) { animation-delay: 320ms; }
+.is-active .section-body > *:nth-child(n + 5) { animation-delay: 400ms; }
+
+/* Architecture diagrams: dashes stream along the connector, tier to tier. */
+@keyframes diagram-flow {
+  to { stroke-dashoffset: -14; }
+}
+.diagram-flow {
+  stroke-dasharray: 4 3;
+  animation: diagram-flow 900ms linear infinite;
+}
+
+/*
+ * Skeletons: shaped 1:1 like the content they stand in for, tinted and
+ * swept with the active theme colour (not grey), with a soft accent glow.
+ */
+@keyframes skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+/* In the components layer so utilities (absolute, inset-0, rounded…) win. */
+@layer components {
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--accent) 10%, #eef2f6);
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 10%, transparent);
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    color-mix(in srgb, var(--accent) 26%, transparent) 45%,
+    color-mix(in srgb, #fff 55%, transparent) 50%,
+    color-mix(in srgb, var(--accent) 26%, transparent) 55%,
+    transparent 80%
+  );
+  animation: skeleton-sweep 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+.skeleton-glow {
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--accent) 14%, transparent),
+    0 10px 40px color-mix(in srgb, var(--accent) 16%, transparent);
+}
+.skeleton-dark { background: color-mix(in srgb, var(--accent) 14%, #18181b); }
+}
+
+/* Typewriter caret. */
+@keyframes caret-blink { 50% { opacity: 0; } }
+.typewriter-caret {
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--accent);
+  animation: caret-blink 900ms steps(1) infinite;
+}
+
+/* Glass navigation (profile). */
+.glass-bar {
+  backdrop-filter: blur(24px) saturate(170%);
+  -webkit-backdrop-filter: blur(24px) saturate(170%);
+  border: 1px solid transparent;
+}
+.glass-bar--dark {
+  background: rgba(20, 20, 22, 0.38);
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 12px 32px rgba(0, 0, 0, 0.25);
+}
+.glass-bar--light {
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--foreground);
+  border-color: rgba(255, 255, 255, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 10px 30px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.04);
+}
+@media (prefers-reduced-transparency: reduce) {
+  .glass-bar { backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .glass-bar--dark { background: #1c1c1e; }
+  .glass-bar--light { background: #fff; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .accent-card:hover, .accent-card:focus-within { transform: none; }
 }

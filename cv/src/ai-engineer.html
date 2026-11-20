@@ -18,13 +18,13 @@
 <main>
 <section>
   <h2>Summary</h2>
-  <p class="summary">AI engineer who ships LLM features businesses rely on: RAG chatbots in production at Seefa, a <span class="nb">self-healing</span> <span class="nb">multi-model</span> assistant, and 3D deep learning for medical imaging. Strong backend and security foundation, so AI systems stay accurate, safe and reliable under real use.</p>
+  <p class="summary">AI engineer who ships LLM features businesses rely on: production RAG assistants at Seefa that answer from live ERP data and reconcile to the cent, a <span class="nb">self-healing</span> <span class="nb">multi-model</span> assistant, and 3D deep learning for medical imaging. Strong backend and security foundation, so AI systems stay accurate, safe and reliable under real use.</p>
 </section>
 
 <section class="skills">
   <h2>Skills</h2>
-  <p><b>LLM engineering:</b> RAG, <span class="nb">text-to-SQL</span>, tool calling and agent loops, structured JSON output, <span class="nb">multi-model</span> fallback, streaming (SSE), Gemini API, Groq API</p>
-  <p><b>Machine learning:</b> PyTorch, PyTorch Lightning, 3D <span class="nb">U-Net</span>, TorchIO, image segmentation</p>
+  <p><b>LLM engineering:</b> RAG, <span class="nb">text-to-SQL</span>, SQL guardrails (sqlglot), OWASP LLM Top 10, LLM failover, tool calling and agent loops, structured JSON output, <span class="nb">multi-model</span> fallback, streaming (SSE), Gemini API, Groq API</p>
+  <p><b>Machine learning and analytics:</b> PyTorch, PyTorch Lightning, 3D <span class="nb">U-Net</span>, TorchIO, image segmentation, pandas, statsmodels (forecasting, anomalies)</p>
   <p><b>Backend and data:</b> Python, FastAPI, Go, Java, TypeScript, PostgreSQL (RLS), SQL Server, Docker, Google Cloud Run, Azure</p>
   <p><b>Identity and access management:</b> WSO2 Identity Server, Asgardeo, WSO2 Choreo, SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, passwordless authentication, user lifecycle management, RBAC, ACLs</p>
 </section>
@@ -34,8 +34,10 @@
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
     <ul>
-      <li>Delivered <b>two production RAG chatbots</b> for client businesses: an AI data analyst for a <span class="nb">multi-outlet</span> bakery and a business assistant for a <span class="nb">motor-parts</span> company.</li>
-      <li>Made the bakery analyst trustworthy for daily planning: managers ask in plain English and get answers from live sales, waste and stock data with charts and the query shown, while figures are computed in code and production plans come from a deterministic planner, so the model cannot hallucinate numbers or change data.</li>
+      <li>Delivered <b>two production RAG assistants</b> over live business databases, for a wholesale <span class="nb">automotive-parts</span> distributor and a <span class="nb">multi-outlet</span> bakery.</li>
+      <li>Made the <span class="nb">automotive-parts</span> assistant safe to trust with money questions: the model writes SQL but never a number, receivables <b>reconcile to the cent</b> with the ERP’s own report, and a tiered pipeline (cache, verified question library, LLM, <span class="nb">self-repair</span>) answers <b>most questions with no LLM call</b>.</li>
+      <li>Secured it against the <b>OWASP Top 10 and OWASP LLM Top 10</b>: an <span class="nb">AST-level</span> SQL guard and a <span class="nb">read-only</span> account make writes impossible, data rows are never sent to the LLM provider, and CI runs <span class="nb">pip-audit</span>, Bandit, gitleaks and Trivy on every push.</li>
+      <li>Gave a <span class="nb">multi-outlet</span> bakery a trustworthy planning tool: managers ask in plain English and get answers from live sales, waste and stock data with charts, while figures are computed in code and production plans come from a deterministic planner, so the model cannot hallucinate numbers.</li>
       <li>Kept a payments platform at <b>99.5% uptime for 50+ concurrent users</b> and cut ticket resolution time by <b>35%</b> through secure .NET APIs and automated routing.</li>
       <li>Enabled <b>about 20 field sales reps</b> to work offline with an app that syncs exactly once into the existing back office.</li>
     </ul>

@@ -4,7 +4,7 @@ Three role-targeted, ATS-friendly CVs (two well-filled pages, every role in full
 
 | File | Target roles | Leads with |
 |---|---|---|
-| `Shashika_Fernando_Software_Engineer_CV.pdf` | Software / Backend / Full-stack Engineer | Shipping TieHere, backend design, security, testing |
+| `Shashika_Fernando_Software_Engineer_CV.pdf` | Software / Backend / Full-stack Engineer | Seefa platforms, identity, backend design, testing |
 | `Shashika_Fernando_AI_Engineer_CV.pdf` | AI / LLM / Applied ML Engineer | Grounded LLM systems, fallback and agent loops, 3D U-Net |
 | `Shashika_Fernando_Site_Reliability_Engineer_CV.pdf` | SRE / Platform / DevOps | Uptime, consolidation, failure handling, CI/CD, security |
 
@@ -13,7 +13,7 @@ Three role-targeted, ATS-friendly CVs (two well-filled pages, every role in full
 - **ATS-safe:** single column, real selectable text, embedded Poppins (Arial fallback), the banner is page content not a header, no tables, icons, text boxes, headers or footers; contact details in the body; standard headings (Summary, Skills, Experience, Projects, Education, Certifications).
 - **Bullets use Google's X-Y-Z shape:** what was achieved, how it was measured, how it was done.
 - **Facts only.** Every number comes from the portfolio data (`app/data/*`) or Shashika's previous CV. Client projects are anonymous. Never add a figure without a source.
-- **A4, two pages at most,** with page two well filled. Every role (AshiruLabs, Seefa, WSO2 including IAM) appears in full on every CV. Check the page count after every edit.
+- **A4, two pages at most,** with page two well filled. Every role (Seefa, WSO2 including IAM) appears in full on every CV. Own products (TieHere, AshiruLabs) live on the portfolio, not the CVs. Check the page count after every edit.
 
 ## Edit and rebuild
 

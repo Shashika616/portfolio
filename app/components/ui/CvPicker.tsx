@@ -53,7 +53,7 @@ export function CvPicker({ open, onClose }: { open: boolean; onClose: () => void
           <motion.div key="list" className="px-5 sm:px-10 py-8 sm:py-10 space-y-8 max-w-3xl mx-auto" initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }} transition={{ duration: 0.3 }}>
             <header className="space-y-2">
               <h2 className="display text-[2.4rem] sm:text-[2.9rem] leading-none text-slate-900">Choose a CV</h2>
-              <p className="text-[15px] text-slate-600">One page each, tailored to the role. Pick one, several, or all three.</p>
+              <p className="text-[15px] text-slate-600">Each one tailored to the role. Pick one, several, or all three.</p>
             </header>
 
             <ul className="space-y-3" role="group" aria-label="CVs">

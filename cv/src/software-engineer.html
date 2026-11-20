@@ -3,6 +3,8 @@
 <head>
 <meta charset="utf-8">
 <title>Shashika Fernando - Software Engineer CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cv.css">
 </head>
 <body>
@@ -13,6 +15,7 @@
   <p class="contact">Colombo, Sri Lanka | +94 77 947 3203 | shashikauda@gmail.com</p>
   <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616 | <span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
 </header>
+<main>
 
 <section>
   <h2>Summary</h2>
@@ -24,7 +27,8 @@
   <p><b>Languages and frontend:</b> Go, Java, TypeScript, Python, C#, Dart, SQL, React, Next.js, Angular, Flutter</p>
   <p><b>Backend:</b> Spring Boot, Node.js, NestJS, ASP.NET Core, FastAPI, gRPC, REST, RabbitMQ, Redis</p>
   <p><b>Data and cloud:</b> PostgreSQL, SQL Server, MongoDB, Supabase, Google Cloud Run, Azure, Docker, GitHub Actions</p>
-  <p><b>Security and identity:</b> SSO (OAuth 2.0, OpenID Connect, SAML 2.0), WSO2 Identity Server, MFA, RBAC, PostgreSQL <span class="nb">Row-Level</span> Security (RLS), <span class="nb">multi-tenant</span> data isolation</p>
+  <p><b>Identity and access management:</b> WSO2 Identity Server, Asgardeo, WSO2 Choreo (API management), SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, passwordless authentication, user lifecycle management, RBAC, ACLs</p>
+  <p><b>Data security:</b> PostgreSQL <span class="nb">Row-Level</span> Security (RLS), <span class="nb">multi-tenant</span> data isolation, audit logging</p>
   <p><b>Architecture and testing:</b> API gateways, modular monoliths, microservices, <span class="nb">event-driven</span> design, circuit breakers, <span class="nb">offline-first</span> sync, Playwright, pgTAP</p>
 </section>
 
@@ -33,26 +37,33 @@
 
   <div class="role">
     <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
+    <p class="org">Software product company, Colombo. Builds and runs TieHere (tiehere.com) and ashirulabs.com</p>
     <ul>
       <li>Launched TieHere, an app that helps professionals nearby meet in person, to <b>31 production users</b> on iOS and Android from a single Flutter codebase.</li>
-      <li>Reduced the backend from <b>five microservices plus Redis and Pub/Sub to two deployables</b> (a Go API gateway and a modular monolith over gRPC), cutting running and operating costs while keeping each module separable.</li>
-      <li>Shipped updates without breaking apps already on users' phones (<span class="nb">additive-only</span> API changes), secured the admin console with <span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes and a full audit trail, and recorded key choices in <b>14 architecture decision records</b>.</li>
+      <li>Reduced the backend from <b>five microservices plus Redis and Pub/Sub to two deployables</b> (a Go API gateway and a modular monolith over gRPC on Google Cloud Run), cutting running and operating costs while keeping each module separable.</li>
+      <li>Designed the identity layer: the gateway alone holds the <span class="nb">token-signing</span> key and issues JWTs, trust levels come from verified phone and company email, and safety features unlock only at higher trust.</li>
+      <li>Shipped every backend update without breaking apps already on users' phones by enforcing <span class="nb">additive-only</span> API changes and checking auth changes against the released client.</li>
+      <li>Secured and ran production: admin console behind Google <span class="nb">sign-in</span> plus <span class="nb">one-time</span> codes with a full audit trail, PostgreSQL backups and migrations in GitHub Actions, a recovery runbook, and <b>14 architecture decision records</b>.</li>
     </ul>
   </div>
 
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
     <ul>
-      <li>Kept a customer management platform for accounts, commissions and payments at <b>99.5% uptime for 50+ concurrent users</b> by designing secure REST APIs with JWT authentication, <span class="nb">fine-grained</span> <span class="nb">role-based</span> permissions and audit logging (Angular, .NET, SQL Server, Azure).</li>
-      <li>Cut ticket resolution time by <b>35%</b> by building automated routing, escalation and <span class="nb">role-based</span> assignment into a ticket lifecycle system for change requests (React, .NET).</li>
+      <li><b>Customer management application:</b> kept accounts, commissions, payments and promotion schemes running at <b>99.5% uptime for 50+ concurrent users</b> by designing secure REST APIs with JWT authentication, RBAC, <span class="nb">fine-grained</span> permissions and audit logging for every financial transaction (Angular, .NET, SQL Server, Azure).</li>
+      <li><b>Ticket lifecycle system:</b> cut resolution time by <b>35%</b> by building automated routing, approval and escalation workflows, <span class="nb">role-based</span> assignment, status tracking and notifications for product change requests and new features (React, .NET, SQL Server, Azure).</li>
     </ul>
   </div>
 
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <p class="org">Identity and Access Management, API Management and internal tooling</p>
     <ul>
-      <li>Moved <b>100+ enterprise users</b> onto single <span class="nb">sign-on</span> by configuring WSO2 Identity Server and Asgardeo with SAML 2.0, OpenID Connect and <span class="nb">role-based</span> access across <span class="nb">multi-tenant</span> applications.</li>
-      <li>Reduced manual operational effort by <b>40%</b> by building a ServiceNow engineer feedback portal with automated approvals, notifications and dashboards, secured with <span class="nb">role-based</span> access controls.</li>
+      <li><b>Single <span class="nb">sign-on</span>:</b> moved <b>100+ enterprise users</b> onto SSO and federated identity with WSO2 Identity Server and Asgardeo, configuring SAML 2.0, OpenID Connect, OAuth 2.0 and RBAC across multiple enterprise applications, and built the login flows with React and Spring Boot.</li>
+      <li><b>Identity administration:</b> configured service providers, identity providers, user stores, claims, roles and permissions, and authentication policies (MFA, session management, token validation) for <span class="nb">multi-tenant</span> identity governance.</li>
+      <li><b>API management:</b> secured APIs with WSO2 Choreo.</li>
+      <li><b>ServiceNow engineer feedback portal:</b> reduced manual operational effort by <b>40%</b> by building a Service Portal with AngularJS widgets, REST APIs, Script Includes, Business Rules, GlideRecord and GlideAjax, automating submission, review, approvals and notifications, with dashboards and RBAC and ACL security.</li>
+      <li>Worked with Product, QA, DevOps and Security through sprint planning, code reviews, testing, deployment and production support, and mentored junior teammates on authentication and authorisation.</li>
     </ul>
   </div>
 </section>
@@ -83,6 +94,22 @@
     </ul>
     <p class="stack">Flutter, Dart, ASP.NET Core (.NET 8), SQL Server</p>
   </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">Digital Gate Pass and Visitor Management System (national TV broadcaster)</span><span class="dates">2024</span></div>
+    <ul>
+      <li>Replaced paper logbooks with <span class="nb">role-based</span> portals for staff, gate security and admins, processing <b>5,000+ visitor entries a month</b> with zero security incidents and cutting paper use by <b>90%</b>; digital gate passes, audit trails and <span class="nb">date-based</span> reports.</li>
+    </ul>
+    <p class="stack">React, Node.js, Express, MongoDB, Figma</p>
+  </div>
+
+  <div class="role">
+    <div class="role-head"><span class="title">AlgoTrack: DSA and System Design Study Platform (live)</span><span class="dates">2026</span></div>
+    <ul>
+      <li>Built a Next.js 16 platform with a <b>12+ table</b> PostgreSQL schema in Drizzle ORM, a modular REST API of <b>15+ route handlers</b>, Supabase authentication enforced in middleware, and chunked uploads for large files on serverless.</li>
+    </ul>
+    <p class="stack">Next.js, React 19, TypeScript, PostgreSQL, Drizzle ORM, Supabase, Vercel</p>
+  </div>
 </section>
 
 <section>
@@ -98,5 +125,6 @@
   <p>WSO2 Certified Associate, Identity and Access Management (2024)</p>
 </section>
 
+</main>
 </body>
 </html>

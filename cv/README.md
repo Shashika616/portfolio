@@ -1,6 +1,6 @@
 # CVs
 
-Three role-targeted, one-page, ATS-friendly CVs built from the same facts as the portfolio.
+Three role-targeted, ATS-friendly CVs (two well-filled pages, every role in full) built from the same facts as the portfolio. Design follows the original CV: dark banner, spaced capitals, Poppins, bold ruled headings.
 
 | File | Target roles | Leads with |
 |---|---|---|
@@ -10,15 +10,15 @@ Three role-targeted, one-page, ATS-friendly CVs built from the same facts as the
 
 ## Rules they follow
 
-- **ATS-safe:** single column, real selectable text, Arial, no tables, icons, text boxes, headers or footers; contact details in the body; standard headings (Summary, Skills, Experience, Projects, Education, Certifications).
+- **ATS-safe:** single column, real selectable text, embedded Poppins (Arial fallback), the banner is page content not a header, no tables, icons, text boxes, headers or footers; contact details in the body; standard headings (Summary, Skills, Experience, Projects, Education, Certifications).
 - **Bullets use Google's X-Y-Z shape:** what was achieved, how it was measured, how it was done.
 - **Facts only.** Every number comes from the portfolio data (`app/data/*`) or Shashika's previous CV. Client projects are anonymous. Never add a figure without a source.
-- **One page, A4.** Check the page count after every edit.
+- **A4, two pages at most,** with page two well filled. Every role (AshiruLabs, Seefa, WSO2 including IAM) appears in full on every CV. Check the page count after every edit.
 
 ## Edit and rebuild
 
 1. Edit the HTML in `src/` (shared styles in `src/cv.css`).
-2. Open the HTML in Chrome, then Print → Save as PDF, Paper: A4, Margins: Default, Background graphics: on. The page margins come from `@page` in `cv.css`.
+2. Open the HTML in Chrome (online, so Poppins loads from Google Fonts), then Print → Save as PDF, Paper: A4, Margins: Default, Background graphics: on (needed for the dark banner). The page margins come from `@page` in `cv.css`.
 3. Save over the matching PDF here, and copy-paste its text into a plain text editor to confirm the reading order is intact (the ATS test).
 
 ## Publish to the site

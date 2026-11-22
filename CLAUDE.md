@@ -30,7 +30,7 @@ Remote: `origin` → https://github.com/Shashika616/portfolio.git (branch `main`
 | `app/context/ThemeContext.tsx` | 5 colour themes; writes `--accent`, `--accent-strong`, `--accent-gradient` to `:root`. |
 | `app/globals.css` | Tokens, button system, labels, `.display` serif, motion keyframes, reduced-motion. |
 | `app/lib/*` | `client.ts` (useIsClient, useQueryFlag), `site.ts` (SITE_URL). |
-| `cv/` | Three role-targeted, one-page ATS CVs (HTML sources + PDFs). Published copies + ZIP in `public/cv/`; every "Download CV" button opens `CvPicker` (pick one, several, or all). See `cv/README.md`. |
+| `cv/` | Three role-targeted ATS CVs plus a complete one with photo (HTML sources + PDFs). Published copies + ZIP in `public/cv/`; every "Download CV" button opens `CvPicker` (pick one, several, or all). See `cv/README.md`. |
 | `public/work/*.jpg` | Live-site screenshots used as covers. `public/llms.txt` for AI crawlers. |
 
 ## Rules that matter

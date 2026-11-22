@@ -18,6 +18,7 @@ Remote: `origin` → https://github.com/Shashika616/portfolio.git (branch `main`
 | `app/page.tsx` | `/`: Exhibit intro → dial dashboard. In-app "The Dial" links skip the intro via `introGate` (memory only); **any reload restarts at the intro** (`RESTART_ON_RELOAD_SCRIPT` in `app/lib/navigation.ts`). |
 | `app/gallery/page.tsx` | `/gallery`: reference-style gallery (dark WORK stage → white sheet → numbered collage, blur until seen, zoom ±, lens, expand). |
 | `app/profile/page.tsx` | `/profile`: an editorial issue (Cover → Contents → Features → Career → Colophon) built from `app/components/profile/*`, on the site palette (no custom paper colour). |
+| `app/writing/*` | `/writing`: engineering articles from `app/data/writing.ts` (static, JSON-LD). A reload stays on the article. |
 | `app/components/Exhibit.tsx` | Cinematic black intro that **autoplays**: wordmark → screenshot vortex → two covers → title card → `Letter.tsx` → destination. |
 | `app/components/MenuOverlay.tsx`, `Letter.tsx` | Full-screen menu; typed letter between the title card and the room. |
 | `app/components/ui/{Typewriter,NameLoader,Cursor,SmartImage,WordsReveal}.tsx` | Real-time typing; name wave loader; custom cursor; skeleton images; word reveals. |

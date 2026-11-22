@@ -21,7 +21,8 @@ export const RESTART_ON_RELOAD_SCRIPT = `(function(){try{
   if('scrollRestoration' in history) history.scrollRestoration='manual';
   var n=performance.getEntriesByType('navigation')[0];
   var reload=n&&n.type==='reload';
-  if(reload&&location.pathname!=='/'){location.replace('/');return;}
+  // Articles are read and shared: a reload keeps the reader where they are.
+  if(reload&&location.pathname!=='/'&&location.pathname.indexOf('/writing')!==0){location.replace('/');return;}
   if(location.pathname==='/'&&location.search){history.replaceState(null,'','/');}
   window.scrollTo(0,0);
 }catch(e){}})();`;

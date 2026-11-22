@@ -52,6 +52,10 @@ Rules:
 
 `app/sectionsData.ts`: title + plain-language subtitle (shown in the mobile sheet). Adding a section also needs a renderer in `ContentCard.tsx`; the dial spacing (22°) fits up to 7 sections.
 
+## Articles (`/writing`)
+
+Add an entry to `ARTICLES` in `app/data/writing.ts` (blocks: `p`, `h`, `list`, `table`, `note`). The route, sitemap and JSON-LD pick it up; add a line to `public/llms.txt`. Every figure must be measured, or labelled as an estimate in the text. Client systems are written up only with the client's permission.
+
 ## Open items (ask the user)
 
 - **Senakra** (RAG business assistant for a motor-parts business): add once the user supplies facts/repo. Anonymous client project.

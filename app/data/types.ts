@@ -117,6 +117,8 @@ export interface SecurityModel {
     stride: Stride;
     threat: string;
     control: string;
+    /** OWASP Top 10 for LLM Applications (2025) reference, e.g. "LLM01 · Prompt injection". */
+    owasp?: string;
     /** Where the control lives (package, file, table or setting). */
     where?: string;
     /** What is still accepted, stated plainly. */

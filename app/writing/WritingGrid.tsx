@@ -6,6 +6,7 @@ import { motion, AnimatePresence, LayoutGroup, useMotionValue, useSpring, useTra
 import { ArrowUpRight, LayoutDashboard, LayoutGrid, List as ListIcon } from "lucide-react";
 import type { Article } from "../data/writing";
 import { SmartImage } from "../components/ui/SmartImage";
+import { useIsClient } from "../lib/client";
 
 const EASE = [0.16, 1, 0.3, 1] as const;
 /** A few broad topics, so every option fits on one or two rows. */
@@ -19,23 +20,91 @@ const VIEWS: { id: View; label: string; Icon: typeof LayoutGrid }[] = [
 
 const date = (iso: string) => new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 
-/** Stable "random" per article, so server and client render the same collage. */
-const seed = (s: string) => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
 
-type Shape = "tall" | "short" | "figure" | "quote";
-function shapeOf(a: Article, i: number): Shape {
-  if (!a.cover) return a.stat ? "figure" : "quote";
-  const r = (seed(a.slug) + i) % 5;
-  if (r === 0 || r === 3) return "tall";
-  if (r === 4 && a.stat) return "figure";
-  return "short";
+type Shape = "big" | "wide" | "tall" | "long" | "short";
+/**
+ * Mosaic patterns. Each is six cards that fill exactly three rows of four on
+ * desktop and six rows of two on phones (with dense packing), so any mix of
+ * them leaves no gaps.
+ */
+const PATTERNS: Shape[][] = [
+  ["big", "long", "tall", "wide", "short", "short"],
+  ["tall", "big", "long", "short", "short", "wide"],
+  ["wide", "short", "short", "long", "big", "tall"],
+  ["big", "short", "short", "tall", "long", "wide"],
+  ["short", "wide", "short", "big", "tall", "long"],
+];
+const SPAN: Record<Shape, string> = {
+  big: "col-span-2 row-span-2",
+  wide: "col-span-2 row-span-1",
+  tall: "col-span-1 row-span-2",
+  long: "col-span-1 row-span-2",
+  short: "col-span-1 row-span-1",
+};
+/** Slots a card without an image can fill without changing the area. */
+const TEXT_OK: Shape[] = ["long", "short"];
+
+/** New on every page load (module scope runs once per load in the browser); 0 on the server. */
+const LOAD_SEED = typeof window === "undefined" ? 0 : Math.floor(Math.random() * 2 ** 31);
+
+/** Small deterministic PRNG, so one seed gives one layout. */
+function rng(seed: number) {
+  let t = seed >>> 0;
+  return () => {
+    t = (t + 0x6d2b79f5) >>> 0;
+    let r = Math.imul(t ^ (t >>> 15), 1 | t);
+    r ^= r + Math.imul(r ^ (r >>> 7), 61 | r);
+    return ((r ^ (r >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * Lays articles out block by block: each block of six takes a pattern (the
+ * first one for seed 0, a random one otherwise), cards are shuffled into its
+ * slots, and cards without an image are moved into a long or short slot.
+ */
+function layout(articles: Article[], seed: number): { a: Article; shape: Shape }[] {
+  const rand = rng(seed);
+  const out: { a: Article; shape: Shape }[] = [];
+  for (let b = 0; b < articles.length; b += 6) {
+    let block = articles.slice(b, b + 6);
+    const pattern = seed === 0 ? PATTERNS[0] : PATTERNS[Math.floor(rand() * PATTERNS.length)];
+    if (seed !== 0) {
+      block = [...block];
+      for (let k = block.length - 1; k > 0; k--) {
+        const m = Math.floor(rand() * (k + 1));
+        [block[k], block[m]] = [block[m], block[k]];
+      }
+    }
+    const slots = pattern.slice(0, block.length);
+    const placed: (Article | null)[] = slots.map(() => null);
+    // Text-only cards first, into the text-friendly slots.
+    for (const a of block.filter((x) => !x.cover)) {
+      const k = slots.findIndex((sh, idx) => placed[idx] === null && TEXT_OK.includes(sh));
+      if (k >= 0) placed[k] = a;
+    }
+    for (const a of block.filter((x) => !placed.includes(x))) {
+      const k = placed.indexOf(null);
+      placed[k] = a;
+    }
+    placed.forEach((a, k) => {
+      if (!a) return;
+      const shape = !a.cover && !TEXT_OK.includes(slots[k]) ? "long" : slots[k];
+      out.push({ a, shape });
+    });
+  }
+  return out;
 }
 
 export function WritingGrid({ articles }: { articles: Article[] }) {
   const topics = useMemo(() => TOPICS.filter((t) => articles.some((a) => a.tags.includes(t))), [articles]);
   const [topic, setTopic] = useState<string | null>(null);
   const [view, setView] = useState<View>("collage");
-  const shown = topic ? articles.filter((a) => a.tags.includes(topic)) : articles;
+  const shown = useMemo(() => (topic ? articles.filter((a) => a.tags.includes(topic)) : articles), [articles, topic]);
+  const isClient = useIsClient();
+  // Server and first paint use seed 0 (hydration-safe, full list in the HTML);
+  // the browser then switches to this load's random seed.
+  const mosaic = useMemo(() => layout(shown, isClient ? LOAD_SEED : 0), [shown, isClient]);
 
   return (
     <LayoutGroup>
@@ -58,11 +127,14 @@ export function WritingGrid({ articles }: { articles: Article[] }) {
           transition={{ duration: 0.35, ease: EASE }}
         >
           {view === "collage" && (
-            <ul className="columns-2 lg:columns-3 gap-4 sm:gap-5">
+            <ul
+              className="grid grid-cols-2 lg:grid-cols-4 auto-rows-[168px] sm:auto-rows-[200px] lg:auto-rows-[220px] [grid-auto-flow:dense] gap-3 sm:gap-4 transition-opacity duration-300"
+              style={{ opacity: isClient ? 1 : 0 }}
+            >
               <AnimatePresence mode="popLayout">
-                {shown.map((a, i) => (
-                  <Reveal key={a.slug} i={i} className="break-inside-avoid mb-4 sm:mb-5">
-                    <CollageCard a={a} shape={shapeOf(a, i)} />
+                {mosaic.map(({ a, shape }, i) => (
+                  <Reveal key={a.slug} i={i} className={SPAN[shape]}>
+                    <CollageCard a={a} shape={shape} />
                   </Reveal>
                 ))}
               </AnimatePresence>
@@ -167,7 +239,7 @@ function Tilt({ children, className = "" }: { children: React.ReactNode; classNa
       style={{ rotateX: rx, rotateY: ry, transformPerspective: 900 }}
       whileHover={{ y: -6 }}
       transition={{ type: "spring", bounce: 0, duration: 0.45 }}
-      className={`relative rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow duration-500 group-hover:shadow-[0_28px_56px_-14px_rgba(15,23,42,0.22)] ${className}`}
+      className={`relative h-full rounded-2xl overflow-hidden ring-1 ring-slate-200 shadow-[0_1px_2px_rgba(15,23,42,0.04)] transition-shadow duration-500 group-hover:shadow-[0_28px_56px_-14px_rgba(15,23,42,0.22)] ${className}`}
     >
       {children}
       <motion.span aria-hidden className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style={{ background: glare }} />
@@ -186,74 +258,90 @@ function Meta({ a, light = false }: { a: Article; light?: boolean }) {
   );
 }
 
+const ZOOM = "object-cover object-top transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]";
+
 function CollageCard({ a, shape }: { a: Article; shape: Shape }) {
   const href = `/writing/${a.slug}`;
-  if (shape === "tall" && a.cover) {
-    return (
-      <Link href={href} className="group block" data-cursor="Read">
-        <Tilt className="bg-slate-900">
-          <SmartImage src={a.cover} alt="" className="w-full aspect-[3/4]" imgClassName="object-cover object-top transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]" />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/35 to-transparent" />
-          <div className="absolute inset-x-0 bottom-0 p-4 sm:p-5 space-y-3">
-            <span className="tag">{a.tags[0]}</span>
-            <h2 className="display text-[1.45rem] sm:text-[1.8rem] leading-[1.05] text-white text-balance">{a.title}</h2>
-            <Meta a={a} light />
-          </div>
-        </Tilt>
-      </Link>
-    );
-  }
-  if (shape === "figure" && a.stat) {
-    return (
-      <Link href={href} className="group block" data-cursor="Read">
-        <Tilt className="bg-white">
-          <div className="px-5 pt-7 pb-5" style={{ background: "color-mix(in srgb, var(--accent) 10%, #fff)" }}>
-            <p className="display text-[3.4rem] sm:text-[4.4rem] leading-none tabular" style={{ color: "var(--accent-strong)" }}>{a.stat.value}</p>
-            <p className="mt-2 text-[13.5px] text-slate-600">{a.stat.label}</p>
-          </div>
-          <div className="p-4 sm:p-5 space-y-3">
-            <h2 className="display text-[1.3rem] sm:text-[1.5rem] leading-[1.08] text-slate-900 text-balance">{a.title}</h2>
-            <Meta a={a} />
-          </div>
-        </Tilt>
-      </Link>
-    );
-  }
-  if (shape === "quote") {
-    return (
-      <Link href={href} className="group block" data-cursor="Read">
-        <Tilt className="bg-slate-900">
-          <div className="p-5 sm:p-6 space-y-4">
-            <span className="tag">{a.tags[0]}</span>
-            <p className="display italic text-[1.4rem] sm:text-[1.7rem] leading-[1.12] text-white text-balance">{a.title}</p>
-            <p className="text-[13.5px] leading-6 text-white/70 line-clamp-3">{a.dek}</p>
-            <Meta a={a} light />
-          </div>
-        </Tilt>
-      </Link>
-    );
-  }
-  return (
-    <Link href={href} className="group block" data-cursor="Read">
-      <Tilt className="bg-white">
-        {a.cover && (
-          <div className="relative overflow-hidden bg-slate-100">
-            <SmartImage src={a.cover} alt="" className="w-full aspect-[4/3]" imgClassName="object-cover object-top transition-transform duration-[1100ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.08]" />
-            {a.stat && (
-              <span className="hidden sm:inline absolute left-3 bottom-3 glass-bar glass-bar--light rounded-xl px-2.5 py-1 text-[12.5px] text-slate-700">
-                <b className="text-slate-900 tabular">{a.stat.value}</b> {a.stat.label}
-              </span>
-            )}
-          </div>
-        )}
-        <div className="p-4 sm:p-5 space-y-2.5">
-          <h2 className="display text-[1.3rem] sm:text-[1.5rem] leading-[1.08] text-slate-900 text-balance">{a.title}</h2>
-          <p className="hidden sm:block text-[14px] leading-6 text-slate-600 line-clamp-3">{a.dek}</p>
-          <Meta a={a} />
-        </div>
-      </Tilt>
+  const wrap = (cls: string, body: React.ReactNode) => (
+    <Link href={href} className="group block h-full" data-cursor="Read">
+      <Tilt className={cls}>{body}</Tilt>
     </Link>
   );
+
+  // Big: hero image, everything over it.
+  if (shape === "big" && a.cover) {
+    return wrap("bg-slate-900", <>
+      <SmartImage src={a.cover} alt="" className="absolute inset-0 w-full h-full" imgClassName={ZOOM} />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/70 to-slate-950/10" />
+      <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 space-y-2 sm:space-y-3">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="tag">{a.tags[0]}</span>
+          {a.stat && <span className="hidden sm:inline glass-bar glass-bar--light rounded-lg px-2 py-0.5 text-[12.5px] text-slate-700"><b className="text-slate-900 tabular">{a.stat.value}</b> {a.stat.label}</span>}
+        </div>
+        <h2 className="display text-[1.6rem] sm:text-[2.4rem] leading-[1.02] text-white text-balance">{a.title}</h2>
+        <p className="hidden sm:[display:-webkit-box] text-[14.5px] leading-6 text-white/75 line-clamp-2 max-w-xl">{a.dek}</p>
+        <Meta a={a} light />
+      </div>
+    </>);
+  }
+
+  // Wide: image beside the story.
+  if (shape === "wide" && a.cover) {
+    return wrap("bg-white", <div className="h-full grid grid-cols-2">
+      <div className="relative overflow-hidden bg-slate-100">
+        <SmartImage src={a.cover} alt="" className="absolute inset-0 w-full h-full" imgClassName={ZOOM} />
+      </div>
+      <div className="flex flex-col p-3.5 sm:p-5 gap-2 min-w-0">
+        <span className="tag self-start">{a.tags[0]}</span>
+        <h2 className="display text-[1.1rem] sm:text-[1.45rem] leading-[1.06] text-slate-900 line-clamp-4 sm:line-clamp-3">{a.title}</h2>
+        <p className="hidden lg:[display:-webkit-box] text-[13.5px] leading-[1.45rem] text-slate-600 line-clamp-2">{a.dek}</p>
+        <div className="mt-auto"><Meta a={a} /></div>
+      </div>
+    </div>);
+  }
+
+  // Tall: portrait image with the title over it.
+  if (shape === "tall" && a.cover) {
+    return wrap("bg-slate-900", <>
+      <SmartImage src={a.cover} alt="" className="absolute inset-0 w-full h-full" imgClassName={ZOOM} />
+      <div className="absolute inset-0 bg-gradient-to-t from-slate-950/92 via-slate-950/30 to-transparent" />
+      <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-5 space-y-2.5">
+        <span className="tag">{a.tags[0]}</span>
+        <h2 className="display text-[1.25rem] sm:text-[1.65rem] leading-[1.05] text-white text-balance">{a.title}</h2>
+        <Meta a={a} light />
+      </div>
+    </>);
+  }
+
+  // Long: a reading card, no image, the whole summary.
+  if (shape === "long") {
+    return wrap("bg-slate-900", <div className="h-full flex flex-col p-4 sm:p-6 gap-3">
+      <span className="tag self-start">{a.tags[0]}</span>
+      {a.stat && <p className="display text-[2.6rem] sm:text-[3.4rem] leading-none tabular" style={{ color: "color-mix(in srgb, var(--accent) 70%, #fff)" }}>{a.stat.value}</p>}
+      <h2 className="display italic text-[1.25rem] sm:text-[1.6rem] leading-[1.08] text-white text-balance">{a.title}</h2>
+      <p className="text-[13.5px] leading-6 text-white/70 line-clamp-4 sm:line-clamp-5">{a.dek}</p>
+      <div className="mt-auto"><Meta a={a} light /></div>
+    </div>);
+  }
+
+  // Short: a figure tile when there is a headline number, otherwise a compact image tile.
+  if (!a.cover && a.stat) {
+    return wrap("bg-white", <div className="h-full flex flex-col p-3.5 sm:p-5" style={{ background: "color-mix(in srgb, var(--accent) 10%, #fff)" }}>
+      <p className="display text-[2.4rem] sm:text-[3.2rem] leading-none tabular" style={{ color: "var(--accent-strong)" }}>{a.stat.value}</p>
+      <p className="mt-1 text-[12.5px] text-slate-600 line-clamp-1">{a.stat.label}</p>
+      <h2 className="mt-auto display text-[1.05rem] sm:text-[1.2rem] leading-[1.1] text-slate-900 line-clamp-2">{a.title}</h2>
+    </div>);
+  }
+  return wrap("bg-slate-900", <>
+    {a.cover && <SmartImage src={a.cover} alt="" className="absolute inset-0 w-full h-full" imgClassName={ZOOM} />}
+    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent" />
+    {a.stat && (
+      <span className="absolute left-3 top-3 glass-bar glass-bar--light rounded-lg px-2 py-0.5 text-[12px] text-slate-700"><b className="text-slate-900 tabular">{a.stat.value}</b><span className="hidden sm:inline"> {a.stat.label}</span></span>
+    )}
+    <div className="absolute inset-x-0 bottom-0 p-3.5 sm:p-4">
+      <h2 className="display text-[1.05rem] sm:text-[1.25rem] leading-[1.08] text-white line-clamp-3">{a.title}</h2>
+    </div>
+  </>);
 }
 
 function GridCard({ a }: { a: Article }) {
@@ -298,7 +386,7 @@ function ListRow({ a }: { a: Article }) {
       <div className="min-w-0 flex-1 space-y-1.5">
         <p className="font-mono text-[11.5px] tabular text-slate-500">{date(a.published)} · {a.readMinutes} min · {a.tags[0]}</p>
         <h2 className="display text-[1.3rem] sm:text-[1.6rem] leading-[1.1] text-slate-900 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1.5">{a.title}</h2>
-        <p className="hidden sm:block text-[14px] leading-6 text-slate-600 line-clamp-1">{a.dek}</p>
+        <p className="hidden sm:[display:-webkit-box] text-[14px] leading-6 text-slate-600 line-clamp-1">{a.dek}</p>
       </div>
       <ArrowUpRight className="w-5 h-5 flex-shrink-0 text-slate-400 transition-all duration-300 group-hover:rotate-45 group-hover:text-[var(--accent-strong)]" />
     </Link>

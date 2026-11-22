@@ -23,7 +23,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
   const showLanding = !landingDismissed;
   const [currentIndex, setCurrentIndex] = useState(0);      
   const [cardScrollProgress, setCardScrollProgress] = useState(0); 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);     
   const lastScrollTime = useRef(0);                          
@@ -261,8 +260,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
                 currentIndex={currentIndex}
                 rotation={smoothRotation}
                 jumpToSection={jumpToSection}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
               />
 
               <div className="h-4 w-full flex-shrink-0" />
@@ -288,8 +285,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
                 currentIndex={currentIndex}
                 rotation={smoothRotation}
                 jumpToSection={jumpToSection}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
               />
             </div>
 

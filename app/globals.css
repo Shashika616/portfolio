@@ -294,6 +294,12 @@ input { caret-color: var(--accent); }
     border-color 400ms ease;
   backface-visibility: hidden;
 }
+/* The soft blur on pages that are turning away is desktop-only: animating a
+   full-card blur is expensive, and on phones the turn stays on transform and
+   opacity, which the GPU composites without repainting. */
+@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+  .card-page:not(.is-active) { filter: blur(8px); }
+}
 .is-active .section-body > * {
   animation: rise-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }

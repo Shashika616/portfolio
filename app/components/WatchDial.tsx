@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, MotionValue, useTransform } from "framer-motion";
 import { Menu, X, LayoutGrid } from "lucide-react";
@@ -14,8 +14,6 @@ interface WatchDialProps {
   /** Smoothed hand angle in degrees (spring-driven in page.tsx). */
   rotation: MotionValue<number>;
   jumpToSection: (index: number) => void;
-  isSidebarOpen: boolean;
-  setIsSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 // ---------- Dial geometry (desktop) ----------
@@ -169,7 +167,12 @@ function DesktopDial({ sections, currentIndex, rotation, jumpToSection }: WatchD
 /* Mobile: menu trigger + slide-in sheet with a matching progress ring.   */
 /* ===================================================================== */
 
-function MobileNav({ sections, currentIndex, jumpToSection, isSidebarOpen, setIsSidebarOpen }: WatchDialProps) {
+/** iOS-like ease: quick to start, long soft landing. */
+const SHEET_EASE = [0.32, 0.72, 0, 1] as const;
+
+function MobileNav({ sections, currentIndex, jumpToSection }: WatchDialProps) {
+  // Local state: opening the menu re-renders only the menu, not the whole dial page.
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const close = () => setIsSidebarOpen(false);
 
   useEffect(() => {
@@ -177,7 +180,6 @@ function MobileNav({ sections, currentIndex, jumpToSection, isSidebarOpen, setIs
     const onKey = (e: KeyboardEvent) => e.key === "Escape" && close();
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSidebarOpen]);
 
   const n = sections.length;
@@ -202,18 +204,19 @@ function MobileNav({ sections, currentIndex, jumpToSection, isSidebarOpen, setIs
             <motion.div
               aria-hidden
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
+              animate={{ opacity: 1, transition: { duration: 0.3, ease: "easeOut" } }}
+              exit={{ opacity: 0, transition: { duration: 0.22, ease: "easeIn" } }}
               onClick={close}
-              className="absolute inset-0 bg-slate-950/40 backdrop-blur-[3px] pointer-events-auto"
+              // A plain scrim: a backdrop blur is re-rendered every frame of the fade and stutters on phones.
+              className="absolute inset-0 bg-slate-950/50 pointer-events-auto"
             />
             <motion.nav
               aria-label="Sections"
               initial={{ x: "-100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "-100%" }}
-              transition={{ type: "spring", bounce: 0, duration: 0.35 }}
-              className="absolute left-0 top-0 h-full w-[300px] max-w-[85vw] bg-white shadow-2xl flex flex-col pointer-events-auto"
+              animate={{ x: 0, transition: { duration: 0.34, ease: SHEET_EASE } }}
+              exit={{ x: "-100%", transition: { duration: 0.26, ease: [0.4, 0, 1, 1] } }}
+              style={{ willChange: "transform" }}
+              className="absolute left-0 top-0 h-full w-[300px] max-w-[85vw] bg-white shadow-[8px_0_32px_rgba(15,23,42,0.18)] flex flex-col pointer-events-auto transform-gpu"
             >
               <div className="flex items-center justify-between h-[72px] pl-5 pr-3 border-b border-slate-100">
                 <div className="flex items-center gap-3.5">

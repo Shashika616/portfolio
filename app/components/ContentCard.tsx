@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useDeferredValue, useMemo } from 'react';
+import React, { useState, useRef, useDeferredValue, useMemo, useEffect } from 'react';
 import { Section } from '../types';
 
 // Import section layouts
@@ -63,10 +63,21 @@ function ContentCardComponent({
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 
+  // The up arrow shows while scrolling (past 300 px) and fades 1.5 s after scrolling stops,
+  // so it never sits over content someone is reading.
+  const hideTimer = useRef<number | null>(null);
+  useEffect(() => () => { if (hideTimer.current) window.clearTimeout(hideTimer.current); }, []);
+
   const handleScroll = () => {
     handleCardScroll(idx);
-    if (scrollContainerRef.current) {
-      setShowScrollTop(scrollContainerRef.current.scrollTop > 300);
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    if (hideTimer.current) window.clearTimeout(hideTimer.current);
+    if (el.scrollTop > 300) {
+      setShowScrollTop(true);
+      hideTimer.current = window.setTimeout(() => setShowScrollTop(false), 1500);
+    } else {
+      setShowScrollTop(false);
     }
   };
 

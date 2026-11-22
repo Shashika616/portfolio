@@ -1,9 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import Link from "next/link";
 import { motion, AnimatePresence, MotionValue, useTransform } from "framer-motion";
-import { Menu, X, LayoutGrid } from "lucide-react";
+import { Menu, X } from "lucide-react";
+import { DialViewToggle } from "./DialViewToggle";
+import { THEMES, useGlobalTheme } from "../context/ThemeContext";
 import { Section } from "../types";
 import { DIAL_START, DIAL_STEP, dialAngle } from "../sectionsData";
 
@@ -266,15 +267,46 @@ function MobileNav({ sections, currentIndex, jumpToSection }: WatchDialProps) {
                 })}
               </ol>
 
-              <div className="p-4 border-t border-slate-100">
-                <Link href="/profile" className="btn btn-secondary w-full">
-                  <LayoutGrid className="w-4 h-4" /> Switch to profile view
-                </Link>
+              {/* On phones the view switch and themes live here, so nothing floats over the content. */}
+              <div className="p-4 border-t border-slate-100 space-y-4">
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">View</span>
+                  <DialViewToggle />
+                </div>
+                <ThemeSwatches />
               </div>
             </motion.nav>
           </div>
         )}
       </AnimatePresence>
     </>
+  );
+}
+
+/** Theme picker for the mobile sheet: one swatch per theme, the active one ringed. */
+function ThemeSwatches() {
+  const { activeTheme, setThemeById } = useGlobalTheme();
+  return (
+    <div className="flex items-center justify-between gap-3">
+      <span className="text-[12px] font-semibold uppercase tracking-[0.08em] text-slate-500">Theme</span>
+      <div role="radiogroup" aria-label="Theme" className="flex items-center gap-2">
+        {THEMES.map((t) => {
+          const on = t.id === activeTheme.id;
+          return (
+            <button
+              key={t.id}
+              role="radio"
+              aria-checked={on}
+              aria-label={t.name}
+              onClick={() => setThemeById(t.id)}
+              className="w-9 h-9 rounded-full flex items-center justify-center transition-transform active:scale-90"
+              style={{ boxShadow: on ? "0 0 0 2px #fff, 0 0 0 4px var(--accent)" : "inset 0 0 0 1px #e2e8f0" }}
+            >
+              <span aria-hidden className="w-6 h-6 rounded-full" style={{ backgroundImage: t.gradient }} />
+            </button>
+          );
+        })}
+      </div>
+    </div>
   );
 }

@@ -6,7 +6,7 @@ export const EXPERIENCE: ExperienceItem[] = [
     id: "ashirulabs-founder",
     title: "Founder & Software Engineer",
     company: "AshiruLabs",
-    duration: "2026 - Present",
+    duration: "Sep 2026 - Present",
     location: "Colombo, Sri Lanka",
     type: "Founder",
     tech: ["Flutter", "Dart", "Go", "gRPC", "PostgreSQL", "Supabase", "Google Cloud Run", "Next.js 16", "OpenID Connect", "TOTP", "GitHub Actions", "Three.js"],
@@ -44,10 +44,10 @@ export const EXPERIENCE: ExperienceItem[] = [
     id: "seefa-part-time",
     title: "Software Engineer",
     company: "Seefa Business Solutions",
-    duration: "2026 - Present",
+    duration: "May 2026 - Present",
     location: "Colombo, Sri Lanka",
     type: "Part-time",
-    tech: [".NET", "AngularJS", "React", "Azure", "REST APIs", "Authentication", "Authorization", "Audit Logging", "Workflow Automation", "RBAC"],
+    tech: [".NET", "AngularJS", "React", "Azure", "Linux VPS", "Coolify", "SSH", "REST APIs", "Authentication", "Authorization", "Audit Logging", "Workflow Automation", "RBAC"],
     overview: "Design and build customer-management and ticket-lifecycle systems: secure authentication, fine-grained permissions, audit logging and automated workflows for 50+ concurrent users.",
     highlights: [
       { value: "99.5%", label: "API uptime" },
@@ -69,14 +69,15 @@ export const EXPERIENCE: ExperienceItem[] = [
       "Architect and build the customer management application: accounts, commissions, payments and promotion schemes.",
       "Implement authentication, fine-grained permissions and audit logging.",
       "Build the ticket lifecycle system with automated routing, escalation and role-based assignment.",
-      "Design and deliver the REST APIs behind both systems."
+      "Design and deliver the REST APIs behind both systems.",
+      "Own the production infrastructure: configure and deploy services on Linux VPSs through Coolify and on Azure, and fix incidents directly on the servers over SSH."
     ]
   },
   {
     id: "wso2-internship",
     title: "Software Engineer (Intern)",
     company: "WSO2 LLC",
-    duration: "2024",
+    duration: "May 2024 - Nov 2024",
     location: "Colombo, Sri Lanka",
     type: "Internship",
     tech: ["WSO2 Identity Server", "Asgardeo", "WSO2 Choreo", "Java", "Spring Boot", "ServiceNow", "JavaScript", "React", "SAML 2.0", "OpenID Connect", "RBAC", "REST APIs", "IAM", "API Management", "Agile"],

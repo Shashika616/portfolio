@@ -32,18 +32,19 @@
 <section>
   <h2>Experience</h2>
   <div class="role">
-    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">May 2026 - Present</span></div>
     <ul>
       <li>Delivered <b>two production RAG assistants</b> over live business databases, for a wholesale <span class="nb">automotive-parts</span> distributor and a <span class="nb">multi-outlet</span> bakery.</li>
-      <li>Made the <span class="nb">automotive-parts</span> assistant safe to trust with money questions: the model writes SQL but never a number, receivables <b>reconcile to the cent</b> with the ERP’s own report, and a tiered pipeline (cache, verified question library, LLM, <span class="nb">self-repair</span>) answers <b>most questions with no LLM call</b>.</li>
+      <li>Made the <span class="nb">automotive-parts</span> assistant safe to trust with money questions at <b>100+ questions a working day</b>, each answered in <b>under 15 seconds</b>: the model writes SQL but never a number, receivables <b>reconcile to the cent</b> with the ERP’s own report, and a tiered pipeline (cache, verified question library, LLM, self-repair) calls the model only when no verified answer exists.</li>
       <li>Secured it against the <b>OWASP Top 10 and OWASP LLM Top 10</b>: an <span class="nb">AST-level</span> SQL guard and a <span class="nb">read-only</span> account make writes impossible, data rows are never sent to the LLM provider, and CI runs <span class="nb">pip-audit</span>, Bandit, gitleaks and Trivy on every push.</li>
-      <li>Gave a <span class="nb">multi-outlet</span> bakery a trustworthy planning tool: managers ask in plain English and get answers from live sales, waste and stock data with charts, while figures are computed in code and production plans come from a deterministic planner, so the model cannot hallucinate numbers.</li>
+      <li>Gave a <span class="nb">multi-outlet</span> bakery a planning tool managers trust: plans built from real sales <b>cut waste by up to 40%</b> and sales insights helped <b>lift sales by up to 20%</b>, while figures are computed in code and plans come from a deterministic planner, so the model cannot invent numbers.</li>
+      <li>Run the infrastructure these assistants ship on: Linux VPSs managed through Coolify plus Azure, handling configuration, deployments and incident fixes over SSH.</li>
       <li>Kept a payments platform at <b>99.5% uptime for 50+ concurrent users</b> and cut ticket resolution time by <b>35%</b> through secure .NET APIs and automated routing.</li>
-      <li>Enabled <b>about 20 field sales reps</b> to work offline with an app that syncs exactly once into the existing back office.</li>
+      <li>Replaced paper order books for <b>about 20 field sales reps across the country</b> with an offline app that syncs exactly once into the back office, cutting missed invoices.</li>
     </ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">May 2024 - Nov 2024</span></div>
     <p class="org">Identity and Access Management, API Management and internal tooling</p>
     <ul>
       <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> with WSO2 Identity Server and Asgardeo (SAML 2.0, OpenID Connect, OAuth 2.0), configuring identity providers, user stores, claims, roles and MFA policies.</li>

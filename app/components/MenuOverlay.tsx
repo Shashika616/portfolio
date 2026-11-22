@@ -37,7 +37,7 @@ export function MenuOverlay({ open, onClose }: { open: boolean; onClose: () => v
     { label: "Profile", note: "The quick read", href: "/profile" },
     { label: "Writing", note: "How it was built", href: "/writing" },
     { label: "Contact", note: "Email", href: `mailto:${PROFILE.email}`, external: true },
-    { label: "CV", note: "Three roles", onClick: () => setCvOpen(true) },
+    { label: "CV", note: "Four versions", onClick: () => setCvOpen(true) },
   ];
 
   return (

@@ -6,6 +6,7 @@ import { ARTICLES, findArticle, type Block } from "../../data/writing";
 import { PROFILE } from "../../data/profile";
 import { SITE_URL } from "../../lib/site";
 import { WritingBar } from "../WritingBar";
+import { SmartImage } from "../../components/ui/SmartImage";
 
 export const dynamicParams = false;
 
@@ -88,6 +89,9 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           <p className="text-[19px] leading-8 text-slate-600 text-pretty">{a.dek}</p>
           <p className="font-mono text-[12px] tabular text-slate-500">{PROFILE.name} · {date(a.published)} · {a.readMinutes} min read</p>
         </header>
+        {a.cover && (
+          <SmartImage src={a.cover} alt="" loading="eager" className="mt-10 w-full aspect-[16/9] rounded-2xl ring-1 ring-slate-200" imgClassName="object-cover object-top" />
+        )}
         <div className="mt-12 space-y-6">
           {a.body.map((b, i) => <Render key={i} b={b} />)}
         </div>

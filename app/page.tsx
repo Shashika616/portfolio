@@ -2,8 +2,7 @@
 
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { useMotionValue, useSpring, motion, AnimatePresence } from 'framer-motion';
-import Link from 'next/link';
-import { LayoutGrid } from 'lucide-react';
+import { DialViewToggle } from './components/DialViewToggle';
 
 import { SECTIONS, dialAngle, DIAL_STEP } from './sectionsData';
 import ProfileHeader from './components/ProfileHeader';
@@ -252,11 +251,8 @@ export default function LuxuryInstrumentWatchPortfolio() {
           >
             {/* ================= DESKTOP SIDEBAR NAVIGATION CHASSIS ================= */}
             <nav aria-label="Sections" className="hidden lg:flex fixed top-0 left-0 w-[24vw] h-dvh border-r border-slate-200/80 bg-gradient-to-b from-slate-50 to-white flex-col justify-between py-12 z-40 pointer-events-none shadow-[6px_0_30px_rgba(148,163,184,0.05)] will-change-transform">
-              <div className="px-8 pointer-events-auto space-y-3">
+              <div className="px-8 pointer-events-auto">
                 <ProfileHeader />
-                <Link href="/profile" className="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors">
-                  <LayoutGrid className="w-4 h-4" /> Profile view
-                </Link>
               </div>
               
               <WatchDial
@@ -278,6 +274,11 @@ export default function LuxuryInstrumentWatchPortfolio() {
                 <ProfileHeader />
               </div>
             </header>
+
+            {/* View switch: top right above the card on desktop, a floating pill bottom left on mobile (Themes sits bottom right). */}
+            <div className="fixed z-[95] left-4 bottom-4 lg:left-auto lg:bottom-auto lg:top-4 lg:right-6">
+              <DialViewToggle />
+            </div>
 
             {/* ================= WATCHDIAL BRIDGE LAYER ================= */}
             <div className="lg:hidden fixed inset-0 z-[1000] pointer-events-none">

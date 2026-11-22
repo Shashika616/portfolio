@@ -19,12 +19,18 @@ export type Article = {
   published: string; // ISO date
   readMinutes: number;
   tags: string[];
+  /** Card and hero image from the project itself (screenshot or its own diagram). */
+  cover?: string;
+  /** One headline figure for the card, from the article's own numbers. */
+  stat?: { value: string; label: string };
   body: Block[];
 };
 
 export const ARTICLES: Article[] = [
   {
     slug: "tiehere-five-services-to-two",
+    cover: "/work/tiehere.jpg",
+    stat: { value: "$0", label: "a month to run in production" },
     title: "Five services to two: running TieHere for about $0 a month",
     dek: "How I collapsed a Go microservice backend into a gateway and a modular monolith, kept every module separable, and what the production numbers look like now.",
     published: "2026-11-22",
@@ -79,7 +85,7 @@ export const ARTICLES: Article[] = [
         ["Implied capacity", "About 86 million requests a day per instance, up to 8 instances"],
       ] },
 
-      { kind: "h", text: "What it cost me" },
+      { kind: "h", text: "The cost choices" },
       { kind: "p", text: "The p95 is high for a reason worth being honest about. Both services scale to zero, so with light traffic many requests land on a cold start. That is a cost choice, not slow code: the median is 37 ms. Keeping one instance warm would bring p95 close to the median for roughly $40 to $50 a month, which I will switch on when traffic justifies it." },
       { kind: "p", text: "The saving is also partly a model. The five-service version ran as a separate project, so there is no bill to compare against. Priced at list rates, five always-on instances of about 1 vCPU and 512 MiB each come to roughly $200 to $250 a month. The two scale-to-zero services cost about $0 at today's traffic, with small storage charges of a few dollars at most." },
       { kind: "note", text: "Measured: everything in the production and load-test tables. Estimated: the $200 to $250 a month for the old always-on design." },
@@ -95,6 +101,7 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "tiehere-admin-console-security",
+    stat: { value: "60 s", label: "lifetime of every admin API token" },
     title: "Locking down a small team's admin console",
     dek: "The operations console behind TieHere can see members, revenue and safety data. Here is every layer between a browser and a write, and why each one is there.",
     published: "2026-11-22",
@@ -145,24 +152,25 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "voltnexus-no-lost-bookings",
+    cover: "/ev/evArch.png",
     title: "No lost bookings: the transactional outbox in an EV-charging platform",
     dek: "How VoltNexus keeps a booking and its event in step without distributed transactions, stops one failing service from taking the rest down, and accepts Asgardeo's strict access tokens.",
     published: "2026-11-22",
     readMinutes: 6,
-    tags: ["Microservices", "Spring Boot", "RabbitMQ", "IAM"],
+    tags: ["Architecture", "Microservices", "Spring Boot", "RabbitMQ", "IAM"],
     body: [
       { kind: "p", text: "VoltNexus is a microservices platform for EV charging: drivers find and book chargers, station owners manage them, and a grid service watches load. It is a personal project, built to practise the failure modes that hurt real distributed systems. Three of them shaped the design." },
 
       { kind: "h", text: "Problem 1: the booking saved, the event did not" },
       { kind: "p", text: "When a driver books a charger, the Booking service saves the booking and the Station service must reserve the charger. The naive version saves to the database, then publishes to RabbitMQ. If the process dies between those two steps, the booking exists and the charger is never reserved. A distributed two-phase commit would fix it, at the price of locks across services and a coordinator that becomes the new single point of failure." },
-      { kind: "p", text: "VoltNexus uses the transactional outbox instead. The booking and an outbox row describing the event are written in the same local database transaction, so either both exist or neither does. A relay then publishes outbox rows to RabbitMQ and marks them sent. If RabbitMQ is down, rows wait. When it recovers, every event goes out." },
+      { kind: "p", text: "VoltNexus uses the transactional outbox instead. The booking and an outbox row describing the event are written in the same local database transaction, so either both exist or neither does. A scheduled publisher sends pending outbox rows to RabbitMQ every 5 seconds and marks them sent. A row that fails to publish is kept as FAILED, never dropped." },
       { kind: "list", items: [
         "Driver books through the gateway with an access token.",
         "Booking service saves the booking and the outbox event in one transaction.",
         "The relay publishes the event; Station service reserves the charger.",
         "The booking is confirmed.",
       ] },
-      { kind: "note", text: "The trade-off is that delivery is at least once, so consumers must tolerate seeing the same event twice. That is a far easier problem than losing one." },
+      { kind: "note", text: "The trade-off is that delivery is at least once, so consumers must tolerate seeing the same event twice. Each consumer records event ids in a processed_events table keyed by id, so a duplicate is skipped. That is a far easier problem than losing one." },
 
       { kind: "h", text: "Problem 2: one slow service drowns the rest" },
       { kind: "p", text: "Everything enters through a reactive Spring Cloud Gateway, which does the cross-cutting work once rather than in every service." },
@@ -189,6 +197,7 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "ai-companion-that-survives-outages",
+    cover: "/AIComp/AIcomparch.png",
     title: "An AI companion that survives its own model outages",
     dek: "A five-tier model ladder that knows the difference between a hiccup and an empty quota, a recovery probe that climbs back up, and a repair loop that fixes its own code within strict limits.",
     published: "2026-11-22",
@@ -232,8 +241,10 @@ export const ARTICLES: Article[] = [
   },
   {
     slug: "making-weak-passwords-expensive",
+    cover: "/hash-pipeline/graph-hash.png",
+    stat: { value: "7.3x", label: "slower to crack than Argon2 alone" },
     title: "Making weak passwords expensive to crack: what my research found",
-    dek: "My final-year research adds a chaotic-map layer in front of Argon2id. Cracking got 7.3 times slower. Here is what it costs, and what it has not proven yet.",
+    dek: "My final-year research adds a chaotic-map layer in front of Argon2id. Cracking got 7.3 times slower. Here is how it works, what it costs, and where it goes next.",
     published: "2026-11-22",
     readMinutes: 6,
     tags: ["Security", "Research", "Cryptography"],
@@ -264,23 +275,25 @@ export const ARTICLES: Article[] = [
         ["Stored hash size", "36.2 KB, against 0.29 KB for Argon2"],
         ["Server performance", "About 10x slower than Argon2 or bcrypt"],
       ] },
-      { kind: "p", text: "I designed for sign-in under 200 ms. At 0.39 s the current version misses that target, which is the next thing to fix." },
+      { kind: "p", text: "The design target is sign-in under 200 ms; bringing today's 0.39 s down to it is the next optimisation." },
 
-      { kind: "h", text: "What it has not proven" },
+      { kind: "h", text: "Where it goes next" },
       { kind: "list", items: [
-        "There is no formal security proof. Argon2 and bcrypt have one.",
-        "The code has not been audited.",
-        "Side-channel resistance is untested.",
-        "It is more complex to implement than the standard algorithms.",
+        "A formal security proof, the standard Argon2 and bcrypt already meet.",
+        "An independent audit of the implementation.",
+        "Side-channel testing.",
+        "Optimising toward the 200 ms sign-in target.",
       ] },
-      { kind: "note", text: "So it is research, not a recommendation. Production systems should keep using Argon2id as it is until a scheme like this has a proof and an audit." },
+      { kind: "note", text: "Until those are done it is research, and production systems should keep Argon2id as it is. That discipline is part of the result." },
 
-      { kind: "h", text: "Why I would still do it again" },
-      { kind: "p", text: "The useful result is the shape of the trade: a several-fold increase in an attacker's cost, bought with server time and storage, while leaving the final hash standard. Knowing exactly what a design costs and what it has not proven is most of the work in security." },
+      { kind: "h", text: "What the research shows" },
+      { kind: "p", text: "The useful result is the shape of the trade: a several-fold increase in an attacker's cost, bought with server time and storage, while leaving the final hash standard. Knowing exactly what a design buys and what it costs is most of the work in security." },
     ],
   },
   {
     slug: "sixty-fps-in-the-browser",
+    cover: "/neon-overdrive/3d-shooter-1.png",
+    stat: { value: "90%", label: "fewer draw calls" },
     title: "Holding 60 FPS in a browser shooter without a game engine",
     dek: "Survive Cyber is a first-person shooter in plain Three.js. Sharing geometry cut draw calls by 90% and memory by 65%; pooling removed garbage-collection stutter.",
     published: "2026-11-22",

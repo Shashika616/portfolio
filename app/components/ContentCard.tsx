@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useDeferredValue, useMemo, useEffect } from 'react';
 import { Section } from '../types';
 
 // Import section layouts
@@ -32,15 +32,52 @@ function ContentCardComponent({
   onNavigate,
 }: ContentCardProps) {
   const isCurrent = idx === currentIndex;
+
+  // Lazy mount: a section renders its content once it is current or next to the
+  // current one, and stays mounted after that (scroll position is kept). The
+  // deferred index lets React render that content in the background, so the
+  // page-turn animation is never blocked by a heavy section mounting.
+  const deferredIndex = useDeferredValue(currentIndex);
+  const near = Math.abs(idx - deferredIndex) <= 1;
+  const [seen, setSeen] = useState(near);
+  if (near && !seen) setSeen(true);
+  const ready = seen || near;
+
+  // The section's content depends only on the section and whether it is mounted,
+  // so it is built once: page turns and scroll progress (which re-render this
+  // card) never re-render the content inside it.
+  const content = useMemo(() => {
+    if (!ready) return <SectionSkeleton />;
+    switch (sec.id) {
+      case 'welcome': return <WelcomeSection onNavigate={onNavigate} />;
+      case 'about': return <AboutSection />;
+      case 'education': return <EducationSection sec={sec} />;
+      case 'projects': return <ProjectsSection sec={sec} />;
+      case 'experience': return <ExperienceSection sec={sec} />;
+      case 'contact': return <ContactSection sec={sec} />;
+      default: return null;
+    }
+  }, [ready, sec, onNavigate]);
   
   const [showScrollTop, setShowScrollTop] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement | null>(null);
 
 
+  // The up arrow shows while scrolling (past 300 px) and fades 1.5 s after scrolling stops,
+  // so it never sits over content someone is reading.
+  const hideTimer = useRef<number | null>(null);
+  useEffect(() => () => { if (hideTimer.current) window.clearTimeout(hideTimer.current); }, []);
+
   const handleScroll = () => {
     handleCardScroll(idx);
-    if (scrollContainerRef.current) {
-      setShowScrollTop(scrollContainerRef.current.scrollTop > 300);
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    if (hideTimer.current) window.clearTimeout(hideTimer.current);
+    if (el.scrollTop > 300) {
+      setShowScrollTop(true);
+      hideTimer.current = window.setTimeout(() => setShowScrollTop(false), 1500);
+    } else {
+      setShowScrollTop(false);
     }
   };
 
@@ -69,7 +106,6 @@ function ContentCardComponent({
           : idx < currentIndex
             ? 'translate3d(-7%, 0, -120px) rotateY(-34deg)'
             : 'translate3d(7%, 0, -120px) rotateY(30deg)',
-        filter: isCurrent ? 'blur(0px)' : 'blur(8px)',
         pointerEvents: isCurrent ? 'auto' : 'none',
         zIndex: isCurrent ? 10 : 0,
         borderColor: isCurrent ? 'color-mix(in srgb, var(--accent) 22%, #e2e8f0)' : '#e2e8f0'
@@ -94,12 +130,7 @@ function ContentCardComponent({
         className="relative flex-1 overflow-y-auto overscroll-contain px-5 py-7 sm:px-10 sm:py-10 lg:px-12 lg:py-12 scroll-smooth select-text outline-none"
         tabIndex={-1}
       >
-        {sec.id === 'welcome' && <WelcomeSection onNavigate={onNavigate} />}
-        {sec.id === 'about' && <AboutSection />}
-        {sec.id === 'education' && <EducationSection sec={sec} />}
-        {sec.id === 'projects' && <ProjectsSection sec={sec} />}
-        {sec.id === 'experience' && <ExperienceSection sec={sec} />}
-        {sec.id === 'contact' && <ContactSection sec={sec} />}
+        {content}
 
         {/* COMPONENT-ADAPTIVE SCROLL-TO-TOP BUTTON - Adjusted safe positions for mobile thumbs */}
         <button
@@ -132,7 +163,28 @@ function ContentCardComponent({
   );
 }
 
+/** Theme-tinted placeholder shaped like a section: issue line, heading, lede, then content blocks. */
+function SectionSkeleton() {
+  return (
+    <div aria-hidden className="space-y-6">
+      <div className="skeleton h-3 w-full rounded" />
+      <div className="skeleton h-14 w-2/3 rounded-md" />
+      <div className="space-y-2">
+        <div className="skeleton h-4 w-full rounded" />
+        <div className="skeleton h-4 w-4/5 rounded" />
+      </div>
+      <div className="grid sm:grid-cols-2 gap-4 pt-2">
+        <div className="skeleton skeleton-glow h-40 rounded-2xl" />
+        <div className="skeleton skeleton-glow h-40 rounded-2xl" />
+      </div>
+      <div className="skeleton h-24 w-full rounded-2xl" />
+    </div>
+  );
+}
+
 export default React.memo(ContentCardComponent, (prevProps, nextProps) => {
-  const isNowOrWasActive = prevProps.idx === prevProps.currentIndex || prevProps.idx === nextProps.currentIndex;
-  return !isNowOrWasActive ? true : prevProps.currentIndex === nextProps.currentIndex && prevProps.cardScrollProgress === nextProps.cardScrollProgress;
+  // Re-render a card only while it is current, or next to the current one (it may need to mount).
+  const relevant = (cur: number) => Math.abs(prevProps.idx - cur) <= 1;
+  if (!relevant(prevProps.currentIndex) && !relevant(nextProps.currentIndex)) return true;
+  return prevProps.currentIndex === nextProps.currentIndex && prevProps.cardScrollProgress === nextProps.cardScrollProgress;
 });

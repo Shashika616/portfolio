@@ -23,7 +23,7 @@ import { IssueIndex } from "../components/profile/IssueIndex";
 
 /**
  * /profile as an editorial issue about the work:
- *   Cover → Contents → Features → Career → Colophon.
+ *   Cover → Career → Contents → Features → Colophon.
  * Everything is read from app/data; nothing here owns copy.
  */
 
@@ -60,6 +60,9 @@ export default function ProfilePage() {
       <main className="lg:pr-14">
         <CoverSpread stories={FEATURED} onOpen={setProject} stats={STATS} />
 
+        {/* Career first: recruiters read impact, numbers and what Shashika brings before how the work was built. */}
+        <CareerTimeline roles={EXPERIENCE} onOpen={setRole} />
+
         <div ref={contentsRef}>
           <ContentsIndex items={ORDERED} onOpen={setProject} />
         </div>
@@ -76,8 +79,6 @@ export default function ProfilePage() {
           </motion.h2>
           {FEATURED.map((p, i) => <FeatureStory key={p.name} project={p} index={i} onOpen={setProject} />)}
         </section>
-
-        <CareerTimeline roles={EXPERIENCE} onOpen={setRole} />
 
         <Colophon certificates={CATALOG.certificates} onCert={setCert} />
       </main>

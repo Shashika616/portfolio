@@ -5,9 +5,9 @@ import { motion } from "framer-motion";
 
 const SECTIONS = [
   { id: "cover", label: "Cover" },
+  { id: "career", label: "Career" },
   { id: "contents", label: "Contents" },
   { id: "features", label: "Features" },
-  { id: "career", label: "Career" },
   { id: "colophon", label: "Colophon" },
 ];
 

@@ -23,7 +23,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
   const showLanding = !landingDismissed;
   const [currentIndex, setCurrentIndex] = useState(0);      
   const [cardScrollProgress, setCardScrollProgress] = useState(0); 
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   
   const cardRefs = useRef<(HTMLDivElement | null)[]>([]);     
   const lastScrollTime = useRef(0);                          
@@ -261,8 +260,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
                 currentIndex={currentIndex}
                 rotation={smoothRotation}
                 jumpToSection={jumpToSection}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
               />
 
               <div className="h-4 w-full flex-shrink-0" />
@@ -275,8 +272,8 @@ export default function LuxuryInstrumentWatchPortfolio() {
               </div>
             </header>
 
-            {/* View switch: top right above the card on desktop, a floating pill bottom left on mobile (Themes sits bottom right). */}
-            <div className="fixed z-[95] left-4 bottom-4 lg:left-auto lg:bottom-auto lg:top-4 lg:right-6">
+            {/* View switch: top right above the card on desktop. On phones it lives in the section menu. */}
+            <div className="hidden lg:block fixed z-[95] top-4 right-6">
               <DialViewToggle />
             </div>
 
@@ -288,8 +285,6 @@ export default function LuxuryInstrumentWatchPortfolio() {
                 currentIndex={currentIndex}
                 rotation={smoothRotation}
                 jumpToSection={jumpToSection}
-                isSidebarOpen={isSidebarOpen}
-                setIsSidebarOpen={setIsSidebarOpen}
               />
             </div>
 
@@ -311,7 +306,8 @@ export default function LuxuryInstrumentWatchPortfolio() {
               </motion.div>
             </main>
 
-            <ThemeSelector />
+            {/* Themes float on desktop only; on phones they are in the section menu. */}
+            <div className="hidden lg:block"><ThemeSelector /></div>
           </motion.div>
         )}
       </AnimatePresence>

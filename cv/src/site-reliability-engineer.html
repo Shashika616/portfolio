@@ -18,13 +18,13 @@
 <main>
 <section>
   <h2>Summary</h2>
-  <p class="summary">Reliability-focused engineer who keeps production systems available, secure and <span class="nb">cost-efficient</span>: 99.5% uptime on a live business platform, AI assistants that cannot write to production data, and <span class="nb">failure-tolerant</span> designs built on circuit breakers, rate limiting and guaranteed delivery. <span class="nb">Hands-on</span> across CI/CD, security scanning, identity and <span class="nb">offline-first</span> sync.</p>
+  <p class="summary">Reliability-focused engineer who keeps production systems available, secure and <span class="nb">cost-efficient</span>: 99.5% uptime on a live business platform, AI assistants that cannot write to production data, and <span class="nb">failure-tolerant</span> designs built on circuit breakers, rate limiting and guaranteed delivery. Hands-on with CI/CD, security scanning and identity.</p>
 </section>
 
 <section class="skills">
   <h2>Skills</h2>
   <p><b>Reliability:</b> rate limiting, circuit breakers (Resilience4j), transactional outbox, graceful degradation, <span class="nb">backward-compatible</span> releases, load testing, runbooks, security reviews</p>
-  <p><b>Cloud and infrastructure:</b> Google Cloud Run, Azure, Docker, Coolify, Supabase, Vercel, GitHub Actions (CI/CD, backups, migrations)</p>
+  <p><b>Cloud and infrastructure:</b> Linux servers (VPS, SSH), Coolify, Azure, Google Cloud Run, Docker, Supabase, Vercel, GitHub Actions (CI/CD, backups, migrations)</p>
   <p><b>Security tooling:</b> <span class="nb">pip-audit</span>, Bandit, gitleaks, Trivy, OWASP Top 10, Argon2id</p>
   <p><b>Data and messaging:</b> PostgreSQL, SQL Server, MongoDB, Redis, RabbitMQ, connection pooling (HikariCP)</p>
   <p><b>Languages:</b> Go, Java, Python, TypeScript, C#, SQL</p>
@@ -35,20 +35,21 @@
 <section>
   <h2>Experience</h2>
   <div class="role">
-    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <div class="role-head"><span class="title">Software Engineer, Seefa Business Solutions</span><span class="dates">May 2026 - Present</span></div>
     <ul>
+      <li>Own production infrastructure end to end: configure and deploy services on Linux VPSs through Coolify and on Azure, and diagnose and fix incidents directly on the servers over SSH.</li>
       <li>Kept a payments and commissions platform at <b>99.5% uptime for 50+ concurrent users</b> with secure .NET APIs, <span class="nb">fine-grained</span> RBAC and transaction audit logging on Azure.</li>
       <li>Reduced ticket resolution time by <b>35%</b> by automating routing, escalation and <span class="nb">role-based</span> assignment.</li>
-      <li>Made field sales resilient to connectivity loss: <b>about 20 reps</b> work fully offline, with <span class="nb">exactly-once</span> sync into the existing SQL Server back office.</li>
-      <li>Ran two production AI assistants safely on live business databases: <span class="nb">read-only</span> accounts and a SQL guard make writes impossible, with LLM provider failover, rate limiting, health checks and CI security scanning (<span class="nb">pip-audit</span>, Bandit, gitleaks, Trivy) on every push and nightly.</li>
+      <li>Made field sales resilient to connectivity loss: <b>about 20 reps across the country</b> work fully offline with <span class="nb">exactly-once</span> sync into the SQL Server back office, replacing paper and cutting missed invoices.</li>
+      <li>Ran two production AI assistants safely on live business databases, one answering <b>100+ questions a working day</b> in <b>under 15 seconds</b>: <span class="nb">read-only</span> accounts and a SQL guard make writes impossible, with LLM provider failover, rate limiting, health checks and CI security scanning (<span class="nb">pip-audit</span>, Bandit, gitleaks, Trivy).</li>
     </ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">May 2024 - Nov 2024</span></div>
     <p class="org">Identity and Access Management, API Management and internal tooling</p>
     <ul>
       <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> across <span class="nb">multi-tenant</span> applications (SAML 2.0, OpenID Connect, OAuth 2.0) on WSO2 Identity Server and Asgardeo, with MFA, session and token policies.</li>
-      <li>Cut manual operational effort by <b>40%</b> by automating approvals, notifications and dashboards in a ServiceNow portal.</li>
+      <li>Cut manual operational effort by <b>40%</b> by automating approvals, alerts and dashboards in ServiceNow.</li>
       <li>Supported releases and production with DevOps and Security teams, and mentored junior engineers on identity and access.</li>
     </ul>
   </div>
@@ -73,10 +74,15 @@
   <div class="role">
     <div class="role-head"><span class="title">Enterprise Ticket Management Platform</span><span class="dates">2026</span></div>
     <ul>
-      <li>Guaranteed strict tenant data isolation by enforcing PostgreSQL <span class="nb">Row-Level</span> Security, validated by database, <span class="nb">end-to-end</span> and unit tests at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li>
+      <li>Runs a client’s support, developer task assignment, invoicing and settlements at <b>100% availability</b> to date, with strict client data isolation via PostgreSQL <span class="nb">Row-Level</span> Security, proven by database, <span class="nb">end-to-end</span> and unit tests at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li>
     </ul>
     <p class="stack">Next.js, TypeScript, PostgreSQL, Supabase, Playwright</p>
   </div>
+</section>
+
+<section>
+  <h2>Writing</h2>
+  <p><b>Five services to two: running TieHere for about $0 a month</b>: architecture, production latency, load tests and cost. <a class="link" href="https://portfolio-shashika-fernando.vercel.app/writing/tiehere-five-services-to-two"><span class="nb">portfolio-shashika-fernando.vercel.app/writing</span></a></p>
 </section>
 
 <section>

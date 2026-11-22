@@ -20,6 +20,10 @@ This site has two views of the same content:
 - VoltNexus: event-driven EV-charging microservices (Spring Cloud Gateway, RabbitMQ, transactional outbox).
 - Research: chaotic-map password pre-hashing before Argon2id; 3D U-Net liver tumour segmentation.
 
+## Writing
+
+- [Five services to two: running TieHere for about $0 a month](/writing/tiehere-five-services-to-two): consolidating Go microservices into a gateway and modular monolith on Cloud Run, with production latency, load-test and cost figures.
+
 ## Contact
 
 - Contact: [/profile](/profile)

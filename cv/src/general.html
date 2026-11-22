@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Shashika Fernando - Software Engineer CV</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="cv.css">
+</head>
+<body class="dense roomy">
+
+<header class="with-photo">
+  <img class="photo" src="photo.jpg" alt="Shashika Fernando">
+  <div>
+    <h1>Shashika Fernando</h1>
+    <p class="target">Software Engineer | AI and Reliability</p>
+    <p class="contact">Colombo, Sri Lanka | +94 77 947 3203 | shashikauda@gmail.com</p>
+    <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616</p>
+    <p class="contact"><span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
+  </div>
+</header>
+<main>
+<section>
+  <h2>Summary</h2>
+  <p class="summary">Software engineer shipping production systems end to end: web and mobile front ends, backends, identity and applied AI. Built LLM assistants that answer <b>100+ business questions a day</b> and helped a bakery <b>cut waste by up to 40%</b>, kept a payments platform at <b>99.5% uptime</b>, moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> at WSO2, and founded AshiruLabs, running TieHere in production for <b>about $0 a month</b>.</p>
+</section>
+
+<section class="skills">
+  <h2>Skills</h2>
+  <p><b>Languages:</b> Go, Java, TypeScript, Python, C#, Dart, SQL</p>
+  <p><b>Backend and frontend:</b> Spring Boot, Node.js, NestJS, ASP.NET Core, FastAPI, gRPC, RabbitMQ, Redis, React, Next.js, Angular, Flutter</p>
+  <p><b>AI and ML:</b> RAG, <span class="nb">text-to-SQL</span>, agent loops, <span class="nb">multi-model</span> fallback, Gemini, Groq, PyTorch</p>
+  <p><b>Cloud, data and testing:</b> PostgreSQL, SQL Server, MongoDB, Supabase, Google Cloud Run, Azure, Linux VPS, Coolify, Docker, GitHub Actions, Playwright, pgTAP</p>
+  <p><b>Identity and security:</b> WSO2 Identity Server, Asgardeo, SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, RBAC, PostgreSQL <span class="nb">Row-Level</span> Security (RLS), OWASP Top 10</p>
+</section>
+
+<section>
+  <h2>Experience</h2>
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer, Seefa Business Solutions</span><span class="dates">May 2026 - Present</span></div>
+    <ul>
+      <li>Built an AI assistant for a wholesale <span class="nb">automotive-parts</span> distributor that answers <b>100+ questions a working day</b> in <b>under 15 seconds</b>, with figures that <b>reconcile to the cent</b>: the LLM writes SQL, never numbers.</li>
+      <li>Hardened it against the <b>OWASP Top 10 and LLM Top 10</b> with an <span class="nb">AST-level</span> SQL guard and a <span class="nb">read-only</span> account that make writes impossible, no data rows sent to the LLM provider, and security scans on every push.</li>
+      <li>Shipped a second assistant for a <span class="nb">multi-outlet</span> bakery: production plans built from real sales <b>cut waste by up to 40%</b>, and its sales insights helped <b>lift sales by up to 20%</b>, with every figure computed in code.</li>
+      <li>Own Seefa’s production infrastructure: configure and deploy every service on Linux VPSs through Coolify and on Azure, and diagnose and fix incidents directly on the servers over SSH.</li>
+      <li>Held a payments and commissions platform at <b>99.5% uptime for 50+ concurrent users</b> (.NET, JWT, <span class="nb">fine-grained</span> RBAC, audit logging) and cut ticket resolution time <b>35%</b> by automating routing and escalation.</li>
+      <li>Replaced paper order books for <b>about 20 field sales reps across the country</b> with an <span class="nb">offline-first</span> Flutter app that syncs exactly once into the SQL Server back office, cutting missed invoices.</li>
+    </ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">Sep 2026 - Present</span></div>
+    <ul>
+      <li>Launched TieHere, a proximity app for professionals to meet in person, to <b>31 production users</b> on iOS and Android, owning product, mobile, backend and cloud.</li>
+      <li>Load-tested the API at <b>1,000 requests a second per instance with p99 under 4 ms</b> and 100% success, with a <b>37&nbsp;ms</b> median in production and overload protection that stays up at twice that load.</li>
+      <li>Cut cloud cost to <b>about $0 a month</b> on the free tier (vs an estimated $200+ <span class="nb">always-on</span>) by merging five services, Redis and Pub/Sub into a Go gateway and a gRPC modular monolith that scale to zero.</li>
+      <li>Released backend changes continuously with <b>zero breakage</b> for installed app versions through <span class="nb">backward-compatible</span> API contracts, CI-run backups and migrations, and 14 architecture decision records.</li>
+      <li>Protected users by rounding locations before any proximity search, confining token signing to the gateway, and gating the admin console behind Google <span class="nb">sign-in</span>, a <span class="nb">one-time</span> code and a full audit trail.</li>
+    </ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">May 2024 - Nov 2024</span></div>
+    <ul>
+      <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> with federated identity on WSO2 Identity Server and Asgardeo (SAML 2.0, OpenID Connect, OAuth 2.0), with login flows in React and Spring Boot.</li>
+      <li>Configured identity providers, user stores, claims, roles, and MFA, session and token policies for <span class="nb">multi-tenant</span> applications; secured their APIs with WSO2 Choreo.</li>
+      <li>Cut manual operational effort <b>40%</b> with a ServiceNow <span class="nb">engineer-feedback</span> portal: automated approvals, notifications, dashboards and <span class="nb">ACL-based</span> access.</li>
+      <li>Mentored junior engineers on authentication and authorisation, working in Agile sprints with Product, QA, DevOps and Security.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="projects">
+  <h2>Selected Projects</h2>
+  <div class="role">
+    <div class="role-head"><span class="title">Enterprise Ticket Management Platform <span class="tech">| Next.js, PostgreSQL, Supabase, Playwright, pgTAP</span></span><span class="dates">2026</span></div>
+    <ul><li>Runs a client’s support operations at <b>100% availability</b> to date, covering <b>50+ tickets</b>, developer task assignment, invoicing and outstanding settlements; client data isolation is proven by <b>38 database</b> and <b>19 <span class="nb">end-to-end</span> tests</b> at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li></ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">VoltNexus: <span class="nb">Fault-Tolerant</span> EV Charging Platform <span class="tech">| Java, Spring Boot, RabbitMQ, Redis, PostgreSQL</span></span><span class="dates">2026</span></div>
+    <ul><li>Prevented lost bookings and cascading failures across <span class="nb">event-driven</span> microservices with a transactional outbox, Resilience4j circuit breakers and gateway rate limiting.</li></ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Distributed Telecom <span class="nb">Self-Care</span> Backend <span class="tech">| Node.js, RabbitMQ, Redis, MongoDB, Docker</span></span><span class="dates">2026</span></div>
+    <ul><li>Sustained <b>1,000+ concurrent connections</b> at <b>sub-100 ms</b> response times in load tests with stateless services, queued slow work and Redis caching.</li></ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Gate Pass System, university project for a national TV broadcaster <span class="tech">| React, Node.js, MongoDB</span></span><span class="dates">2024</span></div>
+    <ul><li>Digitised entry for <b>5,000+ visits a month</b> with zero security incidents and <b>90%</b> less paper, using <span class="nb">role-based</span> portals and full audit trails.</li></ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Password Hashing Research, final year <span class="tech">| Python, Argon2id</span></span><span class="dates">2025 - 2026</span></div>
+    <ul><li>Raised the effective entropy of weak passwords over <b>7x</b> with a <span class="nb">chaotic-map</span> <span class="nb">pre-hashing</span> layer ahead of Argon2id, keeping <span class="nb">sign-in</span> under 200 ms.</li></ul>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">Self-Healing AI Desktop Companion <span class="tech">| Python, PyQt6, asyncio, Gemini API</span></span><span class="dates">2026</span></div>
+    <ul><li>Kept conversations alive through model API outages with a <b>5-tier</b> fallback chain, plus an agent loop that runs tests, patches failing code and <span class="nb">re-verifies</span> on its own.</li></ul>
+  </div>
+</section>
+
+<section class="more">
+  <h2>Additional Projects</h2>
+  <ul>
+    <li><b>3D Liver Tumour Segmentation</b> <span class="tech">(PyTorch, TorchIO)</span>: 3D <span class="nb">U-Net</span> CT segmentation trained on patches to fit local GPUs.</li>
+    <li><b>Survive Cyber</b> <span class="tech">(Three.js)</span>: browser FPS held at 60 FPS; shared geometry cut draw calls <b>90%</b> and memory <b>65%</b>.</li>
+    <li><b>Compiler Arena</b> <span class="tech">(JavaScript)</span>: puzzle game run by a handwritten lexer, LL(1) parser and semantic analyser.</li>
+    <li><b>Nova</b> <span class="tech">(FastAPI, React, Groq)</span>: <span class="nb">real-time</span> streamed LLM answers behind authenticated APIs.</li>
+    <li><b>Meal <span class="nb">Pre-Ordering</span> App</b> <span class="tech">(Flutter, NestJS)</span>: iOS and Android from one codebase on a shared NestJS backend.</li>
+    <li><b>Womenswear Storefront</b> <span class="tech">(Next.js, GSAP)</span>: statically generated, <span class="nb">search-friendly</span> pages and validated orders.</li>
+    <li><b>AlgoTrack</b> <span class="tech">(Next.js, Supabase)</span>: study platform with edge-enforced auth and large uploads on serverless.</li>
+    <li><b>ashirulabs.com</b> <span class="tech">(Next.js, Three.js)</span>: <span class="nb">scroll-driven</span> 3D site, <span class="nb">server-rendered</span> for search and screen readers.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Writing</h2>
+  <p><b>Five services to two: running TieHere for about $0 a month</b>: architecture, production latency, load tests and cost. <a class="link" href="https://portfolio-shashika-fernando.vercel.app/writing/tiehere-five-services-to-two"><span class="nb">portfolio-shashika-fernando.vercel.app/writing</span></a></p>
+</section>
+
+<section>
+  <h2>Education and Certification</h2>
+  <div class="role">
+    <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
+    <p class="org">GPA 3.87 / 4.0</p>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">GCE Advanced Level, Ananda College, Colombo 10 (Physical Science)</span><span class="dates">2019</span></div>
+  </div>
+  <div class="role">
+    <div class="role-head"><span class="title">WSO2 Certified Associate, Identity and Access Management</span><span class="dates">2024</span></div>
+  </div>
+</section>
+</main>
+</body>
+</html>

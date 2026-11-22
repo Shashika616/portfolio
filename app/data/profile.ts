@@ -138,6 +138,7 @@ export const CAPABILITIES: { title: string; statement: string; evidence: { value
 
 /** Role-targeted CVs (sources in /cv, copies served from /public/cv). */
 export const CVS = [
+  { id: "general", role: "Complete", focus: "Every role and project in one CV, for any software engineering role", file: "/cv/Shashika_Fernando_CV.pdf" },
   { id: "swe", role: "Software Engineer", focus: "Backend, distributed systems, security and full-stack product work", file: "/cv/Shashika_Fernando_Software_Engineer_CV.pdf" },
   { id: "ai", role: "AI Engineer", focus: "Grounded LLM systems, agent loops, multi-model fallback and deep learning", file: "/cv/Shashika_Fernando_AI_Engineer_CV.pdf" },
   { id: "sre", role: "Site Reliability Engineer", focus: "Uptime, failure handling, CI/CD, backups and production security", file: "/cv/Shashika_Fernando_Site_Reliability_Engineer_CV.pdf" },

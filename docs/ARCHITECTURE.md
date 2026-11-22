@@ -20,8 +20,9 @@ A fully static Next.js 16 site with two views of one content model.
 |---|---|---|
 | `/` | `app/page.tsx` | Shows `Exhibit` until the visitor picks a cover; then the dial dashboard. |
 | `/gallery` | `app/gallery/page.tsx` | Reference-style gallery; metadata in `app/gallery/layout.tsx`. |
-| reload | `app/lib/navigation.ts` | Inline head script: a reload on any route → `/` (intro), drops query strings, disables scroll restoration. In-app dial links set `introGate.skipNext`. |
+| reload | `app/lib/navigation.ts` | Inline head script: a reload on any route except `/writing*` → `/` (intro), drops query strings, disables scroll restoration. In-app dial links set `introGate.skipNext`. |
 | `/profile` | `app/profile/page.tsx` | Client component; metadata in `app/profile/layout.tsx`. |
+| `/writing`, `/writing/[slug]` | `app/writing/*` | Server-rendered articles from `app/data/writing.ts` (static params, `dynamicParams = false`), TechArticle JSON-LD, own glass bar (`WritingBar.tsx`). Listed in the sitemap, menu and `llms.txt`. |
 | `/sitemap.xml`, `/robots.txt` | `app/sitemap.ts`, `app/robots.ts` | Origin from `app/lib/site.ts` (`NEXT_PUBLIC_SITE_URL` → Vercel prod URL → localhost). |
 | `/llms.txt` | `public/llms.txt` | Plain-text summary for AI crawlers (GEO). Keep in sync with `catalog.ts`. |
 

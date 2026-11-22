@@ -79,3 +79,27 @@ li b, .summary b { font-weight: 600; color: #111827; }
 
 /* Keep hyphenated terms whole: a line break at a hyphen makes ATS read "Row-Level" as "RowLevel". */
 .nb { white-space: nowrap; }
+
+/* ---------- General CV: banner with photo, top-left ---------- */
+header.with-photo { display: flex; align-items: center; gap: 13pt; text-align: left; padding: 12pt 14mm 11pt; }
+header.with-photo .photo { width: 25mm; height: 25mm; flex-shrink: 0; border-radius: 50%; object-fit: cover; border: 1.6pt solid #fff; }
+header.with-photo h1 { font-size: 23pt; }
+
+/* Denser setting for the general CV, which carries every role and project on two pages. */
+body.dense { font-size: 8.6pt; line-height: 1.36; }
+body.dense main { padding: 3pt 13mm 0; }
+body.dense h2 { margin: 7pt 0 2.5pt; font-size: 10.2pt; }
+body.dense .role { margin-top: 3.5pt; }
+body.dense li { margin: 0 0 1pt; }
+body.dense .skills p { margin: 0 0 1.2pt; }
+body.dense .projects .role-head .title .tech { font-weight: 400; font-size: 8pt; color: var(--muted); }
+/* "Additional projects": one line each, name in bold, stack in muted text. */
+.more li { margin-bottom: 1.4pt; }
+.more .tech { color: var(--muted); font-size: 8pt; }
+/* The rewritten complete CV fits with room to spare: standard reading size, dense layout otherwise. */
+body.roomy { font-size: 9.1pt; line-height: 1.45; }
+body.roomy h2 { margin: 10pt 0 4pt; font-size: 10.6pt; }
+body.roomy .role { margin-top: 5pt; }
+body.roomy li { margin: 0 0 1.8pt; }
+
+a.link { color: var(--accent); text-decoration: none; }

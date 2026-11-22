@@ -127,7 +127,8 @@ export interface ExperienceItem {
   company: string;
   duration: string;
   location?: string;
-  type: 'Founder' | 'Internship' | 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
+  /** Optional: leave out for a current role so it reads simply as where Shashika works. */
+  type?: 'Founder' | 'Internship' | 'Full-time' | 'Part-time' | 'Contract' | 'Freelance';
   tech: string[];
   overview: string;
   /** Headline metrics shown large on the card. Use the user's own figures only. */

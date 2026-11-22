@@ -22,8 +22,9 @@ A fully static Next.js 16 site with two views of one content model.
 | `/gallery` | `app/gallery/page.tsx` | Reference-style gallery; metadata in `app/gallery/layout.tsx`. |
 | reload | `app/lib/navigation.ts` | Inline head script: a reload on any route except `/writing*` → `/` (intro), drops query strings, disables scroll restoration. In-app dial links set `introGate.skipNext`. |
 | `/profile` | `app/profile/page.tsx` | Client component; metadata in `app/profile/layout.tsx`. |
-| `/writing`, `/writing/[slug]` | `app/writing/*` | Server-rendered articles from `app/data/writing.ts` (static params, `dynamicParams = false`), TechArticle JSON-LD, own glass bar (`WritingBar.tsx`). Listed in the sitemap, menu and `llms.txt`. |
+| `/writing`, `/writing/[slug]` | `app/writing/*` | Server-rendered articles from `app/data/writing.ts`; the index (`WritingGrid.tsx`) has Collage (default: a gapless span mosaic, re-shuffled on every page load after hydration), Grid and List views. Articles: (static params, `dynamicParams = false`), TechArticle JSON-LD, own glass bar (`WritingBar.tsx`). Listed in the sitemap, menu and `llms.txt`. |
 | `/sitemap.xml`, `/robots.txt` | `app/sitemap.ts`, `app/robots.ts` | Origin from `app/lib/site.ts` (`NEXT_PUBLIC_SITE_URL` → Vercel prod URL → localhost). |
+| loading | `app/loading.tsx`, `app/{profile,gallery,writing}/loading.tsx`, `app/writing/[slug]/loading.tsx` | Route skeletons shaped 1:1 like each page, theme-tinted (`.skeleton`, `.skeleton-dark` on dark stages); `/` shows the name-wave loader. |
 | `/llms.txt` | `public/llms.txt` | Plain-text summary for AI crawlers (GEO). Keep in sync with `catalog.ts`. |
 
 `app/layout.tsx` loads fonts (Instrument Sans, Instrument Serif, Geist Mono), injects Person/ProfilePage JSON-LD, and wraps everything in `GlobalThemeProvider`.

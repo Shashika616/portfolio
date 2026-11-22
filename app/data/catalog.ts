@@ -1184,14 +1184,14 @@ export const CATALOG: Catalog = {
       ]
     },
     {
-      name: "Nova - AI-Powered Interactive Knowledge Book with Real-Time Streaming",
+      name: "AI Knowledge Book - Interactive Encyclopedia with Real-Time Streaming",
       platforms: ["Web", "Backend"],
       cover: "/AI-ENC/AI-ENC-ARCH.png",
       summary: "LLM answers presented as an animated book, streamed from FastAPI to React over Supabase-authenticated endpoints.",
       status: "Personal",
       category: "AI & ML",
       tech: ["React", "TypeScript", "FastAPI", "Python", "Supabase", "PostgreSQL", "Groq API", "JWT Authentication", "REST API", "Streaming Responses", "GitHub Actions", "AWS"],
-      introduction: "Nova is an AI-powered interactive knowledge platform that transforms traditional AI conversations into a digital encyclopedia experience. Instead of a conventional chat interface, users explore AI-generated content through an animated book interface featuring real-time response streaming, topic-based navigation, and intelligent content discovery. The application combines a modern React frontend with a FastAPI backend, Supabase authentication, and LLM-powered knowledge generation to deliver an immersive learning experience.",
+      introduction: "An AI-powered interactive knowledge platform that transforms traditional AI conversations into a digital encyclopedia experience. Instead of a conventional chat interface, users explore AI-generated content through an animated book interface featuring real-time response streaming, topic-based navigation, and intelligent content discovery. The application combines a modern React frontend with a FastAPI backend, Supabase authentication, and LLM-powered knowledge generation to deliver an immersive learning experience.",
       problemStatement: "Traditional AI chat applications present responses as linear conversations that become difficult to revisit, organize, or explore further. Users often lose context between topics, receive generic interfaces with limited engagement, and experience delays while waiting for complete AI responses before any content is displayed.",
       requirements: [
         "Design an immersive digital book interface that makes AI-generated knowledge easier to consume than traditional chat applications.",

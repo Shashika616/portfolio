@@ -11,7 +11,7 @@ export function ExperienceDetail({ item }: { item: ExperienceItem }) {
   return (
     <article className="px-5 sm:px-10 py-8 sm:py-10 space-y-10 max-w-3xl mx-auto">
       <header className="space-y-4">
-        <span className="badge badge-neutral">{item.type}</span>
+        {item.type && <span className="badge badge-neutral">{item.type}</span>}
         <div>
           <h2 className="display text-[2.1rem] sm:text-[2.75rem] text-slate-900">{item.title}</h2>
           <p className="text-lg text-slate-700 mt-1">{item.company}</p>

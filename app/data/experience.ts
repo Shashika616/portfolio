@@ -41,12 +41,11 @@ export const EXPERIENCE: ExperienceItem[] = [
     liveLink: "https://ashirulabs.com"
   },
   {
-    id: "seefa-part-time",
+    id: "seefa",
     title: "Software Engineer",
     company: "Seefa Business Solutions",
     duration: "May 2026 - Present",
     location: "Colombo, Sri Lanka",
-    type: "Part-time",
     tech: [".NET", "AngularJS", "React", "Azure", "Linux VPS", "Coolify", "SSH", "REST APIs", "Authentication", "Authorization", "Audit Logging", "Workflow Automation", "RBAC"],
     overview: "Design and build customer-management and ticket-lifecycle systems: secure authentication, fine-grained permissions, audit logging and automated workflows for 50+ concurrent users.",
     highlights: [

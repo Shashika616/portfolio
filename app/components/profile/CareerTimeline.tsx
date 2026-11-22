@@ -64,7 +64,7 @@ export function CareerTimeline({
               <span aria-hidden className="absolute -left-10 sm:-left-16 top-5 h-[2px]" style={{ width: i === 0 ? 30 : 20, marginLeft: 6, background: i === 0 ? "var(--accent)" : "#94a3b8" }} />
               <div className="grid lg:grid-cols-12 gap-6 lg:gap-10">
                 <div className="lg:col-span-4 space-y-2">
-                  <p className="font-mono text-[12px] tabular text-slate-500">{r.duration} · {r.type}</p>
+                  <p className="font-mono text-[12px] tabular text-slate-500">{r.duration}{r.type ? ` · ${r.type}` : ""}</p>
                   <h3 className="display text-[2.4rem] sm:text-[2.8rem] leading-[0.95] text-slate-900">{r.title}</h3>
                   <p className="text-[16px] font-medium text-slate-800">{r.company}</p>
                   {r.location && <p className="text-sm text-slate-500">{r.location}</p>}

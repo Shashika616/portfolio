@@ -34,10 +34,13 @@ export function SecurityModelView({ model }: { model: SecurityModel }) {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ delay: i * 0.06, duration: 0.55, ease: EASE }}
               >
-                <p className="flex gap-2.5 p-3.5 text-[14px] leading-6 text-slate-800">
-                  <ShieldAlert className="w-4 h-4 flex-shrink-0 mt-1 text-rose-600" aria-label="Threat" />
-                  {t.threat}
-                </p>
+                <div className="p-3.5 space-y-2">
+                  {t.owasp && <span className="tag">{t.owasp}</span>}
+                  <p className="flex gap-2.5 text-[14px] leading-6 text-slate-800">
+                    <ShieldAlert className="w-4 h-4 flex-shrink-0 mt-1 text-rose-600" aria-label="Threat" />
+                    {t.threat}
+                  </p>
+                </div>
                 <div className="p-3.5 space-y-2" style={{ background: "color-mix(in srgb, var(--accent) 7%, #fff)", borderTop: "1px solid color-mix(in srgb, var(--accent) 18%, transparent)" }}>
                   <p className="flex gap-2.5 text-[14px] leading-6 text-slate-800">
                     <ShieldCheck className="w-4 h-4 flex-shrink-0 mt-1" style={{ color: "var(--accent-strong)" }} aria-label="Control" />

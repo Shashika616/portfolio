@@ -7,13 +7,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="cv.css">
 </head>
-<body class="dense">
+<body class="dense roomy">
 
 <header class="with-photo">
   <img class="photo" src="photo.jpg" alt="Shashika Fernando">
   <div>
     <h1>Shashika Fernando</h1>
-    <p class="target">Software Engineer | Backend, AI and Reliability</p>
+    <p class="target">Full-Stack Software Engineer | AI and Reliability</p>
     <p class="contact">Colombo, Sri Lanka | +94 77 947 3203 | shashikauda@gmail.com</p>
     <p class="contact">linkedin.com/in/<span class="nb">shashika-fernando-5399062b5</span> | github.com/Shashika616</p>
     <p class="contact"><span class="nb">portfolio-shashika-fernando.vercel.app</span></p>
@@ -22,147 +22,104 @@
 <main>
 <section>
   <h2>Summary</h2>
-  <p class="summary">Software engineer who designs, ships and runs production systems end to end: mobile and web front ends, distributed backends, identity, and LLM assistants that business owners trust with their numbers. Founded AshiruLabs and launched TieHere to real users; at Seefa, delivers platforms and AI assistants used every day; at WSO2, moved <b>100+ enterprise users</b> to single <span class="nb">sign-on.</span> BCS (Hons) in Computer Science, <b>GPA 3.87 / 4.0</b>.</p>
+  <p class="summary"><span class="nb">Full-stack</span> software engineer shipping production systems end to end: web and mobile front ends, backends, identity and applied AI. Built LLM analytics assistants whose figures <b>reconcile to the cent</b> with a distributor’s ERP, kept a payments platform at <b>99.5% uptime</b>, moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> at WSO2, and founded AshiruLabs, launching TieHere to <b>31 users</b> on iOS and Android.</p>
 </section>
 
 <section class="skills">
   <h2>Skills</h2>
-  <p><b>Languages:</b> Go, Java, TypeScript, JavaScript, Python, C#, Dart, SQL</p>
-  <p><b>Frontend and mobile:</b> React, Next.js, Angular, Flutter, Three.js, Tailwind CSS</p>
-  <p><b>Backend:</b> Spring Boot, Node.js, NestJS, ASP.NET Core, FastAPI, gRPC, REST, RabbitMQ, Redis</p>
-  <p><b>AI and ML:</b> RAG, <span class="nb">text-to-SQL</span>, agent loops, <span class="nb">multi-model</span> fallback, Gemini, Groq, PyTorch, 3D <span class="nb">U-Net</span></p>
-  <p><b>Data and cloud:</b> PostgreSQL, SQL Server, MongoDB, Supabase, Google Cloud Run, Azure, Vercel, Docker, GitHub Actions</p>
+  <p><b>Languages:</b> Go, Java, TypeScript, Python, C#, Dart, SQL</p>
+  <p><b>Backend and frontend:</b> Spring Boot, Node.js, NestJS, ASP.NET Core, FastAPI, gRPC, RabbitMQ, Redis, React, Next.js, Angular, Flutter</p>
+  <p><b>AI and ML:</b> RAG, <span class="nb">text-to-SQL</span>, agent loops, <span class="nb">multi-model</span> fallback, Gemini, Groq, PyTorch</p>
+  <p><b>Cloud, data and testing:</b> PostgreSQL, SQL Server, MongoDB, Supabase, Google Cloud Run, Azure, Docker, GitHub Actions, Playwright, pgTAP</p>
   <p><b>Identity and security:</b> WSO2 Identity Server, Asgardeo, SAML 2.0, OAuth 2.0, OpenID Connect, SCIM, MFA, RBAC, PostgreSQL <span class="nb">Row-Level</span> Security (RLS), OWASP Top 10</p>
-  <p><b>Architecture and testing:</b> API gateways, modular monoliths, microservices, <span class="nb">event-driven</span> design, transactional outbox, circuit breakers, <span class="nb">offline-first</span> sync, Playwright, pgTAP</p>
 </section>
 
 <section>
   <h2>Experience</h2>
   <div class="role">
-    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
-    <p class="org">Software product company, Colombo. Builds and runs TieHere (tiehere.com) and ashirulabs.com</p>
+    <div class="role-head"><span class="title">Software Engineer (Part-time), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
     <ul>
-      <li>Launched TieHere, a proximity app for professionals to meet in person, to <b>31 production users</b> on iOS and Android, owning product, mobile, backend and cloud.</li>
-      <li>Cut running cost by consolidating <b>five services, a Redis cache and a Pub/Sub broker into two deployables</b>: a Go API gateway and a modular monolith over gRPC, with one PostgreSQL database and a schema per module.</li>
-      <li>Protected user privacy and accounts by rounding coordinates before any proximity search, keeping the <span class="nb">token-signing</span> key in the gateway only, and gating the admin console behind Google <span class="nb">sign-in</span>, a <span class="nb">one-time</span> code and a full audit trail.</li>
-      <li>Shipped continuous backend releases with zero breakage for installed app versions through <span class="nb">backward-compatible</span> API contracts, automated backups and migrations in CI, and <b>14 architecture decision records</b>.</li>
-      <li>Built the company website as a scroll-driven <span class="nb">real-time</span> 3D scene in Three.js, fully <span class="nb">server-rendered</span> so crawlers and assistive tech read every page without WebGL.</li>
+      <li>Built an AI analytics assistant for a wholesale <span class="nb">automotive-parts</span> distributor whose figures <b>reconcile to the cent</b> with its ERP: the LLM writes SQL but never a number, and a tiered pipeline (cache, verified questions, LLM, <span class="nb">self-repair</span>) calls the model only when no verified answer exists.</li>
+      <li>Hardened it against the <b>OWASP Top 10 and LLM Top 10</b> with an <span class="nb">AST-level</span> SQL guard and a <span class="nb">read-only</span> account that make writes impossible, no data rows sent to the LLM provider, and security scans on every push.</li>
+      <li>Shipped a second assistant for a <span class="nb">multi-outlet</span> bakery that answers managers’ sales, waste and stock questions with charts and plans production deterministically, so no figure comes from the model.</li>
+      <li>Held a payments and commissions platform at <b>99.5% uptime for 50+ concurrent users</b> (.NET, JWT, <span class="nb">fine-grained</span> RBAC, audit logging) and cut ticket resolution time <b>35%</b> by automating routing and escalation.</li>
+      <li>Kept <b>about 20 field sales reps</b> selling with no signal through an <span class="nb">offline-first</span> Flutter app that syncs orders, payments and returns exactly once into the SQL Server back office.</li>
     </ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">Software Engineer (<span class="nb">Part-time</span>), Seefa Business Solutions</span><span class="dates">2026 - Present</span></div>
+    <div class="role-head"><span class="title">Founder and Software Engineer, AshiruLabs</span><span class="dates">2026 - Present</span></div>
     <ul>
-      <li>Made an AI analytics assistant for a wholesale <span class="nb">automotive-parts</span> distributor safe to trust with money questions: the model writes SQL but never a number, receivables <b>reconcile to the cent</b> with the ERP’s own report, and a tiered pipeline (cache, verified question library, LLM, <span class="nb">self-repair</span>) only calls the LLM when no verified answer exists.</li>
-      <li>Secured it against the <b>OWASP Top 10 and OWASP LLM Top 10</b>: an <span class="nb">AST-level</span> SQL guard and a <span class="nb">read-only</span> account make writes impossible, data rows never reach the LLM provider, and CI runs <span class="nb">pip-audit</span>, Bandit, gitleaks and Trivy on every push.</li>
-      <li>Gave a <span class="nb">multi-outlet</span> bakery a planning tool managers trust: plain-English questions answered from live sales, waste and stock data, with figures computed in code and production plans from a deterministic planner, so the model cannot invent numbers.</li>
-      <li>Kept a payments and commissions platform at <b>99.5% uptime for 50+ concurrent users</b> with secure .NET APIs, JWT authentication, <span class="nb">fine-grained</span> RBAC and transaction audit logging.</li>
-      <li>Reduced ticket resolution time by <b>35%</b> by automating routing, escalation and <span class="nb">role-based</span> assignment for change requests.</li>
-      <li>Enabled <b>about 20 field sales reps</b> to take orders, payments and returns with no signal through an <span class="nb">offline-first</span> Flutter app that syncs exactly once into the existing SQL Server back office.</li>
+      <li>Launched TieHere, a proximity app for professionals to meet in person, to <b>31 production users</b> on iOS and Android, owning product, mobile, backend and cloud.</li>
+      <li>Cut infrastructure from <b>five services plus Redis and Pub/Sub to two deployables</b>, a Go API gateway and a gRPC modular monolith on one PostgreSQL database, lowering cost while keeping module boundaries.</li>
+      <li>Released backend changes continuously with <b>zero breakage</b> for installed app versions through <span class="nb">backward-compatible</span> API contracts, CI-run backups and migrations, and 14 architecture decision records.</li>
+      <li>Protected users by rounding locations before any proximity search, confining token signing to the gateway, and gating the admin console behind Google <span class="nb">sign-in</span>, a <span class="nb">one-time</span> code and a full audit trail.</li>
     </ul>
   </div>
   <div class="role">
     <div class="role-head"><span class="title">Software Engineer Intern, WSO2</span><span class="dates">2024</span></div>
-    <p class="org">Identity and Access Management, API Management and internal tooling</p>
     <ul>
-      <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> by implementing federated identity on WSO2 Identity Server and Asgardeo (SAML 2.0, OpenID Connect, OAuth 2.0), with login flows in React and Spring Boot.</li>
-      <li>Simplified identity administration for <span class="nb">multi-tenant</span> applications by configuring identity providers, user stores, claims, roles, and MFA, session and token policies; secured APIs with WSO2 Choreo.</li>
-      <li>Cut manual operational effort by <b>40%</b> by building a ServiceNow <span class="nb">engineer-feedback</span> portal with automated approvals, notifications, dashboards and <span class="nb">ACL-based</span> access control.</li>
-      <li>Collaborated with Product, QA, DevOps and Security in Agile sprints, and mentored junior engineers on authentication and authorisation.</li>
+      <li>Moved <b>100+ enterprise users</b> to single <span class="nb">sign-on</span> with federated identity on WSO2 Identity Server and Asgardeo (SAML 2.0, OpenID Connect, OAuth 2.0), with login flows in React and Spring Boot.</li>
+      <li>Configured identity providers, user stores, claims, roles, and MFA, session and token policies for <span class="nb">multi-tenant</span> applications; secured their APIs with WSO2 Choreo.</li>
+      <li>Cut manual operational effort <b>40%</b> with a ServiceNow <span class="nb">engineer-feedback</span> portal: automated approvals, notifications, dashboards and <span class="nb">ACL-based</span> access.</li>
+      <li>Mentored junior engineers on authentication and authorisation, working in Agile sprints with Product, QA, DevOps and Security.</li>
     </ul>
   </div>
 </section>
 
 <section class="projects">
-  <h2>Projects</h2>
+  <h2>Selected Projects</h2>
   <div class="role">
-    <div class="role-head"><span class="title">Enterprise Ticket Management Platform <span class="tech">| Next.js, TypeScript, PostgreSQL, Supabase, Playwright, pgTAP</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Guaranteed strict client data isolation on a <span class="nb">multi-tenant</span> support and maintenance platform by enforcing PostgreSQL <span class="nb">Row-Level</span> Security, validated by database, <span class="nb">end-to-end</span> and unit tests at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li>
-    </ul>
+    <div class="role-head"><span class="title">Enterprise Ticket Management Platform <span class="tech">| Next.js, PostgreSQL, Supabase, Playwright, pgTAP</span></span><span class="dates">2026</span></div>
+    <ul><li>Proved strict client data isolation with PostgreSQL <span class="nb">Row-Level</span> Security: <b>38 database tests</b> and <b>19 <span class="nb">end-to-end</span> tests</b>, including <span class="nb">cross-client</span> read attempts, at <b>95% coverage</b> of <span class="nb">access-control</span> code.</li></ul>
   </div>
   <div class="role">
     <div class="role-head"><span class="title">VoltNexus: <span class="nb">Fault-Tolerant</span> EV Charging Platform <span class="tech">| Java, Spring Boot, RabbitMQ, Redis, PostgreSQL</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Prevented lost bookings and cascading failures across microservices with the transactional outbox pattern, Resilience4j circuit breakers and Redis rate limiting at the gateway.</li>
-    </ul>
+    <ul><li>Prevented lost bookings and cascading failures across <span class="nb">event-driven</span> microservices with a transactional outbox, Resilience4j circuit breakers and gateway rate limiting.</li></ul>
   </div>
   <div class="role">
     <div class="role-head"><span class="title">Distributed Telecom <span class="nb">Self-Care</span> Backend <span class="tech">| Node.js, RabbitMQ, Redis, MongoDB, Docker</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Sustained <b>1,000+ concurrent connections</b> at <b><span class="nb">sub-100</span> ms</b> response times in load tests by keeping services stateless, moving slow work onto RabbitMQ and caching in Redis.</li>
-    </ul>
+    <ul><li>Sustained <b>1,000+ concurrent connections</b> at <b>sub-100 ms</b> response times in load tests with stateless services, queued slow work and Redis caching.</li></ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">Digital Gate Pass and Visitor Management (national TV broadcaster) <span class="tech">| React, Node.js, Express, MongoDB</span></span><span class="dates">2024</span></div>
-    <ul>
-      <li>Digitised visitor entry for <b>5,000+ visits a month</b> with zero security incidents and <b>90%</b> less paper, using <span class="nb">role-based</span> portals and full audit trails.</li>
-    </ul>
+    <div class="role-head"><span class="title">Gate Pass and Visitor Management, national TV broadcaster <span class="tech">| React, Node.js, MongoDB</span></span><span class="dates">2024</span></div>
+    <ul><li>Digitised entry for <b>5,000+ visits a month</b> with zero security incidents and <b>90%</b> less paper, using <span class="nb">role-based</span> portals and full audit trails.</li></ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">Password Hashing Research (final year) <span class="tech">| Python, Argon2id, chaotic maps</span></span><span class="dates">2025 - 2026</span></div>
-    <ul>
-      <li>Increased the effective entropy of weak passwords by over <b>7x</b> with a <span class="nb">chaotic-map</span> <span class="nb">pre-hashing</span> layer before Argon2id, keeping <span class="nb">sign-in</span> at 250 to 500 ms.</li>
-    </ul>
+    <div class="role-head"><span class="title">Password Hashing Research, final year <span class="tech">| Python, Argon2id</span></span><span class="dates">2025 - 2026</span></div>
+    <ul><li>Raised the effective entropy of weak passwords over <b>7x</b> with a <span class="nb">chaotic-map</span> <span class="nb">pre-hashing</span> layer ahead of Argon2id, keeping <span class="nb">sign-in</span> at 250 to 500 ms.</li></ul>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">3D Liver Tumour Segmentation from CT Scans <span class="tech">| PyTorch, PyTorch Lightning, TorchIO</span></span><span class="dates">Research</span></div>
-    <ul>
-      <li>Automated <span class="nb">voxel-level</span> liver and tumour segmentation with a 3D <span class="nb">U-Net</span> to reduce radiologists’ manual outlining, using <span class="nb">patch-based</span> training to fit full 3D scans on local GPUs.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title"><span class="nb">Self-Healing</span> AI Desktop Companion <span class="tech">| Python, PyQt6, asyncio, Google Gemini API, FastAPI</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Kept conversations running through model API outages with a <b><span class="nb">5-tier</span></b> fallback chain that separates temporary errors from quota limits, plus an agent loop that runs tests, applies <span class="nb">schema-constrained</span> patches and <span class="nb">re-verifies</span> on its own.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title">Nova: AI Knowledge Book <span class="tech">| Python, FastAPI, Groq API, React, TypeScript, Supabase</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Delivered <span class="nb">real-time</span> LLM answers by streaming tokens from FastAPI to React behind authenticated APIs, with a provider layer that adds new models without frontend changes.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title">Healthy Meal <span class="nb">Pre-Ordering</span> App <span class="tech">| Flutter, Dart, NestJS, PostgreSQL, Redis, Docker</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Brought a web ordering platform to Android and iOS from one codebase, built from a <b><span class="nb">27-screen</span></b> design, by forking a NestJS modular monolith to add mobile support without changing web behaviour.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title">Modern Womenswear Storefront <span class="tech">| Next.js, React, TypeScript, GSAP, Zod</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Built a fast, <span class="nb">search-friendly</span> storefront with statically generated product pages, a <span class="nb">scroll-scrubbed</span> <span class="nb">120-frame</span> product film and a validated order API.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title">AlgoTrack: Study Platform for Algorithms and System Design <span class="tech">| Next.js, TypeScript, PostgreSQL, Supabase, Vercel</span></span><span class="dates">2026</span></div>
-    <ul>
-      <li>Built and deployed a <span class="nb">full-stack</span> learning platform with authentication enforced at the edge and <span class="nb">large-file</span> uploads that work on serverless hosting.</li>
-    </ul>
-  </div>
-  <div class="role">
-    <div class="role-head"><span class="title">Compiler Arena and Survive Cyber: Browser Games <span class="tech">| JavaScript, Three.js, WebGL</span></span><span class="dates">Personal</span></div>
-    <ul>
-      <li>Turned compiler theory into gameplay with a handwritten lexer, LL(1) parser and semantic analyser that execute players’ commands; built a Three.js FPS with a procedural city, <span class="nb">state-machine</span> enemies and pooled particles at 60 FPS.</li>
-    </ul>
+    <div class="role-head"><span class="title">Self-Healing AI Desktop Companion <span class="tech">| Python, PyQt6, asyncio, Gemini API</span></span><span class="dates">2026</span></div>
+    <ul><li>Kept conversations alive through model API outages with a <b>5-tier</b> fallback chain, plus an agent loop that runs tests, patches failing code and <span class="nb">re-verifies</span> on its own.</li></ul>
   </div>
 </section>
 
+<section class="more">
+  <h2>Additional Projects</h2>
+  <ul>
+    <li><b>3D Liver Tumour Segmentation</b> <span class="tech">(PyTorch, TorchIO)</span>: 3D <span class="nb">U-Net</span> CT segmentation; patch training fits full volumes on local GPUs.</li>
+    <li><b>Survive Cyber</b> <span class="tech">(Three.js)</span>: browser FPS held at 60 FPS; shared geometry cut draw calls <b>90%</b> and memory <b>65%</b>.</li>
+    <li><b>Compiler Arena</b> <span class="tech">(JavaScript)</span>: puzzle game run by a handwritten lexer, LL(1) parser and semantic analyser.</li>
+    <li><b>Nova</b> <span class="tech">(FastAPI, React, Groq)</span>: <span class="nb">real-time</span> streamed LLM answers behind authenticated APIs.</li>
+    <li><b>Meal <span class="nb">Pre-Ordering</span> App</b> <span class="tech">(Flutter, NestJS)</span>: iOS and Android from one codebase on a shared NestJS backend.</li>
+    <li><b>Womenswear Storefront</b> <span class="tech">(Next.js, GSAP)</span>: statically generated, <span class="nb">search-friendly</span> pages and validated orders.</li>
+    <li><b>AlgoTrack</b> <span class="tech">(Next.js, Supabase)</span>: study platform with edge-enforced auth and large uploads on serverless.</li>
+    <li><b>ashirulabs.com</b> <span class="tech">(Next.js, Three.js)</span>: <span class="nb">scroll-driven</span> 3D site, <span class="nb">server-rendered</span> for search and screen readers.</li>
+  </ul>
+</section>
+
 <section>
-  <h2>Education</h2>
+  <h2>Education and Certification</h2>
   <div class="role">
     <div class="role-head"><span class="title">BCS (Hons) in Computer Science, University of Ruhuna</span><span class="dates">2021 - 2026</span></div>
     <p class="org">GPA 3.87 / 4.0</p>
   </div>
   <div class="role">
-    <div class="role-head"><span class="title">GCE Advanced Level, Ananda College, Colombo 10</span><span class="dates">2019</span></div>
-    <p class="org">Physical Science stream</p>
+    <div class="role-head"><span class="title">GCE Advanced Level, Ananda College, Colombo 10 (Physical Science)</span><span class="dates">2019</span></div>
   </div>
-</section>
-
-<section>
-  <h2>Certifications</h2>
-  <p>WSO2 Certified Associate, Identity and Access Management (2024)</p>
+  <div class="role">
+    <div class="role-head"><span class="title">WSO2 Certified Associate, Identity and Access Management</span><span class="dates">2024</span></div>
+  </div>
 </section>
 </main>
 </body>

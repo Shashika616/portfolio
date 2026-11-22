@@ -93,3 +93,11 @@ body.dense .role { margin-top: 3.5pt; }
 body.dense li { margin: 0 0 1pt; }
 body.dense .skills p { margin: 0 0 1.2pt; }
 body.dense .projects .role-head .title .tech { font-weight: 400; font-size: 8pt; color: var(--muted); }
+/* "Additional projects": one line each, name in bold, stack in muted text. */
+.more li { margin-bottom: 1.4pt; }
+.more .tech { color: var(--muted); font-size: 8pt; }
+/* The rewritten complete CV fits with room to spare: standard reading size, dense layout otherwise. */
+body.roomy { font-size: 9.1pt; line-height: 1.45; }
+body.roomy h2 { margin: 10pt 0 4pt; font-size: 10.6pt; }
+body.roomy .role { margin-top: 5pt; }
+body.roomy li { margin: 0 0 1.8pt; }

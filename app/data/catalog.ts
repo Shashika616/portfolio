@@ -1321,10 +1321,10 @@ export const CATALOG: Catalog = {
       name: "Digital Gate Pass and Visitor Management System",
       platforms: ["Web", "Backend"],
       cover: "/rup/main1.png",
-      summary: "Replaced paper logbooks at Sri Lanka Rupavahini Corporation with role-based portals for staff, gate security and admins.",
+      summary: "University project for a national TV broadcaster: replaced paper logbooks with role-based portals for staff, gate security and admins.",
       category: "Monolithic",
       tech: ["Node.js", "Express.js", "React", "MongoDB", "REST APIs", "Postman", "Figma", "GitHub"],
-      introduction: "A digital gate pass and visitor management solution designed for the Sri Lanka Rupavahini Corporation. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
+      introduction: "A digital gate pass and visitor management solution designed for a national TV broadcaster as a university project. The platform streamlines organizational entry/exit operations by introducing a secure web-based system that replaces manual logbooks and paperwork for guests, staff members, administrators, and security gate staff.",
       problemStatement: "The primary challenge lies in the absence of a digital tracking system, resulting in a heavy reliance on manual processes accompanied by extensive paperwork. This approach consumes a significant amount of time, demands substantial human effort, and causes operational inefficiencies. Specific pain points include limited external access to visitation details, a lack of automated entry/exit tracking mechanisms, constraints in managing guest reservations, and the physical storage space required for manual record management.",
       requirements: [
         "Handle secure user registration and multi-role authentication for various system actors.",

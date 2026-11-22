@@ -8,6 +8,8 @@ import { ArchitectureDiagram } from "./ArchitectureDiagram";
 import { EngineeringNotes } from "./EngineeringNotes";
 import { SequenceDiagram } from "./SequenceDiagram";
 import { ThreatModel } from "./ThreatModel";
+import { SecurityModelView } from "./SecurityModelView";
+import { LowLevelDesignView } from "./LowLevelDesignView";
 import { SmartImage } from "../ui/SmartImage";
 import { GithubIcon } from "../ui/BrandIcons";
 
@@ -91,9 +93,19 @@ export function ProjectDetail({ project }: { project: ProjectItem }) {
         </Block>
       ) : null}
 
-      {project.threats?.length ? (
+      {project.security ? (
+        <Block title="Threat model (STRIDE)">
+          <SecurityModelView model={project.security} />
+        </Block>
+      ) : project.threats?.length ? (
         <Block title="Threat model">
           <ThreatModel threats={project.threats} />
+        </Block>
+      ) : null}
+
+      {project.lowLevel ? (
+        <Block title="Low-level design">
+          <LowLevelDesignView design={project.lowLevel} />
         </Block>
       ) : null}
 

@@ -60,6 +60,10 @@ export interface ProjectItem {
   engineering?: EngineeringNotes;
   sequence?: SequenceFlow;
   threats?: Threat[];
+  /** In-depth STRIDE threat model, from the project's own code and docs. Facts only. */
+  security?: SecurityModel;
+  /** Low-level design: concurrency, data layer and key routines, from the code. Facts only. */
+  lowLevel?: LowLevelDesign;
   coreFeatures?: string[];
   technicalHighlights?: string[];
   /** Websites only: what the site ships for search engines (SEO) and AI answer engines (GEO). Facts, no ranking claims. */
@@ -101,6 +105,31 @@ export interface SequenceFlow {
 export interface Threat {
   risk: string;
   mitigation: string;
+}
+
+export type Stride = "Spoofing" | "Tampering" | "Repudiation" | "Information disclosure" | "Denial of service" | "Elevation of privilege";
+
+/** STRIDE threat model: what is protected, where trust changes, and each threat's control. */
+export interface SecurityModel {
+  assets: string[];
+  boundaries: string[];
+  threats: {
+    stride: Stride;
+    threat: string;
+    control: string;
+    /** Where the control lives (package, file, table or setting). */
+    where?: string;
+    /** What is still accepted, stated plainly. */
+    residual?: string;
+  }[];
+}
+
+/** Low-level design notes. Each group is optional; omit what the code doesn't show. */
+export interface LowLevelDesign {
+  concurrency?: string[];
+  data?: string[];
+  routines?: { name: string; detail: string }[];
+  tradeoffs?: string[];
 }
 
 export interface CertificateItem {

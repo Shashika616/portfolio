@@ -52,6 +52,10 @@ Rules:
 
 `app/sectionsData.ts`: title + plain-language subtitle (shown in the mobile sheet). Adding a section also needs a renderer in `ContentCard.tsx`; the dial spacing (22°) fits up to 7 sections.
 
+## Threat models, low-level design and drawn diagrams (`app/data/depth.ts`)
+
+Keyed by the project's exact `name` in `catalog.ts` and merged into `CATALOG` there. Each entry may set `security` (STRIDE: assets, trust boundaries, threats with control and `where` in the code), `lowLevel` (concurrency, data layer, key routines, trade-offs) and `architectureDiagram` (overrides the catalog one). Read the project's own `ARCHITECTURE.md`/ADRs and code first; list only controls that exist; present them positively (no "accepted risk" notes on the site). Projects with their own architecture image keep it instead of a drawn diagram.
+
 ## Articles (`/writing`)
 
 Add an entry to `ARTICLES` in `app/data/writing.ts` (blocks: `p`, `h`, `list`, `table`, `note`). The route, sitemap and JSON-LD pick it up; add a line to `public/llms.txt`. Every figure must be measured, or labelled as an estimate in the text. Client systems are written up only with the client's permission.

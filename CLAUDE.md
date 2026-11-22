@@ -27,7 +27,7 @@ Remote: `origin` → https://github.com/Shashika616/portfolio.git (branch `main`
 | `app/components/sections/*` | The six dial sections. All copy comes from `app/data/*`. |
 | `app/components/detail/*` | Case-study renderers (project / experience / certificate), shared by both views. |
 | `app/components/ui/*` | Modal, MediaGallery, ProjectCard, CoverCarousel, Reveal, BrandIcons. |
-| `app/data/*` | **All content.** `catalog.ts` (work), `experience.ts`, `profile.ts`, `filters.ts`, `types.ts`. |
+| `app/data/*` | **All content.** `catalog.ts` (work), `depth.ts` (threat models, low-level design, drawn diagrams per project), `writing.ts` (articles), `experience.ts`, `profile.ts`, `filters.ts`, `types.ts`. |
 | `app/context/ThemeContext.tsx` | 5 colour themes; writes `--accent`, `--accent-strong`, `--accent-gradient` to `:root`. |
 | `app/globals.css` | Tokens, button system, labels, `.display` serif, motion keyframes, reduced-motion. |
 | `app/lib/*` | `client.ts` (useIsClient, useQueryFlag), `site.ts` (SITE_URL). |

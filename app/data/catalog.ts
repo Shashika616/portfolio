@@ -1,11 +1,12 @@
-import type { Catalog } from "./types";
+import type { Catalog, ProjectItem } from "./types";
+import { DEPTH } from "./depth";
 
 /**
  * Every project, research piece, game and certificate shown on the site.
  * Both views (the watch-dial dashboard and /profile) read from here.
  * See docs/CONTENT.md for how to add an entry.
  */
-export const CATALOG: Catalog = {
+const RAW: Catalog = {
   researches: [
     { 
       name: "Plot Based Chaotic Hashing Pipeline", 
@@ -988,7 +989,7 @@ export const CATALOG: Catalog = {
           "Each service owns its own data and talks through events, so services can change and deploy independently."
         ],
         "impact": [
-          "Bookings are never lost: the outbox pattern guarantees every event is delivered once the system recovers."
+          "A booking and its event are saved in one transaction, so a crash can never leave a booking without its event."
         ]
       },
       sequence: {
@@ -1056,7 +1057,7 @@ export const CATALOG: Catalog = {
           "mitigation": "Transactional outbox: the event is saved with the booking and retried until delivered."
         }
       ],
-      pullQuote: "A failing service can't take the rest of the platform down, and no booking is lost: every event is delivered once the system recovers.",
+      pullQuote: "A failing service can't take the rest of the platform down, and a booking is never saved without the event that reserves its charger.",
       coverline: "EV charging that stays bookable even when parts of it fail",
       platforms: ["Web", "Backend"],
       cover: "/ev/evArch.png",
@@ -1083,7 +1084,7 @@ export const CATALOG: Catalog = {
       ],
       technicalHighlights: [
         "Custom Nimbus JWT Decoder: Bypassed Spring Security's default strict validator to seamlessly accept and cryptographically validate WSO2 Asgardeo's RFC 9068 compliant `at+jwt` access tokens without compromising the zero-trust security model.",
-        "Transactional Outbox Pattern: Implemented to decouple the Booking and Station services, ensuring 100% message delivery via RabbitMQ and eliminating the need for fragile distributed database locks.",
+        "Transactional Outbox Pattern: Implemented to decouple the Booking and Station services, keeping each booking and its event consistent via RabbitMQ and eliminating the need for fragile distributed database locks.",
         "Reactive Spring Cloud Gateway: Centralized CORS policies, JWT validation, and Redis-backed rate limiting, significantly reducing downstream service overhead and improving the overall security posture.",
         "SSR-Safe Angular Frontend: Utilized `isPlatformBrowser` checks to prevent `window is not defined` crashes during OAuth2 token hydration in Angular 17+ Server-Side Rendering environments."
       ],
@@ -1508,4 +1509,14 @@ export const CATALOG: Catalog = {
       verifyLink: "https://www.credly.com/badges/security-plus"
     }
   ]
+};
+
+/** Threat models and low-level design live in depth.ts, keyed by project name. */
+const withDepth = (p: ProjectItem): ProjectItem => ({ ...p, ...DEPTH[p.name] });
+
+export const CATALOG: Catalog = {
+  ...RAW,
+  projects: RAW.projects.map(withDepth),
+  researches: RAW.researches.map(withDepth),
+  games: RAW.games.map(withDepth),
 };

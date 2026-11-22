@@ -14,7 +14,7 @@ export const CATALOG: Catalog = {
           "Stretches low-entropy passwords through chaotic maps before Argon2id, raising the cost of each guess."
         ],
         "performance": [
-          "Designed to keep sign-in under 200 ms."
+          "Measured at 0.39 s per hash against a 200 ms design target; closing that gap is the next step."
         ],
         "testing": [
           "Compared on time cost, statistical quality and practical dependency against standard hashing."

@@ -20,7 +20,7 @@ export default function WritingIndex() {
       <div className="max-w-3xl mx-auto px-4 sm:px-8 pt-32 pb-24">
         <h1 className="display text-[3rem] sm:text-[4.2rem] leading-none text-slate-900">Writing</h1>
         <p className="mt-4 text-[17px] leading-7 text-slate-600 max-w-xl text-pretty">
-          How the systems on this site were built, with the production numbers behind them. By {PROFILE.name}.
+          How the systems on this site were built: the decisions, the numbers and the trade-offs. By {PROFILE.name}.
         </p>
         <ol className="mt-14 border-t border-slate-900/10">
           {ARTICLES.map((a) => (

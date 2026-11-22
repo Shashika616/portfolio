@@ -23,6 +23,11 @@ This site has two views of the same content:
 ## Writing
 
 - [Five services to two: running TieHere for about $0 a month](/writing/tiehere-five-services-to-two): consolidating Go microservices into a gateway and modular monolith on Cloud Run, with production latency, load-test and cost figures.
+- [Locking down a small team's admin console](/writing/tiehere-admin-console-security): OIDC with PKCE, TOTP, strict session cookies, per-request CSP nonce, 60-second API tokens and audited writes.
+- [No lost bookings: the transactional outbox in an EV-charging platform](/writing/voltnexus-no-lost-bookings): outbox pattern, gateway rate limiting, circuit breakers and RFC 9068 token validation.
+- [An AI companion that survives its own model outages](/writing/ai-companion-that-survives-outages): error-classified fallback across five model tiers, recovery probing and a bounded self-repair loop.
+- [Making weak passwords expensive to crack](/writing/making-weak-passwords-expensive): research results, costs and open questions for chaotic-map pre-hashing before Argon2id.
+- [Holding 60 FPS in a browser shooter](/writing/sixty-fps-in-the-browser): shared geometry, object pooling and a clamped game loop in Three.js.
 
 ## Contact
 

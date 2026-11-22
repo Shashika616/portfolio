@@ -19,7 +19,7 @@ import { takeGalleryMode } from "../lib/navigation";
  *   2. a white sheet rises over it, opening on two large prints;
  *   3. a loose collage of numbered prints that stay blurred until they enter
  *      the viewport, then come into focus;
- *   4. a fixed bar (View · name · Menu), zoom controls (+ −) at the bottom,
+ *   4. a fixed bar (View · name · Menu), zoom controls (+ −) at the bottom right,
  *      a lens cursor over prints, and a print that expands into a full view.
  */
 
@@ -166,8 +166,11 @@ export default function GalleryPage() {
         </LayoutGroup>
       </main>
 
-      {/* Zoom controls */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-40 flex gap-2 mix-blend-difference text-white">
+      {/* Zoom controls: bottom right, and hidden while a print is open (zoom does nothing there). */}
+      <div
+        className={`fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-40 flex gap-2 mix-blend-difference text-white transition-opacity duration-300 ${active ? "opacity-0 pointer-events-none" : "opacity-100"}`}
+        aria-hidden={!!active}
+      >
         <button
           onClick={() => setZoom((z) => Math.min(ZOOM_STEPS - 1, z + 1))}
           disabled={zoom === ZOOM_STEPS - 1 || (!wide && zoom >= 1)}
